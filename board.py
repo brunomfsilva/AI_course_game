@@ -1,12 +1,16 @@
 import pygame
 import sys
 
-# Initialize Pygame
-pygame.init()
-
-
 class Board:
 
+    def __init__(self, size):
+        self.chessboard = [[None for i in range(self.size)] for j in range(self.size)]
+
+    def draw_piece(self, screen, row, col, square_size, piece):
+        radius = square_size // 2 - 5
+        pygame.draw.circle(screen, piece.color, (col * square_size + square_size // 2, row * square_size + square_size // 2), radius)
+
+"""
 # Constants
 WIDTH, HEIGHT = 480, 480
 ROWS, COLS = 8, 8
@@ -47,3 +51,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+"""
