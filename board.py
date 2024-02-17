@@ -5,6 +5,8 @@ import sys
 pygame.init()
 
 
+class Board:
+
 # Constants
 WIDTH, HEIGHT = 480, 480
 ROWS, COLS = 8, 8
