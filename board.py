@@ -1,8 +1,10 @@
 import pygame
 import sys
 
+
 # Initialize Pygame
 pygame.init()
+
 
 # Constants
 WIDTH, HEIGHT = 480, 480
@@ -11,11 +13,13 @@ SQUARE_SIZE = WIDTH // COLS
 
 # Colors
 WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+BLACK = (110, 150, 114)
+
 
 # Create the display surface
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Chess Board")
+pygame.display.set_caption("Dameo")
+
 
 # Function to draw the chess board
 def draw_board():
@@ -23,6 +27,7 @@ def draw_board():
         for col in range(COLS):
             color = WHITE if (row + col) % 2 == 0 else BLACK
             pygame.draw.rect(screen, color, (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+
 
 # Main loop
 def main():
