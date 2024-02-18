@@ -64,6 +64,8 @@ def main():
                     for i in range(18): #Put the pieces again
                         board.draw_piece(screen, all_pieces_black[i].row, all_pieces_black[i].col, all_pieces_black[i])
                         board.draw_piece(screen, all_pieces_white[i].row, all_pieces_white[i].col, all_pieces_white[i])
+                    
+                    gui.display_turn(screen, "white" if turn == WHITE else "black")
                     pygame.display.flip()
             
 

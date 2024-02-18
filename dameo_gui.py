@@ -21,3 +21,10 @@ class GUI:
                     exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Start if click on ecran
                     waiting = False
+
+    def display_turn(self, screen, turn):
+        '''display who is the next to play'''
+        font = pygame.font.Font(None, 25)
+        text = font.render(f"{turn.capitalize()}", True, (255, 255, 255))
+        text_rect = text.get_rect(center=(450, 50))
+        screen.blit(text, text_rect)
