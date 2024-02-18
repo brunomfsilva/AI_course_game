@@ -5,10 +5,37 @@ class Piece:
         self.col = col
         self.color = color
         self.king = king
+        self.legal = []
+        self.right = 7 - self.col # Space left until right limit
+        self.down = 7 - self.row # Space left until bottom limit
     
     def move(self, row, col):
         self.row = row
         self.col = col
+
+    # Function to check the legal moves (later we have to deal with occupied positions, board limits, ...)
+    def legal_positions(self):
+        if not self.king and self.color == BLACK:
+            self.legal = [(self.row + 1, self.col), (self.row + 1, self.col + 1), (self.row + 1, self.col - 1)]
+        
+        if self.king and self.color == BLACK:
+            self.legal = []
+
+            # Moves to the right
+            for col in range(1, self.right + 1):
+                self.legal += [(self.row, self.col + col)]
+            
+            # Moves to the left
+            for col in range(1, self.col + 1):
+                self.legal += [(self.row, self.col - col)]
+
+            # Moves upwards
+            for row in range(1, self.row + 1):
+                self.legal += [(self.row - row, self.col)]    
+
+            # Moves downwards
+            for row in range(1, self.down + 1):
+                self.legal += [(self.row + row, self.col)]                        
 
 WHITE = (255, 255, 255) # Find a way to only have this once in the whole code
 BLACK = (0, 0, 0)
