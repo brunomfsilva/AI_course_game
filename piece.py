@@ -1,3 +1,6 @@
+
+board_size = 8
+
 class Piece:
 
     def __init__(self, row, col, color, king = False):
@@ -6,8 +9,9 @@ class Piece:
         self.color = color
         self.king = king
         self.legal = []
-        self.right = 7 - self.col # Space left until right limit
-        self.down = 7 - self.row # Space left until bottom limit
+        self.right = board_size - 1 - self.col # Space left until right limit
+        self.down = board_size - 1 - self.row # Space left until bottom limit
+        self.catch = False # To check if there is a piece to catch or not
     
     def move(self, row, col):
         self.row = row
@@ -24,7 +28,7 @@ class Piece:
             else:
                 self.legal = [(self.row + 1, self.col), (self.row + 1, self.col + 1), (self.row + 1, self.col - 1)]
 
-        if not self.king and self.color == WHITE and self.row > 0:
+        if not self.king and self.color == WHITE and self.row:
             if self.right == 0:
                 self.legal = [(self.row - 1, self.col), (self.row - 1, self.col - 1)]
             elif self.col == 0:
@@ -32,46 +36,53 @@ class Piece:
             else:
                 self.legal = [(self.row - 1, self.col), (self.row - 1, self.col + 1), (self.row - 1, self.col - 1)]
 
-        # MISSING THE PIECES THAT ARE ALREADY IN THE BORDERS
         if self.king:
             self.legal = []
 
             # Moves to the right
-            for col in range(1, self.right + 1):
-                self.legal += [(self.row, self.col + col)]
+            if self.right:
+                for col in range(1, self.right + 1):
+                    self.legal += [(self.row, self.col + col)]
             
             # Moves to the left
-            for col in range(1, self.col + 1):
-                self.legal += [(self.row, self.col - col)]
+            if self.col:
+                for col in range(1, self.col + 1):
+                    self.legal += [(self.row, self.col - col)]
 
             # Moves upwards
-            for row in range(1, self.row + 1):
-                self.legal += [(self.row - row, self.col)]    
+            if self.row:
+                for row in range(1, self.row + 1):
+                    self.legal += [(self.row - row, self.col)]    
 
             # Moves downwards
-            for row in range(1, self.down + 1):
-                self.legal += [(self.row + row, self.col)]
+            if self.down:
+                for row in range(1, self.down + 1):
+                    self.legal += [(self.row + row, self.col)]
 
             # Moves diagonally
                 # up right
-            for row in range(1, self.row + 1):
-                for col in range(1, self.right + 1):
-                    self.legal += [(self.row - row, self.col + col)]
+            if self.row and self.right:
+                for row in range(1, self.row + 1):
+                    for col in range(1, self.right + 1):
+                        self.legal += [(self.row - row, self.col + col)]
             
                 # down right
-            for row in range(1, self.down + 1):
-                for col in range(1, self.right + 1):
-                    self.legal += [(self.row + row, self.col + col)]
+            if self.down and self.right:
+                for row in range(1, self.down + 1):
+                    for col in range(1, self.right + 1):
+                        self.legal += [(self.row + row, self.col + col)]
 
                 # up left
-            for row in range(1, self.row + 1):
-                for col in range(1, self.col + 1):
-                    self.legal += [(self.row - row, self.col - col)]
+            if self.row and self.col:
+                for row in range(1, self.row + 1):
+                    for col in range(1, self.col + 1):
+                        self.legal += [(self.row - row, self.col - col)]
 
                 # down left
-            for row in range(1, self.down + 1):
-                for col in range(1, self.col + 1):
-                    self.legal += [(self.row + row, self.col - col)]
+            if self.down and self.col:
+                for row in range(1, self.down + 1):
+                    for col in range(1, self.col + 1):
+                        self.legal += [(self.row + row, self.col - col)]
 
 WHITE = (255, 255, 255) # Find a way to only have this once in the whole code
 BLACK = (0, 0, 0)
