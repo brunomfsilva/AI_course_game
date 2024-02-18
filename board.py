@@ -6,7 +6,7 @@ class Board:
     def __init__(self):
         self.size = 8
         self.square_size = 50
-        self.color1 =  (200, 200, 200)
+        self.color1 =  (180, 180, 180)
         self.color2 = (50, 50, 50)
         self.chessboard = [[None for i in range(self.size)] for j in range(self.size)]
 
@@ -37,7 +37,11 @@ class Board:
                     all_pieces_black.append(piece)
 
         return all_pieces_white, all_pieces_black
-        
+    
+    def draw_initial_state(self, screen, all_pieces_white, all_pieces_black):
+        self.draw_chessboard(screen)
+        for piece in all_pieces_black + all_pieces_white:
+            self.draw_piece(screen, piece.row, piece.col, piece)
 
     def draw_piece(self, screen, row, col, piece):
         radius = self.square_size // 2 - 5
