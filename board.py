@@ -10,12 +10,15 @@ class Board:
         self.color1 =  GREY1
         self.color2 = GREY2
         self.chessboard = [[None for i in range(self.size)] for j in range(self.size)]
+        self.all_pieces_white = [] # Lists to hold the pieces for each player
+        self.all_pieces_black = []
 
     def initialize_pieces(self):
 
-        # Lists to hold the pieces for each player
-        all_pieces_white = []
-        all_pieces_black = []
+        # MAYBE WE CAN TAKE THIS OFF
+        self.all_pieces_white = []
+        self.all_pieces_black = []
+        ############################
 
         # Initial pieces for WHITE
         for row in [5, 6, 7]:
@@ -24,7 +27,7 @@ class Board:
                     continue
                 else:
                     piece = Piece(row, col, WHITE)  # Assuming Piece class is defined elsewhere
-                    all_pieces_white.append(piece)
+                    self.all_pieces_white.append(piece)
 
         # Initial pieces for BLACK
         for row in range(3):
@@ -33,9 +36,9 @@ class Board:
                     continue
                 else:
                     piece = Piece(row, col, BLACK)  # Assuming Piece class is defined elsewhere
-                    all_pieces_black.append(piece)
+                    self.all_pieces_black.append(piece)
 
-        return all_pieces_white, all_pieces_black
+        return self.all_pieces_white, self.all_pieces_black
     
     def draw_initial_state(self, screen, all_pieces_white, all_pieces_black):
         self.draw_chessboard(screen)
@@ -57,3 +60,12 @@ class Board:
             if piece.row == row and piece.col == col:
                 return piece
         return None
+    
+    # Function to get the taken positions
+    def occupied(self):
+        taken = []
+        for i in range(len(self.all_pieces_white)):
+            taken += [(self.all_pieces_white[i].row, self.all_pieces_white[i].col)]
+        for i in range(len(self.all_pieces_black)):
+            taken += [(self.all_pieces_black[i].row, self.all_pieces_black[i].col)]
+        return taken

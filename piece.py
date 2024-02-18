@@ -23,8 +23,7 @@ class Piece:
         if row == 7 and self.color == BLACK:
             self.king = True
 
-    # Function to check the legal moves (later we have to deal with occupied positions, the switch from normal piece to king, and capturing pieces)
-    # Maybe the occupied positions are handled with the dameo.py logic already?
+    # Function to check the legal moves (later we have to deal with occupied positions, and capturing pieces)
     def legal_positions(self):
         if not self.king and self.color == BLACK and self.row < 7:
             if self.right == 0:
@@ -89,6 +88,15 @@ class Piece:
                 for row in range(1, self.down + 1):
                     for col in range(1, self.col + 1):
                         self.legal += [(self.row + row, self.col - col)]
+    """
+    # Function to check if the position is free
+    def check_position(self):
+        Board.occupied()
+        for i in range(len(self.legal)):
+            if self.legal[i] in taken:
+                self.legal.pop(i)
+    """
+
 
 
 # Lists to hold the pieces for each player
