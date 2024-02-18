@@ -120,3 +120,5 @@ for row in range(3):
         else:
             piece = Piece(row, col, BLACK)
             all_pieces_black.append(piece)
+
+

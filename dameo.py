@@ -52,10 +52,10 @@ def main():
                     if (row, col) in selected_piece.legal: # If the selected square is a legal move for the piece
                         selected_piece.move(row, col)
                         selected_piece = None #turn off the selected piece
-                    if turn == WHITE:
-                        turn = BLACK  
-                    else:
-                        turn = WHITE
+                        if turn == WHITE:
+                            turn = BLACK  
+                        else:
+                            turn = WHITE
                     
                     """this code below maybe should be a function inside board, once is called too many times"""
                     screen.fill((0,0,0)) 
