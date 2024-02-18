@@ -6,7 +6,8 @@ from dameo_gui import GUI
 
 def main():
     """Initiate game"""
-
+    WHITE = (255, 255, 255)  # Find a way to only have this once in the whole code
+    BLACK = (0, 0, 0)
     pygame.init()
     square_size=50
     width, height = 500, 400
@@ -27,6 +28,7 @@ def main():
     pygame.display.flip()
 
     selected_piece = None
+    turn = WHITE
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -37,11 +39,15 @@ def main():
                 row = y // square_size
                 col = x // square_size
                 piece = board.find_piece(row, col, all_pieces_black, all_pieces_white)
-                if piece:
+                if piece and piece.color == turn:
                     selected_piece = piece
                 elif selected_piece:  # If a piece is selected and a square is clicked
                     selected_piece.move(row, col)
                     selected_piece = None #turn off the selected piece
+                    if turn == WHITE:
+                        turn = BLACK  
+                    else:
+                        turn = WHITE
                     
                     """this code below maybe should be a function inside board, once is called too many times"""
                     screen.fill((0,0,0)) 
