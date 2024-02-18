@@ -2,15 +2,12 @@ import pygame
 from board import Board
 from piece import Piece
 from dameo_gui import GUI
+from vars import *
 
 
 def main():
     """Initiate game"""
-    WHITE = (255, 255, 255)  # Find a way to only have this once in the whole code
-    BLACK = (0, 0, 0)
     pygame.init()
-    square_size=50
-    width, height = 500, 400
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('DAMEO')
     running = True
@@ -42,8 +39,10 @@ def main():
                 if piece and piece.color == turn:
                     selected_piece = piece
                 elif selected_piece:  # If a piece is selected and a square is clicked
-                    selected_piece.move(row, col)
-                    selected_piece = None #turn off the selected piece
+                    selected_piece.legal_positions()
+                    if (row, col) in selected_piece.legal: # If the selected square is a legal move for the piece
+                        selected_piece.move(row, col)
+                        selected_piece = None #turn off the selected piece
                     if turn == WHITE:
                         turn = BLACK  
                     else:

@@ -1,5 +1,4 @@
-
-board_size = 8
+from vars import *
 
 class Piece:
 
@@ -9,8 +8,8 @@ class Piece:
         self.color = color
         self.king = king
         self.legal = []
-        self.right = board_size - 1 - self.col # Space left until right limit
-        self.down = board_size - 1 - self.row # Space left until bottom limit
+        self.right = size - 1 - self.col # Space left until right limit
+        self.down = size - 1 - self.row # Space left until bottom limit
         self.catch = False # To check if there is a piece to catch or not
     
     def move(self, row, col):
@@ -84,8 +83,6 @@ class Piece:
                     for col in range(1, self.col + 1):
                         self.legal += [(self.row + row, self.col - col)]
 
-WHITE = (255, 255, 255) # Find a way to only have this once in the whole code
-BLACK = (0, 0, 0)
 
 # Lists to hold the pieces for each player
 all_pieces_white = []

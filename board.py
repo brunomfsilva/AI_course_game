@@ -1,18 +1,17 @@
 import pygame
 import sys
 from piece import Piece
+from vars import *
 
 class Board:
     def __init__(self):
-        self.size = 8
-        self.square_size = 50
-        self.color1 =  (180, 180, 180)
-        self.color2 = (50, 50, 50)
+        self.size = size
+        self.square_size = square_size
+        self.color1 =  GREY1
+        self.color2 = GREY2
         self.chessboard = [[None for i in range(self.size)] for j in range(self.size)]
 
     def initialize_pieces(self):
-        WHITE = (255, 255, 255)  # Find a way to only have this once in the whole code
-        BLACK = (0, 0, 0)
 
         # Lists to hold the pieces for each player
         all_pieces_white = []
