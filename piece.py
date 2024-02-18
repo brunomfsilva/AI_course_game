@@ -15,6 +15,8 @@ class Piece:
     def move(self, row, col):
         self.row = row
         self.col = col
+        self.right = size - 1 - col
+        self.down = size - 1 - row
 
     # Function to check the legal moves (later we have to deal with occupied positions, the switch from normal piece to king, and capturing pieces)
     # Maybe the occupied positions are handled with the dameo.py logic already?
