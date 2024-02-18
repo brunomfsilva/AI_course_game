@@ -13,12 +13,27 @@ class Piece:
         self.row = row
         self.col = col
 
-    # Function to check the legal moves (later we have to deal with occupied positions, board limits, ...)
+    # Function to check the legal moves (later we have to deal with occupied positions, the switch from normal piece to king, and capturing pieces)
+    # Maybe the occupied positions are handled with the dameo.py logic already?
     def legal_positions(self):
-        if not self.king and self.color == BLACK:
-            self.legal = [(self.row + 1, self.col), (self.row + 1, self.col + 1), (self.row + 1, self.col - 1)]
-        
-        if self.king and self.color == BLACK:
+        if not self.king and self.color == BLACK and self.row < 7:
+            if self.right == 0:
+                self.legal = [(self.row + 1, self.col), (self.row + 1, self.col - 1)]
+            elif self.col == 0:
+                self.legal = [(self.row + 1, self.col), (self.row + 1, self.col + 1)]
+            else:
+                self.legal = [(self.row + 1, self.col), (self.row + 1, self.col + 1), (self.row + 1, self.col - 1)]
+
+        if not self.king and self.color == WHITE and self.row > 0:
+            if self.right == 0:
+                self.legal = [(self.row - 1, self.col), (self.row - 1, self.col - 1)]
+            elif self.col == 0:
+                self.legal = [(self.row - 1, self.col), (self.row - 1, self.col + 1)]
+            else:
+                self.legal = [(self.row - 1, self.col), (self.row - 1, self.col + 1), (self.row - 1, self.col - 1)]
+
+        # MISSING THE PIECES THAT ARE ALREADY IN THE BORDERS
+        if self.king:
             self.legal = []
 
             # Moves to the right
@@ -35,7 +50,28 @@ class Piece:
 
             # Moves downwards
             for row in range(1, self.down + 1):
-                self.legal += [(self.row + row, self.col)]                        
+                self.legal += [(self.row + row, self.col)]
+
+            # Moves diagonally
+                # up right
+            for row in range(1, self.row + 1):
+                for col in range(1, self.right + 1):
+                    self.legal += [(self.row - row, self.col + col)]
+            
+                # down right
+            for row in range(1, self.down + 1):
+                for col in range(1, self.right + 1):
+                    self.legal += [(self.row + row, self.col + col)]
+
+                # up left
+            for row in range(1, self.row + 1):
+                for col in range(1, self.col + 1):
+                    self.legal += [(self.row - row, self.col - col)]
+
+                # down left
+            for row in range(1, self.down + 1):
+                for col in range(1, self.col + 1):
+                    self.legal += [(self.row + row, self.col - col)]
 
 WHITE = (255, 255, 255) # Find a way to only have this once in the whole code
 BLACK = (0, 0, 0)
