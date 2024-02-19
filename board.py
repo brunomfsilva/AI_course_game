@@ -83,3 +83,8 @@ class Board:
                 self.all_pieces_white.pop(i)
                 break
         # WORKING BUT DOESN'T MAKE ANY SENSE TO HAVE TWO LOOPS HERE. THERE SHOULD BE A WAY TO OPTIMIZE
+    
+    # To check if a specific spot is empty
+    def is_empty(self, row, col):
+        whites, blacks = self.occupied()
+        return (self.row, self.col) not in whites + blacks

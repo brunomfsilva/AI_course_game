@@ -136,10 +136,10 @@ class Piece:
         for i in range(len(diff)):
             if diff[i][0] == 0: # target in the same row, different column
                 diff_r.append(diff[i][1]) # getting the difference in columns
-                for j in range(len(diff_r)):
-                    for k in range(1, abs(diff_r[j]) + 1):
-                        if (self.row, self.col + k) not in whites + blacks:
-                            self.legal += [(self.row, self.col + k)]
+        
+        closest = min(diff_r, key=lambda x: abs(x))
+        if (self.row, self.col + closest -1) not in whites + blacks:
+            self.legal = [(self.row, self.col + closest -1)]
 
             
 
