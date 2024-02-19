@@ -97,7 +97,7 @@ class Piece:
                 self.legal.pop(i)
     """
 
-
+'''
 
 # Lists to hold the pieces for each player
 all_pieces_white = []
@@ -120,5 +120,5 @@ for row in range(3):
         else:
             piece = Piece(row, col, BLACK)
             all_pieces_black.append(piece)
-
+'''
 
