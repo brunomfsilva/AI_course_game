@@ -41,8 +41,12 @@ def main():
                 if piece and piece.color == turn:
                     selected_piece = piece
                 elif selected_piece:  # If a piece is selected and a square is clicked
+                    
+                    if not selected_piece.king:
+                        selected_piece.check_catch(board) # Check if there is any piece to catch
+                    else:
+                        selected_piece.check_catch_king(board)
 
-                    selected_piece.check_catch(board) # Check if there is any piece to catch
                     if selected_piece.legal == []:
                         selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
                         selected_piece.check_position(board) # Remove the occupied spaces from the legal moves 
@@ -50,7 +54,7 @@ def main():
                     if (row, col) in selected_piece.legal: # If the selected square is a legal move for the piece
                         previous_position = (selected_piece.row, selected_piece.col) # Saving the original position of the piece that is going to move
                         selected_piece.move(row, col)
-                        board.drop_piece((row+previous_position[0])/2, (col+previous_position[1])/2)
+                        board.drop_piece((row+previous_position[0])/2, (col+previous_position[1])/2) # Drops the piece in the middle of the original and new positions
                         selected_piece = None #turn off the selected piece
                         if turn == WHITE:
                             turn = BLACK  

@@ -104,14 +104,45 @@ class Piece:
         landing_pos = [(self.row - 2, self.col), (self.row + 2, self.col), (self.row, self.col + 2), (self.row, self.col - 2)] # Position after that
         self.legal = []
         whites, blacks = board.occupied()
-        if not self.king and self.color == WHITE:
+        if self.color == WHITE:
             for i in range(len(catchable)):
-                if catchable[i] in blacks and landing_pos[i] not in whites + blacks:
+                if catchable[i] in blacks and landing_pos[i] not in whites + blacks and landing_pos[i][1] < size - 1:
                     self.legal += [(landing_pos[i])]
-        if not self.king and self.color == BLACK:
+        if self.color == BLACK:
             for i in range(len(catchable)):
-                if catchable[i] in whites and landing_pos[i] not in whites + blacks:
+                if catchable[i] in whites and landing_pos[i] not in whites + blacks and landing_pos[i][1] < size - 1:
                     self.legal += [(landing_pos[i])]
+        
+    def check_catch_king(self, board):    
+        catchable_king = []
+        self.legal = []
+        moves = [(1, 0), (-1, 0), (0, 1), (0, -1)] # unitary directional moves
+        space = [self.down, self.row, self.right, self.col] # space around the piece
+        for i in range(len(moves)):
+            for j in range(1, space[i]+1):
+                catchable_king += [(self.row + moves[i][0]*j, self.col + moves[i][1]*j)]
+        whites, blacks = board.occupied()
+        targets = []
+        if self.color == WHITE:
+            for i in range(len(catchable_king)):
+                if catchable_king[i] in blacks:
+                    targets += [catchable_king[i]] # isolating the catchable pieces that are of the opposite team
+        diff = []
+        for i in range(len(targets)):
+            diff += [(targets[i][0] - self.row, targets[i][1] - self.col)] # list with the differences between target pieces and king piece
+        diff_r = []
+        diff_c = []
+        final_targets = []
+        for i in range(len(diff)):
+            if diff[i][0] == 0: # target in the same row, different column
+                diff_r.append(diff[i][1]) # getting the difference in columns
+                for j in range(len(diff_r)):
+                    for k in range(1, abs(diff_r[j]) + 1):
+                        if (self.row, self.col + k) not in whites + blacks:
+                            self.legal += [(self.row, self.col + k)]
+
+            
+
 
 
 '''
