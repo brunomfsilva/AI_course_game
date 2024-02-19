@@ -63,9 +63,23 @@ class Board:
     
     # Function to get the taken positions
     def occupied(self):
-        taken = []
+        taken_white = []
+        taken_black = []
         for i in range(len(self.all_pieces_white)):
-            taken += [(self.all_pieces_white[i].row, self.all_pieces_white[i].col)]
+            taken_white += [(self.all_pieces_white[i].row, self.all_pieces_white[i].col)]
         for i in range(len(self.all_pieces_black)):
-            taken += [(self.all_pieces_black[i].row, self.all_pieces_black[i].col)]
-        return taken
+            taken_black += [(self.all_pieces_black[i].row, self.all_pieces_black[i].col)]
+        return taken_white, taken_black
+    
+    # Function to delete a piece from the board
+    def drop_piece(self, row, col):
+        for i in range(len(self.all_pieces_black)):
+            if row == self.all_pieces_black[i].row and col == self.all_pieces_black[i].col:
+                self.all_pieces_black.pop(i)
+                break
+        
+        for i in range(len(self.all_pieces_white)):
+            if row == self.all_pieces_white[i].row and col == self.all_pieces_white[i].col:
+                self.all_pieces_white.pop(i)
+                break
+        # WORKING BUT DOESN'T MAKE ANY SENSE TO HAVE TWO LOOPS HERE. THERE SHOULD BE A WAY TO OPTIMIZE

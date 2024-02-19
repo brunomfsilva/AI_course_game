@@ -23,7 +23,7 @@ class Piece:
         if row == 7 and self.color == BLACK:
             self.king = True
 
-    # Function to check the legal moves (later we have to deal with occupied positions, and capturing pieces)
+    # Function to check the legal moves (later we have to deal with capturing pieces)
     def legal_positions(self):
         if not self.king and self.color == BLACK and self.row < 7:
             if self.right == 0:
@@ -88,14 +88,31 @@ class Piece:
                 for row in range(1, self.down + 1):
                     for col in range(1, self.col + 1):
                         self.legal += [(self.row + row, self.col - col)]
-    """
+    
     # Function to check if the position is free
-    def check_position(self):
-        Board.occupied()
+    def check_position(self, board):
+        arg_taken = []
+        whites, blacks = board.occupied()
         for i in range(len(self.legal)):
-            if self.legal[i] in taken:
-                self.legal.pop(i)
-    """
+            if self.legal[i] in whites or self.legal[i] in blacks:
+                arg_taken.append(i)
+        self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in arg_taken]
+
+    # Function to check if there are any pieces to catch
+    def check_catch(self, board):
+        catchable = [(self.row - 1, self.col), (self.row + 1, self.col), (self.row, self.col + 1), (self.row, self.col - 1)] # Positions where catchable pieces might be
+        landing_pos = [(self.row - 2, self.col), (self.row + 2, self.col), (self.row, self.col + 2), (self.row, self.col - 2)] # Position after that
+        self.legal = []
+        whites, blacks = board.occupied()
+        if not self.king and self.color == WHITE:
+            for i in range(len(catchable)):
+                if catchable[i] in blacks and landing_pos[i] not in whites + blacks:
+                    self.legal += [(landing_pos[i])]
+        if not self.king and self.color == BLACK:
+            for i in range(len(catchable)):
+                if catchable[i] in whites and landing_pos[i] not in whites + blacks:
+                    self.legal += [(landing_pos[i])]
+
 
 '''
 
