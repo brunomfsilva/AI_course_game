@@ -40,13 +40,14 @@ def main():
                     selected_piece = piece
                 elif selected_piece:  # If a piece is selected and a square is clicked
                     selected_piece.legal_positions()
-
                     board.occupied()
                     
                     # This will be moved to piece.py
+                    arg_taken = []
                     for i in range(len(selected_piece.legal)):
                         if selected_piece.legal[i] in board.occupied():
-                            selected_piece.legal.pop(i) # this can't be done this way because of the indexes being popped in the middle of the loop
+                            arg_taken.append(i)
+                    selected_piece.legal = [selected_piece.legal[i] for i in range(len(selected_piece.legal)) if i not in arg_taken]
                     ################################
                             
                     if (row, col) in selected_piece.legal: # If the selected square is a legal move for the piece
