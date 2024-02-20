@@ -57,7 +57,7 @@ class Piece:
             # Moves upwards
             if self.row:
                 for row in range(1, self.row + 1):
-                    self.legal += [(self.row - row, self.col)]    
+                    self.legal += [(self.row - row, self.col)]  
 
             # Moves downwards
             if self.down:
@@ -67,27 +67,23 @@ class Piece:
             # Moves diagonally
                 # up right
             if self.row and self.right:
-                for row in range(1, self.row + 1):
-                    for col in range(1, self.right + 1):
-                        self.legal += [(self.row - row, self.col + col)]
+                for i in range(1, min(self.row, self.right) + 1):
+                    self.legal += [(self.row - i, self.col + i)]
             
                 # down right
             if self.down and self.right:
-                for row in range(1, self.down + 1):
-                    for col in range(1, self.right + 1):
-                        self.legal += [(self.row + row, self.col + col)]
+                for i in range(1, min(self.down, self.right) + 1):
+                    self.legal += [(self.row + i, self.col + i)]
 
                 # up left
             if self.row and self.col:
-                for row in range(1, self.row + 1):
-                    for col in range(1, self.col + 1):
-                        self.legal += [(self.row - row, self.col - col)]
+                for i in range(1, min(self.row, self.col) + 1):
+                    self.legal += [(self.row - i, self.col - i)]
 
                 # down left
             if self.down and self.col:
-                for row in range(1, self.down + 1):
-                    for col in range(1, self.col + 1):
-                        self.legal += [(self.row + row, self.col - col)]
+                for i in range(1, min(self.down, self.col) + 1):
+                    self.legal += [(self.row + i, self.col - i)]
     
     # Function to check if the position is free
     def check_position(self, board):
@@ -97,6 +93,18 @@ class Piece:
             if self.legal[i] in whites or self.legal[i] in blacks:
                 arg_taken.append(i)
         self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in arg_taken]
+
+        to_pop = []
+        if self.king and self.color == WHITE:
+            for i in range(len(self.legal)):
+                if self.legal[i][0] == self.row: # legal position in the same row
+                    for j in range(1, abs(self.legal[i][1] - self.col) + 1):
+                        if (self.row, self.col + j) in blacks:
+                            to_pop.append(i)
+                #elif self.legal[i][1] == self.col: # legal position in the same column
+                
+                #else: # legal position in the diagonal
+            self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in to_pop]
 
     # Function to check if there are any pieces to catch
     def check_catch(self, board):

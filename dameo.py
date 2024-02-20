@@ -50,14 +50,14 @@ def main():
 
                 elif selected_piece:  # If a piece is selected and a square is clicked
                     
-                    if not selected_piece.king:
-                        selected_piece.check_catch(board) # Check if there is any piece to catch
-                    else:
-                        selected_piece.check_catch_king(board)
+                    #if not selected_piece.king:
+                    selected_piece.check_catch(board) # Check if there is any piece to catch
+                    #else:
+                    #    selected_piece.check_catch_king(board)
 
                     if selected_piece.legal == []:
                         selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
-                        selected_piece.check_position(board) # Remove the occupied spaces from the legal moves 
+                        selected_piece.check_position(board) # Remove the occupied spaces from the legal moves
                         
                             
                     if (row, col) in selected_piece.legal: # If the selected square is a legal move for the piece
