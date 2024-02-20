@@ -45,9 +45,21 @@ class Board:
         for piece in all_pieces_black + all_pieces_white:
             self.draw_piece(screen, piece.row, piece.col, piece)
 
-    def draw_piece(self, screen, row, col, piece):
+    def draw_king(self, screen, row, col, piece):
+        "new form when become king"
         radius = self.square_size // 2 - 5
         pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
+        
+        if piece.king:  # If the piece is a king, draw a small yellow circle in the center
+            pygame.draw.circle(screen, (255, 0, 0), (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), 5)
+
+    def draw_piece(self, screen, row, col, piece):
+        '''draw piece'''
+        if piece.king: #if piece become king
+            self.draw_king(screen, row, col, piece)
+        else: #if piece is normal
+            radius = self.square_size // 2 - 5
+            pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
 
     def draw_chessboard(self, screen):
         for row in range(self.size):
