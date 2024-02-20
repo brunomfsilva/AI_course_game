@@ -15,6 +15,10 @@ class Board:
 
     def initialize_pieces(self):
 
+        # MAYBE WE CAN TAKE THIS OFF
+        self.all_pieces_white = []
+        self.all_pieces_black = []
+        ############################
 
         # Initial pieces for WHITE
         for row in [5, 6, 7]:
@@ -24,6 +28,8 @@ class Board:
                 else:
                     piece = Piece(row, col, WHITE)  # Assuming Piece class is defined elsewhere
                     self.all_pieces_white.append(piece)
+                    ########################################################################
+                    self.chessboard[row][col] = piece
 
         # Initial pieces for BLACK
         for row in range(3):
@@ -33,7 +39,7 @@ class Board:
                 else:
                     piece = Piece(row, col, BLACK)  # Assuming Piece class is defined elsewhere
                     self.all_pieces_black.append(piece)
-
+        print(self.chessboard)
         return self.all_pieces_white, self.all_pieces_black
     
     def draw_initial_state(self, screen, all_pieces_white, all_pieces_black):
@@ -104,7 +110,9 @@ class Board:
                 break
         # WORKING BUT DOESN'T MAKE ANY SENSE TO HAVE TWO LOOPS HERE. THERE SHOULD BE A WAY TO OPTIMIZE
     
+    '''
     # To check if a specific spot is empty
     def is_empty(self, row, col):
         whites, blacks = self.occupied()
         return (self.row, self.col) not in whites + blacks
+    '''
