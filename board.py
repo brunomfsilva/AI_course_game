@@ -15,10 +15,6 @@ class Board:
 
     def initialize_pieces(self):
 
-        # MAYBE WE CAN TAKE THIS OFF
-        self.all_pieces_white = []
-        self.all_pieces_black = []
-        ############################
 
         # Initial pieces for WHITE
         for row in [5, 6, 7]:
@@ -44,6 +40,18 @@ class Board:
         self.draw_chessboard(screen)
         for piece in all_pieces_black + all_pieces_white:
             self.draw_piece(screen, piece.row, piece.col, piece)
+
+    def actual_state(self, screen):
+        '''actual state'''
+        screen.fill((0, 0, 0))
+        self.draw_chessboard(screen)
+
+        for i in range(len(self.all_pieces_black)): #Put the pieces again
+            self.draw_piece(screen, self.all_pieces_black[i].row, self.all_pieces_black[i].col, self.all_pieces_black[i])
+        for i in range(len(self.all_pieces_white)):
+            self.draw_piece(screen, self.all_pieces_white[i].row, self.all_pieces_white[i].col, self.all_pieces_white[i])
+
+        pygame.display.flip()
 
     def draw_king(self, screen, row, col, piece):
         "new form when become king"
