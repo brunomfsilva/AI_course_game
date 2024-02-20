@@ -94,17 +94,64 @@ class Piece:
                 arg_taken.append(i)
         self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in arg_taken]
 
+        # To stop the legal positions when an adversary piece is in the way
         to_pop = []
         if self.king and self.color == WHITE:
             for i in range(len(self.legal)):
                 if self.legal[i][0] == self.row: # legal position in the same row
                     for j in range(1, abs(self.legal[i][1] - self.col) + 1):
-                        if (self.row, self.col + j) in blacks:
+                        if self.col > self.legal[i][1] and (self.row, self.col - j) in blacks: # legal position to the left
                             to_pop.append(i)
-                #elif self.legal[i][1] == self.col: # legal position in the same column
-                
-                #else: # legal position in the diagonal
-            self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in to_pop]
+                        if self.col < self.legal[i][1] and (self.row, self.col + j) in blacks: # legal position to the right
+                            to_pop.append(i)
+
+                elif self.legal[i][1] == self.col: # legal position in the same column
+                    for j in range(1, abs(self.legal[i][0] - self.row) + 1):
+                        if self.row > self.legal[i][0] and (self.row - j, self.col) in blacks: # legal position up
+                            to_pop.append(i)
+                        if self.row < self.legal[i][0] and (self.row + j, self.col) in blacks: # legal position down
+                            to_pop.append(i)
+
+                else: # legal position in the diagonal
+                    for j in range(1, abs(self.legal[i][0] - self.row)):
+                        if self.row > self.legal[i][0] and self.col > self.legal[i][1] and (self.row - j, self.col - j) in blacks: # legal position up left
+                            to_pop.append(i)
+                        if self.row > self.legal[i][0] and self.col < self.legal[i][1] and (self.row - j, self.col + j) in blacks: # legal position up right
+                            to_pop.append(i)
+                        if self.row < self.legal[i][0] and self.col > self.legal[i][1] and (self.row + j, self.col - j) in blacks: # legal position down left
+                            to_pop.append(i)
+                        if self.row < self.legal[i][0] and self.col < self.legal[i][1] and (self.row + j, self.col + j) in blacks: # legal position down right
+                            to_pop.append(i)
+        
+        # CREATE FUNCTION TO AVOID REPEATING ALL THIS JUST BECAUSE OF SELF.COLOR == WHITE OR BLACK
+        if self.king and self.color == BLACK:
+            for i in range(len(self.legal)):
+                if self.legal[i][0] == self.row: # legal position in the same row
+                    for j in range(1, abs(self.legal[i][1] - self.col) + 1):
+                        if self.col > self.legal[i][1] and (self.row, self.col - j) in whites: # legal position to the left
+                            to_pop.append(i)
+                        if self.col < self.legal[i][1] and (self.row, self.col + j) in whites: # legal position to the right
+                            to_pop.append(i)
+
+                elif self.legal[i][1] == self.col: # legal position in the same column
+                    for j in range(1, abs(self.legal[i][0] - self.row) + 1):
+                        if self.row > self.legal[i][0] and (self.row - j, self.col) in whites: # legal position up
+                            to_pop.append(i)
+                        if self.row < self.legal[i][0] and (self.row + j, self.col) in whites: # legal position down
+                            to_pop.append(i)
+
+                else: # legal position in the diagonal
+                    for j in range(1, abs(self.legal[i][0] - self.row)):
+                        if self.row > self.legal[i][0] and self.col > self.legal[i][1] and (self.row - j, self.col - j) in whites: # legal position up left
+                            to_pop.append(i)
+                        if self.row > self.legal[i][0] and self.col < self.legal[i][1] and (self.row - j, self.col + j) in whites: # legal position up right
+                            to_pop.append(i)
+                        if self.row < self.legal[i][0] and self.col > self.legal[i][1] and (self.row + j, self.col - j) in whites: # legal position down left
+                            to_pop.append(i)
+                        if self.row < self.legal[i][0] and self.col < self.legal[i][1] and (self.row + j, self.col + j) in whites: # legal position down right
+                            to_pop.append(i)
+
+        self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in to_pop]
 
     # Function to check if there are any pieces to catch
     def check_catch(self, board):
@@ -148,4 +195,15 @@ class Piece:
         closest = min(diff_r, key=lambda x: abs(x))
         if (self.row, self.col + closest -1) not in whites + blacks:
             self.legal = [(self.row, self.col + closest -1)]
+        
+        #while True:
 
+
+
+
+    def drop_out_range(self):
+        drop = []
+        for i in range(len(self.legal)):
+            if self.legal[i][0] < 0 or self.legal[i][0] > size - 1 or self.legal[i][1] < 0 or self.legal[i][1] > size - 1:
+                drop.append(i)
+        self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in drop]
