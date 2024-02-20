@@ -1,6 +1,10 @@
 import pygame
+from vars import *
 
 class GUI:
+    def __init__(self):
+        self.square_size = square_size
+
 
     def main_menu(self, screen):
         """Main Menu"""
@@ -28,3 +32,8 @@ class GUI:
         text = font.render(f"{turn.capitalize()}", True, (255, 255, 255))
         text_rect = text.get_rect(center=(450, 50))
         screen.blit(text, text_rect)
+
+    def display_selected_piece(self, screen, piece):
+        if piece:
+            row, col = piece.row, piece.col
+            pygame.draw.rect(screen, (0, 0, 255), (col * square_size, row * square_size, square_size, square_size), 3)

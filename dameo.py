@@ -40,7 +40,10 @@ def main():
                 piece = board.find_piece(row, col, board.all_pieces_black, board.all_pieces_white)
                 if piece and piece.color == turn:
                     selected_piece = piece
-                    
+                    board.actual_state(screen)  # Redraw the board to clear previous highlights
+                    gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece
+                    pygame.display.flip()
+
                 elif selected_piece:  # If a piece is selected and a square is clicked
                     
                     if not selected_piece.king:
@@ -64,7 +67,6 @@ def main():
                             turn = WHITE
                     
                     board.actual_state(screen)
-                    
                     gui.display_turn(screen, "white" if turn == WHITE else "black")
                     pygame.display.flip()
             
