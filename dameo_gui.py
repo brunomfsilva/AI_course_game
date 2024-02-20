@@ -25,6 +25,13 @@ class GUI:
                     exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Start if click on ecran
                     waiting = False
+                    
+    
+    def display_legal_moves(self, screen, legal_moves):
+        """Display legal moves as small blue dots"""
+        for move in legal_moves:
+            row, col = move
+            pygame.draw.circle(screen, (0, 0, 255), (col * square_size + square_size // 2, row * square_size + square_size // 2), 5)
 
     def display_turn(self, screen, turn):
         '''display who is the next to play'''

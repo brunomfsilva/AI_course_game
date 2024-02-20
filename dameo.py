@@ -40,8 +40,12 @@ def main():
                 piece = board.find_piece(row, col, board.all_pieces_black, board.all_pieces_white)
                 if piece and piece.color == turn:
                     selected_piece = piece
+                    selected_piece.check_position(board)
+                    selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
+                    selected_piece.check_position(board) # Remove the occupied spaces from the legal moves
                     board.actual_state(screen)  # Redraw the board to clear previous highlights
-                    gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece
+                    gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece and display legal moves
+                    gui.display_legal_moves(screen, selected_piece.legal) # Highlight legal moves
                     pygame.display.flip()
 
                 elif selected_piece:  # If a piece is selected and a square is clicked
@@ -54,6 +58,7 @@ def main():
                     if selected_piece.legal == []:
                         selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
                         selected_piece.check_position(board) # Remove the occupied spaces from the legal moves 
+                        
                             
                     if (row, col) in selected_piece.legal: # If the selected square is a legal move for the piece
 
