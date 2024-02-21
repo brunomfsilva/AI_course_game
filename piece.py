@@ -94,8 +94,10 @@ class Piece:
                 arg_taken.append(i)
         self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in arg_taken]
 
-        # To stop the legal positions when an adversary piece is in the way
+    # To stop the legal positions when an adversary piece is in the way
+    def no_jump(self, board):
         to_pop = []
+        whites, blacks = board.occupied()
         if self.king and self.color == WHITE:
             for i in range(len(self.legal)):
                 if self.legal[i][0] == self.row: # legal position in the same row
@@ -168,37 +170,102 @@ class Piece:
                 if catchable[i] in whites and landing_pos[i] not in whites + blacks and landing_pos[i][1] < size - 1:
                     self.legal += [(landing_pos[i])]
         
-    def check_catch_king(self, board):    
-        catchable_king = []
+    def check_catch_king(self, board):
         self.legal = []
-        moves = [(1, 0), (-1, 0), (0, 1), (0, -1)] # unitary directional moves
-        space = [self.down, self.row, self.right, self.col] # space around the piece
-        for i in range(len(moves)):
-            for j in range(1, space[i]+1):
-                catchable_king += [(self.row + moves[i][0]*j, self.col + moves[i][1]*j)]
-        whites, blacks = board.occupied()
-        targets = []
-        if self.color == WHITE:
-            for i in range(len(catchable_king)):
-                if catchable_king[i] in blacks:
-                    targets += [catchable_king[i]] # isolating the catchable pieces that are of the opposite team
-        diff = []
-        for i in range(len(targets)):
-            diff += [(targets[i][0] - self.row, targets[i][1] - self.col)] # list with the differences between target pieces and king piece
-        diff_r = []
-        diff_c = []
-        final_targets = []
-        for i in range(len(diff)):
-            if diff[i][0] == 0: # target in the same row, different column
-                diff_r.append(diff[i][1]) # getting the difference in columns
-        
-        closest = min(diff_r, key=lambda x: abs(x))
-        if (self.row, self.col + closest -1) not in whites + blacks:
-            self.legal = [(self.row, self.col + closest -1)]
-        
-        #while True:
+        # down check
+        end = False
+        for i in range(1, self.down + 1):
+            if board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i][self.col].color != self.color and board.chessboard[self.row + i + 1][self.col] == None:
+                if i == 1:
+                    self.legal += [(self.row + i + 1, self.col)]
+                    for j in range(1, self.row + i + 2):
+                        if board.chessboard[self.row + i + 1 + j][self.col] == None:
+                            self.legal += [(self.row + i + 1 + j, self.col)]
+                        else:
+                            end = True
+                            break
+                elif i > 1 and board.chessboard[self.row + i - 1][self.col] == None:
+                    self.legal += [(self.row + i + 1, self.col)]
+                    for j in range(1, self.row + i + 2):
+                        if board.chessboard[self.row + i + 1 + j][self.col] == None:
+                            self.legal += [(self.row + i + 1 + j, self.col)]
+                        else:
+                            end = True
+                            break
+            if end:
+                break
 
+        # up check
+        end = False
+        for i in range(1, self.row + 1):
+            if board.chessboard[self.row - i][self.col] != None and board.chessboard[self.row - i][self.col].color != self.color and board.chessboard[self.row - i - 1][self.col] == None:
+                if i == 1:
+                    self.legal += [(self.row - i - 1, self.col)]
+                    for j in range(1, self.row - i):
+                        if board.chessboard[self.row - i - 1 - j][self.col] == None:
+                            self.legal += [(self.row - i - 1 - j, self.col)]
+                        else:
+                            end = True
+                            break
+                elif i > 1 and board.chessboard[self.row - i + 1][self.col] == None:
+                    self.legal += [(self.row - i - 1, self.col)]
+                    for j in range(1, self.row - i):
+                        if board.chessboard[self.row - i - 1 - j][self.col] == None:
+                            self.legal += [(self.row - i - 1 - j, self.col)]
+                        else:
+                            end = True
+                            break
+            if end:
+                break
+        
+        # right check
+        end = False
+        for i in range(1, self.right + 1):
+            if board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
+                if i == 1:
+                    self.legal += [(self.row, self.col + i + 1)]
+                    for j in range(1, self.col + i + 2):
+                        if board.chessboard[self.row][self.col + i + 1 + j] == None:
+                            self.legal += [(self.row, self.col + i + 1 + j)]
+                        else:
+                            end = True
+                            break
+                elif i > 1 and board.chessboard[self.row][self.col + i - 1] == None:
+                    self.legal += [(self.row, self.col + i + 1)]
+                    for j in range(1, self.col + i + 2):
+                        if board.chessboard[self.row][self.col + i + 1 + j] == None:
+                            self.legal += [(self.row, self.col + i + 1 + j)]
+                        else:
+                            end = True
+                            break
+            if end:
+                break
 
+        # left check
+        end = False
+        for i in range(1, self.col + 1):
+            if board.chessboard[self.row][self.col - i] != None and board.chessboard[self.row][self.col - i].color != self.color and board.chessboard[self.row][self.col - i - 1] == None:
+                if i == 1:
+                    self.legal += [(self.row, self.col - i - 1)]
+                    for j in range(1, self.col - i):
+                        if board.chessboard[self.row][self.col - i - 1 - j] == None:
+                            self.legal += [(self.row, self.col - i - 1 - j)]
+                        else:
+                            end = True
+                            break
+            
+                elif i > 1 and board.chessboard[self.row][self.col - i + 1] == None: # This is to avoid jumping over more than one consecutive adv piece 
+                    self.legal += [(self.row, self.col - i - 1)]
+                    for j in range(1, self.col - i):
+                        if board.chessboard[self.row][self.col - i - 1 - j] == None:
+                            self.legal += [(self.row, self.col - i - 1 - j)]
+                        else:
+                            end = True
+                            break
+            if end:
+                break # this is because after finding one piece to capture and the following free spots, the inner loop breaks and the outter loop
+                      # keeps going and there might be another adv piece to capture but we are not suppose to care about that one so this break the outter loop
+                    
 
 
     def drop_out_range(self):

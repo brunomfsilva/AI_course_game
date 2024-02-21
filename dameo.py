@@ -45,6 +45,7 @@ def main():
                     if not selected_piece.legal:
                         selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
                         selected_piece.check_position(board) # Remove the occupied spaces from the legal moves
+                        selected_piece.no_jump(board)
                         board.actual_state(screen)  # Redraw the board to clear previous highlights
                         gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece and display legal moves
                         gui.display_legal_moves(screen, selected_piece.legal) # Highlight legal moves
@@ -68,15 +69,21 @@ def main():
                     if selected_piece.legal == []:
                         selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
                         selected_piece.check_position(board) # Remove the occupied spaces from the legal moves
+                        selected_piece.no_jump(board) # If tt is king, it can't jump over
                         
                             
                     if (row, col) in selected_piece.legal: # If the selected square is a legal move for the piece
 
                         previous_position = (selected_piece.row, selected_piece.col) # Saving the original position of the piece that is going to move
-                        # board.chessboard[selected_piece.row][selected_piece.col] = None
-                        selected_piece.move(row, col)
-                        # board.chessboard[selected_piece.row][selected_piece.col] = selected.piece
-                        board.drop_piece((row+previous_position[0])/2, (col+previous_position[1])/2) # Drops the piece in the middle of the original and new positions
+                        board.chessboard[selected_piece.row][selected_piece.col] = None ## MATRIX
+                        
+                        selected_piece.move(row, col) # move
+                        board.chessboard[selected_piece.row][selected_piece.col] = selected_piece ## MATRIX
+                        
+                        if abs(selected_piece.row - previous_position[0]) > 1 or abs(selected_piece.col - previous_position[1]) > 1:
+                            board.drop_piece((row+previous_position[0])/2, (col+previous_position[1])/2) # Drops the piece in the middle of the original and new positions
+                            board.chessboard[int((row+previous_position[0])/2)][int((col+previous_position[1])/2)] = None # Also eliminating from the matrix (martelada no int)
+
                         selected_piece = None #turn off the selected piece
                         if turn == WHITE:
                             turn = BLACK  

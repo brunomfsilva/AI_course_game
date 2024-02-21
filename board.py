@@ -28,8 +28,9 @@ class Board:
                 else:
                     piece = Piece(row, col, WHITE)  # Assuming Piece class is defined elsewhere
                     self.all_pieces_white.append(piece)
-                    ########################################################################
+                    ############ MATRIX #############
                     self.chessboard[row][col] = piece
+                    #################################
 
         # Initial pieces for BLACK
         for row in range(3):
@@ -39,7 +40,10 @@ class Board:
                 else:
                     piece = Piece(row, col, BLACK)  # Assuming Piece class is defined elsewhere
                     self.all_pieces_black.append(piece)
-        print(self.chessboard)
+                    ############ MATRIX #############
+                    self.chessboard[row][col] = piece
+                    #################################
+                    
         return self.all_pieces_white, self.all_pieces_black
     
     def draw_initial_state(self, screen, all_pieces_white, all_pieces_black):
