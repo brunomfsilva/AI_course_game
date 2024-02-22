@@ -219,6 +219,8 @@ class Piece:
                 break
         
         # right check
+        # this one is slightly different from the other checks because of the boarder on the right side of the board
+        # use the same logic if eventually the game window is increased for other sides (top, down, left) 
         end = False
         for i in range(1, self.right + 1):
             if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
