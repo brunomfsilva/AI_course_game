@@ -163,11 +163,11 @@ class Piece:
         whites, blacks = board.occupied()
         if self.color == WHITE:
             for i in range(len(catchable)):
-                if catchable[i] in blacks and landing_pos[i] not in whites + blacks and landing_pos[i][1] < size - 1:
+                if catchable[i] in blacks and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= size - 1:
                     self.legal += [(landing_pos[i])]
         if self.color == BLACK:
             for i in range(len(catchable)):
-                if catchable[i] in whites and landing_pos[i] not in whites + blacks and landing_pos[i][1] < size - 1:
+                if catchable[i] in whites and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= size - 1:
                     self.legal += [(landing_pos[i])]
         
     def check_catch_king(self, board):
@@ -221,11 +221,11 @@ class Piece:
         # right check
         end = False
         for i in range(1, self.right + 1):
-            if board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
+            if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
                 if i == 1:
                     self.legal += [(self.row, self.col + i + 1)]
                     for j in range(1, self.col + i + 2):
-                        if board.chessboard[self.row][self.col + i + 1 + j] == None:
+                        if self.col + i + 1 + j <= size - 1 and board.chessboard[self.row][self.col + i + 1 + j] == None:
                             self.legal += [(self.row, self.col + i + 1 + j)]
                         else:
                             end = True
@@ -233,7 +233,7 @@ class Piece:
                 elif i > 1 and board.chessboard[self.row][self.col + i - 1] == None:
                     self.legal += [(self.row, self.col + i + 1)]
                     for j in range(1, self.col + i + 2):
-                        if board.chessboard[self.row][self.col + i + 1 + j] == None:
+                        if self.col + i + 1 + j <= size - 1 and board.chessboard[self.row][self.col + i + 1 + j] == None:
                             self.legal += [(self.row, self.col + i + 1 + j)]
                         else:
                             end = True
