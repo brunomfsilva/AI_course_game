@@ -37,7 +37,14 @@ def main():
                 x, y = pygame.mouse.get_pos()
                 row = y // square_size
                 col = x // square_size
+
+                
                 piece = board.find_piece(row, col, board.all_pieces_black, board.all_pieces_white)
+
+
+                can_catch = board.check_piece_to_capture(turn)
+                piece = board.check_if_capture( gui, screen, can_catch, piece, turn, selected_piece) #check if piece already capture (if needed)
+
                 if piece and piece.color == turn:
                     selected_piece = piece
                     
@@ -47,14 +54,14 @@ def main():
                         selected_piece.check_position(board) # Remove the occupied spaces from the legal moves
                         selected_piece.no_jump(board)
                         board.actual_state(screen)  # Redraw the board to clear previous highlights
-                        gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece and display legal moves
+                        gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece 
                         gui.display_legal_moves(screen, selected_piece.legal) # Highlight legal moves
                         pygame.display.flip()
 
                     else:
                         selected_piece.check_catch(board)
                         board.actual_state(screen)  # Redraw the board to clear previous highlights
-                        gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece and display legal moves
+                        gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece 
                         gui.display_legal_moves(screen, selected_piece.legal) # Highlight legal moves
                         pygame.display.flip()
 

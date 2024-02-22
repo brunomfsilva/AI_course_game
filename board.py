@@ -113,6 +113,55 @@ class Board:
                 self.all_pieces_white.pop(i)
                 break
         # WORKING BUT DOESN'T MAKE ANY SENSE TO HAVE TWO LOOPS HERE. THERE SHOULD BE A WAY TO OPTIMIZE
+            
+    def check_piece_to_capture(self, turn):
+        can_catch=[]
+        all_pieces = self.all_pieces_black if turn == BLACK else self.all_pieces_white
+        for piece in all_pieces:
+            piece.check_catch(self)  # Updates legal moves considering captures
+            if piece.legal:
+                can_catch.append(piece)
+        return can_catch
+    
+    def check_if_capture(self, gui, screen, can_catch, piece, turn, selected_piece):
+        catch_position =[]
+        for i in can_catch:
+            catch_position.append((i.row, i.col))
+        
+        pos = ()
+        piece_color=None
+        if piece is not None:
+            pos = (piece.row, piece.col)
+            piece_color = piece.color
+        
+        message_displayed = True
+        
+        #you can not leave while loop while you not pick the right piece
+        while can_catch and pos not in catch_position and piece_color == turn and pos != ():
+
+            # Display the message
+            if message_displayed:
+                self.actual_state(screen)
+                gui.display_selected_piece(screen, selected_piece)
+                gui.display_message(screen, 'YOU NEED TO EAT!')
+                pygame.display.flip()
+                message_displayed = False
+                
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    x, y = pygame.mouse.get_pos()
+                    row = y // square_size
+                    col = x // square_size
+        
+                    piece = self.find_piece(row, col, self.all_pieces_black, self.all_pieces_white)
+                    if piece is not None:
+                        pos = (piece.row, piece.col)
+                        colour = piece.color
+        
+        return piece
     
     '''
     # To check if a specific spot is empty

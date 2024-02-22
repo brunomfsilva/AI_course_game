@@ -41,6 +41,16 @@ class GUI:
         screen.blit(text, text_rect)
 
     def display_selected_piece(self, screen, piece):
+        '''highlight selected piece'''
         if piece:
             row, col = piece.row, piece.col
             pygame.draw.rect(screen, (0, 0, 255), (col * square_size, row * square_size, square_size, square_size), 3)
+
+    def display_message(self, screen, message):
+        '''display message'''
+        font = pygame.font.Font(None, 15)
+        text = font.render(message, True, (255, 0, 0))
+        text_rect = text.get_rect(center=(450, 350))
+        screen.blit(text, text_rect)
+
+    
