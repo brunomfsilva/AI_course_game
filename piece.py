@@ -11,17 +11,44 @@ class Piece:
         self.right = size - 1 - self.col # Space left until right limit
         self.down = size - 1 - self.row # Space left until bottom limit
         self.catch = False # To check if there is a piece to catch or not
+        self.previous_position = ()
+        self.has_caught = False
     
-    def move(self, row, col):
+    def move(self, row, col, board):
+        self.previous_position = (self.row, self.col)
         self.row = row
         self.col = col
         self.right = size - 1 - col
         self.down = size - 1 - row
+        self.has_caught = False # To reset this state if it does not catch anything
         # If the piece reaches the last row, it becomes a king
         if row == 0 and self.color == WHITE:
             self.king = True
-        if row == 7 and self.color == BLACK:
+        if row == size - 1 and self.color == BLACK:
             self.king = True
+
+        # To eliminate the piece caught
+        if abs(self.previous_position[0] - self.row) > 1: # Moved vertically more than one square
+            for i in range(1, abs(self.row - self.previous_position[0])):
+                if self.previous_position[0] > self.row and board.chessboard[self.previous_position[0] - i][self.previous_position[1]] != None and board.chessboard[self.previous_position[0] - i][self.previous_position[1]].color != self.color:
+                    board.drop_piece(self.previous_position[0] - i, self.previous_position[1])
+                    board.chessboard[self.previous_position[0] - i][self.previous_position[1]] = None
+                    self.has_caught = True
+                if self.previous_position[0] < self.row and board.chessboard[self.previous_position[0] + i][self.previous_position[1]] != None and board.chessboard[self.previous_position[0] + i][self.previous_position[1]].color != self.color:
+                    board.drop_piece(self.previous_position[0] + i, self.previous_position[1])
+                    board.chessboard[self.previous_position[0] + i][self.previous_position[1]] = None
+                    self.has_caught = True
+
+        if abs(self.previous_position[1] - self.col) > 1: # Moved horizontally more than one square
+            for i in range(1, abs(self.col - self.previous_position[1])):
+                if self.previous_position[1] > self.col and board.chessboard[self.previous_position[0]][self.previous_position[1] - i] != None and board.chessboard[self.previous_position[0]][self.previous_position[1] - i].color != self.color:
+                    board.drop_piece(self.previous_position[0], self.previous_position[1] - i)
+                    board.chessboard[self.previous_position[0]][self.previous_position[1] - i] = None
+                    self.has_caught = True
+                if self.previous_position[1] < self.col and board.chessboard[self.previous_position[0]][self.previous_position[1] + i] != None and board.chessboard[self.previous_position[0]][self.previous_position[1] + i].color != self.color:
+                    board.drop_piece(self.previous_position[0], self.previous_position[1] + i)
+                    board.chessboard[self.previous_position[0]][self.previous_position[1] + i] = None
+                    self.has_caught = True
 
     # Function to check the legal moves
     def legal_positions(self):
@@ -165,15 +192,9 @@ class Piece:
     def no_jump(self, board):
         to_pop = []
         whites, blacks = board.occupied()
-       
-        # CREATE FUNCTION TO AVOID REPEATING ALL THIS JUST BECAUSE OF SELF.COLOR == WHITE OR BLACK -------- 
-        op_pieces = []
-        if self.color == WHITE:
-            op_pieces = blacks
-        else:
-            op_pieces = whites
+        op_pieces = whites + blacks
         
-        if self.king: #and self.color == BLACK:
+        if self.king:
             for i in range(len(self.legal)):
                 if self.legal[i][0] == self.row: # legal position in the same row
                     for j in range(1, abs(self.legal[i][1] - self.col) + 1):

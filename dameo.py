@@ -76,7 +76,7 @@ def main():
                     else:
                         selected_piece.check_catch_king(board)
 
-                    if selected_piece.legal == []:
+                    if not selected_piece.legal:
                         selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
                         selected_piece.check_position(board) # Remove the occupied spaces from the legal moves
                         selected_piece.no_jump(board) # If tt is king, it can't jump over
@@ -84,21 +84,28 @@ def main():
                             
                     if (row, col) in selected_piece.legal: # If the selected square is a legal move for the piece
 
-                        previous_position = (selected_piece.row, selected_piece.col) # Saving the original position of the piece that is going to move
                         board.chessboard[selected_piece.row][selected_piece.col] = None ## MATRIX
                         
-                        selected_piece.move(row, col) # move
+                        selected_piece.move(row, col, board) # move
                         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece ## MATRIX
                         
-                        if abs(selected_piece.row - previous_position[0]) > 1 or abs(selected_piece.col - previous_position[1]) > 1:
-                            board.drop_piece((row+previous_position[0])/2, (col+previous_position[1])/2) # Drops the piece in the middle of the original and new positions
-                            board.chessboard[int((row+previous_position[0])/2)][int((col+previous_position[1])/2)] = None # Also eliminating from the matrix (martelada no int)
-
-                        selected_piece = None #turn off the selected piece
-                        if turn == WHITE:
-                            turn = BLACK  
+                        # Checking if there are other pieces to catch
+                        if not selected_piece.king:
+                            selected_piece.check_catch(board)
                         else:
-                            turn = WHITE
+                            selected_piece.check_catch_king(board)
+
+                        if selected_piece.legal and selected_piece.has_caught:
+                            if turn == WHITE:
+                                turn = WHITE  
+                            else:
+                                turn = BLACK
+                        else:
+                            selected_piece = None #turn off the selected piece
+                            if turn == WHITE:
+                                turn = BLACK  
+                            else:
+                                turn = WHITE
                     
                     board.actual_state(screen)
                     gui.display_turn(screen, "white" if turn == WHITE else "black")

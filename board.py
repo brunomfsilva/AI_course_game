@@ -144,7 +144,7 @@ class Board:
         while can_catch and pos not in catch_position and piece_color == turn and pos != ():
 
             # Display the message
-            if message_displayed:
+            if message_displayed:    
                 self.actual_state(screen)
                 gui.display_selected_piece(screen, selected_piece)
                 gui.display_message(screen, 'YOU NEED TO EAT!')
