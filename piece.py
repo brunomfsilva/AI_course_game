@@ -23,134 +23,182 @@ class Piece:
         if row == 7 and self.color == BLACK:
             self.king = True
 
-    # Function to check the legal moves (later we have to deal with capturing pieces)
+    # Function to check the legal moves
     def legal_positions(self):
-        if not self.king and self.color == BLACK and self.row < 7:
-            if self.right == 0:
-                self.legal = [(self.row + 1, self.col), (self.row + 1, self.col - 1)]
-            elif self.col == 0:
-                self.legal = [(self.row + 1, self.col), (self.row + 1, self.col + 1)]
-            else:
-                self.legal = [(self.row + 1, self.col), (self.row + 1, self.col + 1), (self.row + 1, self.col - 1)]
-
-        if not self.king and self.color == WHITE and self.row:
-            if self.right == 0:
-                self.legal = [(self.row - 1, self.col), (self.row - 1, self.col - 1)]
-            elif self.col == 0:
-                self.legal = [(self.row - 1, self.col), (self.row - 1, self.col + 1)]
-            else:
-                self.legal = [(self.row - 1, self.col), (self.row - 1, self.col + 1), (self.row - 1, self.col - 1)]
-
-        if self.king:
+ 
+       # if self.king:
             self.legal = []
 
             # Moves to the right
-            if self.right:
+            if self.right and self.king:
                 for col in range(1, self.right + 1):
                     self.legal += [(self.row, self.col + col)]
             
-            # Moves to the left
-            if self.col:
+            # Moves to the left 
+            if self.col and self.king:
                 for col in range(1, self.col + 1):
                     self.legal += [(self.row, self.col - col)]
 
             # Moves upwards
-            if self.row:
+            if self.row  and not (self.color == BLACK and not self.king):
                 for row in range(1, self.row + 1):
                     self.legal += [(self.row - row, self.col)]  
 
             # Moves downwards
-            if self.down:
+            if self.down and not (self.color == WHITE and not self.king):
                 for row in range(1, self.down + 1):
                     self.legal += [(self.row + row, self.col)]
 
             # Moves diagonally
                 # up right
-            if self.row and self.right:
+            if self.row and self.right and not (self.color == BLACK and not self.king):
                 for i in range(1, min(self.row, self.right) + 1):
                     self.legal += [(self.row - i, self.col + i)]
             
                 # down right
-            if self.down and self.right:
+            if self.down and self.right and not (self.color == WHITE and not self.king):
                 for i in range(1, min(self.down, self.right) + 1):
                     self.legal += [(self.row + i, self.col + i)]
 
                 # up left
-            if self.row and self.col:
+            if self.row and self.col and not (self.color == BLACK and not self.king):
                 for i in range(1, min(self.row, self.col) + 1):
                     self.legal += [(self.row - i, self.col - i)]
 
                 # down left
-            if self.down and self.col:
+            if self.down and self.col and not (self.color == WHITE and not self.king):
                 for i in range(1, min(self.down, self.col) + 1):
                     self.legal += [(self.row + i, self.col - i)]
     
     # Function to check if the position is free
     def check_position(self, board):
         arg_taken = []
+        arg_inval = []
+        inval=[]        
         whites, blacks = board.occupied()
         for i in range(len(self.legal)):
             if self.legal[i] in whites or self.legal[i] in blacks:
                 arg_taken.append(i)
         self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in arg_taken]
 
+        if self.color == BLACK and not self.king:
+            #remove positions extra down
+            if self.down >=2:
+                if (self.row+1, self.col) not in blacks and (self.row+1, self.col) not in whites:
+                    for i in range(2, self.down+1):
+                        inval+= [(self.row+i, self.col)]
+                        
+                if self.down >=3 and (self.row+1, self.col) in whites:
+                    #remove a casa três espaços abaixo até fim
+                    for i in range(3, self.down+1):
+                        inval+= [(self.row+i, self.col)]   
+                
+                for j in range (3, size-1):
+                    if self.down >= j and (self.row+1, self.col) in blacks:
+                        for k in range (2, j):
+                            if (self.row+k, self.col) not in blacks:
+                             #tirar a casa k+1 espaços abaixo até fim    
+                                 for i in range(k+1, self.down+1):
+                                     inval+= [(self.row+i, self.col)]   
+        
+                #retirar posições em excesso diagonal direita/baixo
+                for j in range (2, size-1):
+                     if min(self.down, self.right) >= j: #and (self.row+1, self.col+1) not in blacks:
+                       for k in range (1, j):
+                            if (self.row+k, self.col+k) not in blacks:
+                                for i in range(k+1, min(self.down, self.right)+1):
+                                     inval+= [(self.row+i, self.col+i)]   
+            
+                #retirar posições em excesso left/down
+                for j in range (2, size-1):
+                     if min(self.down, self.col) >= j: #and (self.row+1, self.col+1) not in blacks:
+                       for k in range (1, j):
+                            if (self.row+k, self.col-k) not in blacks:
+                                for i in range(k+1, min(self.down, self.col)+1):
+                                     inval+= [(self.row+i, self.col-i)]
+        
+        if self.color == WHITE and not self.king:
+            #retirar posições em excesso up
+            if self.row >=2:
+                if (self.row-1, self.col) not in blacks and (self.row-1, self.col) not in whites:
+                    #tirar a casa dois espaços acima até fim do range como disponível
+                    for i in range(2, self.row+1):
+                        inval+= [(self.row-i, self.col)]
+                        
+                if self.row >=3 and (self.row-1, self.col) in blacks:
+                    #tirar a casa três espaços acima até fim do range como disponível    
+                    for i in range(3, self.row-1):
+                        inval+= [(self.row-i, self.col)]   
+                
+                for j in range (3, size-1):
+                    if self.row >= j and (self.row-1, self.col) in whites:
+                        for k in range (2, j):
+                            if (self.row-k, self.col) not in whites:
+                             #tirar a casa k+1 espaços acima até fim do range como disponível    
+                                 for i in range(k+1, self.row+1):
+                                     inval+= [(self.row-i, self.col)]   
+        
+                #retirar posições em excesso diagonal direita/cima
+                for j in range (2, size-1):
+                     if min(self.row, self.right) >= j:
+                       for k in range (1, j):
+                            if (self.row-k, self.col+k) not in whites:
+                                for i in range(k+1, min(self.row, self.right)+1):
+                                     inval+= [(self.row-i, self.col+i)]   
+            
+                #retirar posições em excesso left/cima
+                for j in range (2, size-1):
+                     if min(self.row, self.col) >= j:
+                       for k in range (1, j):
+                            if (self.row-k, self.col-k) not in whites:
+                                for i in range(k+1, min(self.row, self.col)+1):
+                                     inval+= [(self.row-i, self.col-i)]
+            
+        for j in range(len(self.legal)):
+            if self.legal[j] in inval:
+                arg_inval.append(j)
+            
+        self.legal = [self.legal[j] for j in range(len(self.legal)) if j not in arg_inval]     
+
+
     # To stop the legal positions when an adversary piece is in the way
     def no_jump(self, board):
         to_pop = []
         whites, blacks = board.occupied()
-        if self.king and self.color == WHITE:
-            for i in range(len(self.legal)):
-                if self.legal[i][0] == self.row: # legal position in the same row
-                    for j in range(1, abs(self.legal[i][1] - self.col) + 1):
-                        if self.col > self.legal[i][1] and (self.row, self.col - j) in blacks: # legal position to the left
-                            to_pop.append(i)
-                        if self.col < self.legal[i][1] and (self.row, self.col + j) in blacks: # legal position to the right
-                            to_pop.append(i)
-
-                elif self.legal[i][1] == self.col: # legal position in the same column
-                    for j in range(1, abs(self.legal[i][0] - self.row) + 1):
-                        if self.row > self.legal[i][0] and (self.row - j, self.col) in blacks: # legal position up
-                            to_pop.append(i)
-                        if self.row < self.legal[i][0] and (self.row + j, self.col) in blacks: # legal position down
-                            to_pop.append(i)
-
-                else: # legal position in the diagonal
-                    for j in range(1, abs(self.legal[i][0] - self.row)):
-                        if self.row > self.legal[i][0] and self.col > self.legal[i][1] and (self.row - j, self.col - j) in blacks: # legal position up left
-                            to_pop.append(i)
-                        if self.row > self.legal[i][0] and self.col < self.legal[i][1] and (self.row - j, self.col + j) in blacks: # legal position up right
-                            to_pop.append(i)
-                        if self.row < self.legal[i][0] and self.col > self.legal[i][1] and (self.row + j, self.col - j) in blacks: # legal position down left
-                            to_pop.append(i)
-                        if self.row < self.legal[i][0] and self.col < self.legal[i][1] and (self.row + j, self.col + j) in blacks: # legal position down right
-                            to_pop.append(i)
+       
+        # CREATE FUNCTION TO AVOID REPEATING ALL THIS JUST BECAUSE OF SELF.COLOR == WHITE OR BLACK -------- 
+        op_pieces = []
+        if self.color == WHITE:
+            op_pieces = blacks
+        else:
+            op_pieces = whites
         
-        # CREATE FUNCTION TO AVOID REPEATING ALL THIS JUST BECAUSE OF SELF.COLOR == WHITE OR BLACK
-        if self.king and self.color == BLACK:
+        if self.king: #and self.color == BLACK:
             for i in range(len(self.legal)):
                 if self.legal[i][0] == self.row: # legal position in the same row
                     for j in range(1, abs(self.legal[i][1] - self.col) + 1):
-                        if self.col > self.legal[i][1] and (self.row, self.col - j) in whites: # legal position to the left
+                        #if self.col > self.legal[i][1] and (self.row, self.col - j) in whites: # legal position to the left
+                        if self.col > self.legal[i][1] and (self.row, self.col - j) in op_pieces: # legal position to the left
                             to_pop.append(i)
-                        if self.col < self.legal[i][1] and (self.row, self.col + j) in whites: # legal position to the right
+                        if self.col < self.legal[i][1] and (self.row, self.col + j) in op_pieces: # legal position to the right
                             to_pop.append(i)
 
                 elif self.legal[i][1] == self.col: # legal position in the same column
                     for j in range(1, abs(self.legal[i][0] - self.row) + 1):
-                        if self.row > self.legal[i][0] and (self.row - j, self.col) in whites: # legal position up
+                        if self.row > self.legal[i][0] and (self.row - j, self.col) in op_pieces: # legal position up
                             to_pop.append(i)
-                        if self.row < self.legal[i][0] and (self.row + j, self.col) in whites: # legal position down
+                        if self.row < self.legal[i][0] and (self.row + j, self.col) in op_pieces: # legal position down
                             to_pop.append(i)
 
                 else: # legal position in the diagonal
                     for j in range(1, abs(self.legal[i][0] - self.row)):
-                        if self.row > self.legal[i][0] and self.col > self.legal[i][1] and (self.row - j, self.col - j) in whites: # legal position up left
+                        if self.row > self.legal[i][0] and self.col > self.legal[i][1] and (self.row - j, self.col - j) in op_pieces: # legal position up left
                             to_pop.append(i)
-                        if self.row > self.legal[i][0] and self.col < self.legal[i][1] and (self.row - j, self.col + j) in whites: # legal position up right
+                        if self.row > self.legal[i][0] and self.col < self.legal[i][1] and (self.row - j, self.col + j) in op_pieces: # legal position up right
                             to_pop.append(i)
-                        if self.row < self.legal[i][0] and self.col > self.legal[i][1] and (self.row + j, self.col - j) in whites: # legal position down left
+                        if self.row < self.legal[i][0] and self.col > self.legal[i][1] and (self.row + j, self.col - j) in op_pieces: # legal position down left
                             to_pop.append(i)
-                        if self.row < self.legal[i][0] and self.col < self.legal[i][1] and (self.row + j, self.col + j) in whites: # legal position down right
+                        if self.row < self.legal[i][0] and self.col < self.legal[i][1] and (self.row + j, self.col + j) in op_pieces: # legal position down right
                             to_pop.append(i)
 
         self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in to_pop]
@@ -161,6 +209,7 @@ class Piece:
         landing_pos = [(self.row - 2, self.col), (self.row + 2, self.col), (self.row, self.col + 2), (self.row, self.col - 2)] # Position after that
         self.legal = []
         whites, blacks = board.occupied()
+                
         if self.color == WHITE:
             for i in range(len(catchable)):
                 if catchable[i] in blacks and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= size - 1:
@@ -269,8 +318,6 @@ class Piece:
                 break # this is because after finding one piece to capture and the following free spots, the inner loop breaks and the outter loop
                       # keeps going and there might be another adv piece to capture but we are not suppose to care about that one so this break the outter loop
                     
-
-
     def drop_out_range(self):
         drop = []
         for i in range(len(self.legal)):
