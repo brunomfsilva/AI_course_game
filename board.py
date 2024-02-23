@@ -145,7 +145,6 @@ class Board:
 
             # Display the message
             if message_displayed:
-                print(can_catch[0].row, can_catch[0].col, can_catch[0].legal)
                 self.actual_state(screen)
                 gui.display_selected_piece(screen, selected_piece)
                 gui.display_message(screen, 'YOU NEED TO EAT!')
