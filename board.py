@@ -118,7 +118,11 @@ class Board:
         can_catch=[]
         all_pieces = self.all_pieces_black if turn == BLACK else self.all_pieces_white
         for piece in all_pieces:
-            piece.check_catch(self)  # Updates legal moves considering captures
+            if not piece.king:
+                piece.check_catch(self)  # Updates legal moves considering captures
+            elif piece.king:
+                piece.check_catch_king(self) # Updates legal moves considering captures for kings
+
             if piece.legal:
                 can_catch.append(piece)
         return can_catch

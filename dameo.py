@@ -48,7 +48,12 @@ def main():
                 if piece and piece.color == turn:
                     selected_piece = piece
                     
-                    selected_piece.check_catch(board)
+                    if not piece.king:
+                        selected_piece.check_catch(board)
+                    elif piece.king:
+                        selected_piece.check_catch_king(board)
+
+                        
                     if not selected_piece.legal:
                         selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
                         selected_piece.check_position(board) # Remove the occupied spaces from the legal moves
@@ -59,7 +64,7 @@ def main():
                         pygame.display.flip()
 
                     else:
-                        selected_piece.check_catch(board)
+                        #selected_piece.check_catch(board)
                         board.actual_state(screen)  # Redraw the board to clear previous highlights
                         gui.display_selected_piece(screen, selected_piece)  # Highlight selected piece 
                         gui.display_legal_moves(screen, selected_piece.legal) # Highlight legal moves
