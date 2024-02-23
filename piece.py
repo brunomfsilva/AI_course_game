@@ -169,6 +169,7 @@ class Piece:
             for i in range(len(catchable)):
                 if catchable[i] in whites and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= size - 1:
                     self.legal += [(landing_pos[i])]
+        self.drop_out_range()
         
     def check_catch_king(self, board):
         self.legal = []

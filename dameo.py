@@ -52,7 +52,6 @@ def main():
                         selected_piece.check_catch(board)
                     elif piece.king:
                         selected_piece.check_catch_king(board)
-
                         
                     if not selected_piece.legal:
                         selected_piece.legal_positions() # If there is no piece to catch, the legal moves list will be empty so we compute the moves normally
@@ -74,7 +73,6 @@ def main():
                     
                     if not selected_piece.king:
                         selected_piece.check_catch(board)
-                        selected_piece.drop_out_range()
                     else:
                         selected_piece.check_catch_king(board)
 
