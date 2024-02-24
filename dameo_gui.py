@@ -46,11 +46,11 @@ class GUI:
             row, col = piece.row, piece.col
             pygame.draw.rect(screen, (0, 0, 255), (col * square_size, row * square_size, square_size, square_size), 3)
 
-    def display_message(self, screen, message):
+    def display_message(self, screen, message, color=(255, 0, 0), place = (450, 350)):
         '''display message'''
         font = pygame.font.Font(None, 15)
-        text = font.render(message, True, (255, 0, 0))
-        text_rect = text.get_rect(center=(450, 350))
+        text = font.render(message, True, color)
+        text_rect = text.get_rect(center=place)
         screen.blit(text, text_rect)
 
     

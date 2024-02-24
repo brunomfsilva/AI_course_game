@@ -167,9 +167,10 @@ class Board:
         
         return piece
     
-    '''
-    # To check if a specific spot is empty
-    def is_empty(self, row, col):
-        whites, blacks = self.occupied()
-        return (self.row, self.col) not in whites + blacks
-    '''
+
+    def check_winner(board):
+        '''check the winner'''
+        if len(board.all_pieces_black) == 0:
+            return "WHITE"
+        elif len(board.all_pieces_white) == 0:
+            return "BLACK"
