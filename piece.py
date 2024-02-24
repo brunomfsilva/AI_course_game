@@ -246,6 +246,9 @@ class Piece:
         # down check
         end = False
         for i in range(1, self.down + 1):
+            if self.row + i + 1 <= size - 1 and board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i + 1][self.col] != None:
+                break
+
             if self.row + i + 1 <= size - 1 and board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i][self.col].color != self.color and board.chessboard[self.row + i + 1][self.col] == None:
                 if i == 1:
                     self.legal += [(self.row + i + 1, self.col)]
@@ -269,6 +272,9 @@ class Piece:
         # up check
         end = False
         for i in range(1, self.row + 1):
+            if self.row - i - 1 >= 0 and board.chessboard[self.row - i][self.col] != None and board.chessboard[self.row - i - 1][self.col] != None:
+                break
+
             if self.row - i - 1 >= 0 and board.chessboard[self.row - i][self.col] != None and board.chessboard[self.row - i][self.col].color != self.color and board.chessboard[self.row - i - 1][self.col] == None:
                 if i == 1:
                     self.legal += [(self.row - i - 1, self.col)]
@@ -292,6 +298,9 @@ class Piece:
         # right check
         end = False
         for i in range(1, self.right + 1):
+            if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i + 1] != None:
+                break
+
             if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
                 if i == 1:
                     self.legal += [(self.row, self.col + i + 1)]
@@ -315,6 +324,9 @@ class Piece:
         # left check
         end = False
         for i in range(1, self.col + 1):
+            if self.col - i - 1 >= 0 and board.chessboard[self.row][self.col - i] != None and board.chessboard[self.row][self.col - i - 1] != None:
+                break
+
             if self.col - i - 1 >= 0 and board.chessboard[self.row][self.col - i] != None and board.chessboard[self.row][self.col - i].color != self.color and board.chessboard[self.row][self.col - i - 1] == None:
                 if i == 1:
                     self.legal += [(self.row, self.col - i - 1)]
