@@ -3,7 +3,7 @@ BLACK = (0, 0, 0)
 GREY1 = (180, 180, 180)
 GREY2 = (50, 50, 50)
 
-size = 8
+size = 10
 
 width, height = 500, 400
 
