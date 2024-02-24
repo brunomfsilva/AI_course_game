@@ -28,28 +28,30 @@ class Board:
         ############################
 
         # Initial pieces for WHITE
-        for row in [5, 6, 7]:
-            for col in range(8):
-                if (row == 6 and col in [0, 7]) or (row == 5 and col in [0, 1, 6, 7]):
-                    continue
-                else:
-                    piece = Piece(row, col, WHITE)  # Assuming Piece class is defined elsewhere
-                    self.all_pieces_white.append(piece)
-                    ############ MATRIX #############
-                    self.chessboard[row][col] = piece
-                    #################################
-
-        # Initial pieces for BLACK
-        for row in range(3):
-            for col in range(8):
-                if (row == 1 and col in [0, 7]) or (row == 2 and col in [0, 1, 6, 7]):
-                    continue
-                else:
-                    piece = Piece(row, col, BLACK)  # Assuming Piece class is defined elsewhere
-                    self.all_pieces_black.append(piece)
-                    ############ MATRIX #############
-                    self.chessboard[row][col] = piece
-                    #################################
+        if self.size>=6:
+            # Initial pieces for WHITE
+            for row in range (self.size-3, self.size):
+                for col in range(self.size):
+                    if (row == self.size-2 and col in [0, self.size-1]) or (row == self.size-3 and col in [0, 1, self.size-1, self.size-2]):
+                        continue     
+                    else:
+                        piece = Piece(row, col, WHITE)  # Assuming Piece class is defined elsewhere
+                        self.all_pieces_white.append(piece)
+                        ############ MATRIX #############
+                        self.chessboard[row][col] = piece
+                        #################################
+        
+            # Initial pieces por BLACK        
+            for row in range (3):
+                for col in range(self.size):
+                    if (row == 1 and col in [0, self.size-1]) or (row == 2 and col in [0, 1, self.size-1, self.size-2]): 
+                        continue     
+                    else:
+                        piece = Piece(row, col, BLACK)  # Assuming Piece class is defined elsewhere
+                        self.all_pieces_black.append(piece)
+                        ############ MATRIX #############
+                        self.chessboard[row][col] = piece
+                        #################################   
                     
         return self.all_pieces_white, self.all_pieces_black
     
