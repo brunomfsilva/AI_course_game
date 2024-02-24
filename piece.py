@@ -246,11 +246,11 @@ class Piece:
         # down check
         end = False
         for i in range(1, self.down + 1):
-            if board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i][self.col].color != self.color and board.chessboard[self.row + i + 1][self.col] == None:
+            if self.row + i + 1 <= size - 1 and board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i][self.col].color != self.color and board.chessboard[self.row + i + 1][self.col] == None:
                 if i == 1:
                     self.legal += [(self.row + i + 1, self.col)]
                     for j in range(1, self.row + i + 2):
-                        if board.chessboard[self.row + i + 1 + j][self.col] == None:
+                        if self.row + i + 1 + j <= size - 1 and board.chessboard[self.row + i + 1 + j][self.col] == None:
                             self.legal += [(self.row + i + 1 + j, self.col)]
                         else:
                             end = True
@@ -258,7 +258,7 @@ class Piece:
                 elif i > 1 and board.chessboard[self.row + i - 1][self.col] == None:
                     self.legal += [(self.row + i + 1, self.col)]
                     for j in range(1, self.row + i + 2):
-                        if board.chessboard[self.row + i + 1 + j][self.col] == None:
+                        if self.row + i + 1 + j <= size - 1 and board.chessboard[self.row + i + 1 + j][self.col] == None:
                             self.legal += [(self.row + i + 1 + j, self.col)]
                         else:
                             end = True
@@ -269,11 +269,11 @@ class Piece:
         # up check
         end = False
         for i in range(1, self.row + 1):
-            if board.chessboard[self.row - i][self.col] != None and board.chessboard[self.row - i][self.col].color != self.color and board.chessboard[self.row - i - 1][self.col] == None:
+            if self.row - i - 1 >= 0 and board.chessboard[self.row - i][self.col] != None and board.chessboard[self.row - i][self.col].color != self.color and board.chessboard[self.row - i - 1][self.col] == None:
                 if i == 1:
                     self.legal += [(self.row - i - 1, self.col)]
                     for j in range(1, self.row - i):
-                        if board.chessboard[self.row - i - 1 - j][self.col] == None:
+                        if self.row - i - 1 - j >= 0 and board.chessboard[self.row - i - 1 - j][self.col] == None:
                             self.legal += [(self.row - i - 1 - j, self.col)]
                         else:
                             end = True
@@ -281,7 +281,7 @@ class Piece:
                 elif i > 1 and board.chessboard[self.row - i + 1][self.col] == None:
                     self.legal += [(self.row - i - 1, self.col)]
                     for j in range(1, self.row - i):
-                        if board.chessboard[self.row - i - 1 - j][self.col] == None:
+                        if self.row - i - 1 - j >= 0 and board.chessboard[self.row - i - 1 - j][self.col] == None:
                             self.legal += [(self.row - i - 1 - j, self.col)]
                         else:
                             end = True
@@ -290,8 +290,6 @@ class Piece:
                 break
         
         # right check
-        # this one is slightly different from the other checks because of the boarder on the right side of the board
-        # use the same logic if eventually the game window is increased for other sides (top, down, left) 
         end = False
         for i in range(1, self.right + 1):
             if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
@@ -317,11 +315,11 @@ class Piece:
         # left check
         end = False
         for i in range(1, self.col + 1):
-            if board.chessboard[self.row][self.col - i] != None and board.chessboard[self.row][self.col - i].color != self.color and board.chessboard[self.row][self.col - i - 1] == None:
+            if self.col - i - 1 >= 0 and board.chessboard[self.row][self.col - i] != None and board.chessboard[self.row][self.col - i].color != self.color and board.chessboard[self.row][self.col - i - 1] == None:
                 if i == 1:
                     self.legal += [(self.row, self.col - i - 1)]
                     for j in range(1, self.col - i):
-                        if board.chessboard[self.row][self.col - i - 1 - j] == None:
+                        if self.col - i - 1 - j >= 0 and board.chessboard[self.row][self.col - i - 1 - j] == None:
                             self.legal += [(self.row, self.col - i - 1 - j)]
                         else:
                             end = True
@@ -330,7 +328,7 @@ class Piece:
                 elif i > 1 and board.chessboard[self.row][self.col - i + 1] == None: # This is to avoid jumping over more than one consecutive adv piece 
                     self.legal += [(self.row, self.col - i - 1)]
                     for j in range(1, self.col - i):
-                        if board.chessboard[self.row][self.col - i - 1 - j] == None:
+                        if self.col - i - 1 - j >= 0 and board.chessboard[self.row][self.col - i - 1 - j] == None:
                             self.legal += [(self.row, self.col - i - 1 - j)]
                         else:
                             end = True
@@ -338,7 +336,9 @@ class Piece:
             if end:
                 break # this is because after finding one piece to capture and the following free spots, the inner loop breaks and the outter loop
                       # keeps going and there might be another adv piece to capture but we are not suppose to care about that one so this break the outter loop
-                    
+
+        self.drop_out_range()
+
     def drop_out_range(self):
         drop = []
         for i in range(len(self.legal)):
