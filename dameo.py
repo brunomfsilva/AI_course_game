@@ -39,7 +39,7 @@ def main():
                 
                 piece = board.find_piece(row, col, board.all_pieces_black, board.all_pieces_white)
 
-
+                
                 can_catch = board.check_piece_to_capture(turn)
                 piece = board.check_if_capture( gui, screen, can_catch, piece, turn, selected_piece) #check if piece already capture (if needed)
 
@@ -99,6 +99,7 @@ def main():
                             else:
                                 turn = BLACK
                         else:
+                            selected_piece.transform_king()
                             selected_piece = None #turn off the selected piece
                             if turn == WHITE:
                                 turn = BLACK  

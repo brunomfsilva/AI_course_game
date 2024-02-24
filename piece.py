@@ -21,11 +21,6 @@ class Piece:
         self.right = size - 1 - col
         self.down = size - 1 - row
         self.has_caught = False # To reset this state if it does not catch anything
-        # If the piece reaches the last row, it becomes a king
-        if row == 0 and self.color == WHITE:
-            self.king = True
-        if row == size - 1 and self.color == BLACK:
-            self.king = True
 
         # To eliminate the piece caught
         if abs(self.previous_position[0] - self.row) > 1: # Moved vertically more than one square
@@ -49,6 +44,13 @@ class Piece:
                     board.drop_piece(self.previous_position[0], self.previous_position[1] + i)
                     board.chessboard[self.previous_position[0]][self.previous_position[1] + i] = None
                     self.has_caught = True
+    
+    #Transforming normal pieces into kings
+    def transform_king(self):
+        if self.row == 0 and self.color == WHITE:
+            self.king = True
+        if self.row == size - 1 and self.color == BLACK:
+            self.king = True
 
     # Function to check the legal moves
     def legal_positions(self):
