@@ -23,27 +23,28 @@ class Piece:
         self.has_caught = False # To reset this state if it does not catch anything
 
         # To eliminate the piece caught
-        if abs(self.previous_position[0] - self.row) > 1: # Moved vertically more than one square
-            for i in range(1, abs(self.row - self.previous_position[0])):
-                if self.previous_position[0] > self.row and board.chessboard[self.previous_position[0] - i][self.previous_position[1]] != None and board.chessboard[self.previous_position[0] - i][self.previous_position[1]].color != self.color:
-                    board.drop_piece(self.previous_position[0] - i, self.previous_position[1])
-                    board.chessboard[self.previous_position[0] - i][self.previous_position[1]] = None
-                    self.has_caught = True
-                if self.previous_position[0] < self.row and board.chessboard[self.previous_position[0] + i][self.previous_position[1]] != None and board.chessboard[self.previous_position[0] + i][self.previous_position[1]].color != self.color:
-                    board.drop_piece(self.previous_position[0] + i, self.previous_position[1])
-                    board.chessboard[self.previous_position[0] + i][self.previous_position[1]] = None
-                    self.has_caught = True
+        if (self.row == self.previous_position[0] and self.col != self.previous_position[1]) or (self.row != self.previous_position[0] and self.col == self.previous_position[1]): # To avoid this function for diagonal moves (no captures)
+            if abs(self.previous_position[0] - self.row) > 1: # Moved vertically more than one square
+                for i in range(1, abs(self.row - self.previous_position[0])):
+                    if self.previous_position[0] > self.row and board.chessboard[self.previous_position[0] - i][self.previous_position[1]] != None and board.chessboard[self.previous_position[0] - i][self.previous_position[1]].color != self.color:
+                        board.drop_piece(self.previous_position[0] - i, self.previous_position[1])
+                        board.chessboard[self.previous_position[0] - i][self.previous_position[1]] = None
+                        self.has_caught = True
+                    if self.previous_position[0] < self.row and board.chessboard[self.previous_position[0] + i][self.previous_position[1]] != None and board.chessboard[self.previous_position[0] + i][self.previous_position[1]].color != self.color:
+                        board.drop_piece(self.previous_position[0] + i, self.previous_position[1])
+                        board.chessboard[self.previous_position[0] + i][self.previous_position[1]] = None
+                        self.has_caught = True
 
-        if abs(self.previous_position[1] - self.col) > 1: # Moved horizontally more than one square
-            for i in range(1, abs(self.col - self.previous_position[1])):
-                if self.previous_position[1] > self.col and board.chessboard[self.previous_position[0]][self.previous_position[1] - i] != None and board.chessboard[self.previous_position[0]][self.previous_position[1] - i].color != self.color:
-                    board.drop_piece(self.previous_position[0], self.previous_position[1] - i)
-                    board.chessboard[self.previous_position[0]][self.previous_position[1] - i] = None
-                    self.has_caught = True
-                if self.previous_position[1] < self.col and board.chessboard[self.previous_position[0]][self.previous_position[1] + i] != None and board.chessboard[self.previous_position[0]][self.previous_position[1] + i].color != self.color:
-                    board.drop_piece(self.previous_position[0], self.previous_position[1] + i)
-                    board.chessboard[self.previous_position[0]][self.previous_position[1] + i] = None
-                    self.has_caught = True
+            if abs(self.previous_position[1] - self.col) > 1: # Moved horizontally more than one square
+                for i in range(1, abs(self.col - self.previous_position[1])):
+                    if self.previous_position[1] > self.col and board.chessboard[self.previous_position[0]][self.previous_position[1] - i] != None and board.chessboard[self.previous_position[0]][self.previous_position[1] - i].color != self.color:
+                        board.drop_piece(self.previous_position[0], self.previous_position[1] - i)
+                        board.chessboard[self.previous_position[0]][self.previous_position[1] - i] = None
+                        self.has_caught = True
+                    if self.previous_position[1] < self.col and board.chessboard[self.previous_position[0]][self.previous_position[1] + i] != None and board.chessboard[self.previous_position[0]][self.previous_position[1] + i].color != self.color:
+                        board.drop_piece(self.previous_position[0], self.previous_position[1] + i)
+                        board.chessboard[self.previous_position[0]][self.previous_position[1] + i] = None
+                        self.has_caught = True
     
     #Transforming normal pieces into kings
     def transform_king(self):
