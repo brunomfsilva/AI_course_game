@@ -11,29 +11,27 @@ def main():
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('DAMEO')
     running = True
-
     gui = GUI()
-    gui.main_menu(screen) #Start with the main menu
-
-    screen.fill((0,0,0))  
-    board = Board()
-    
-
-    #all_pieces_white, all_pieces_black = board.initialize_pieces()
-    board.initialize_pieces() # Did it this way so the list of pieces called are always connected to the board object itself
-
-    #put pieces on the board
-    board.draw_initial_state(screen, board.all_pieces_white, board.all_pieces_black)
-    pygame.display.flip()
-
+    board=Board()
+    board.start_game(gui, screen)
     selected_piece = None
     turn = WHITE
+    winner = None
+
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button clicked
+                if winner:
+                    winner = None
+                    board.start_game(gui, screen)
+                    selected_piece = None
+                    turn = WHITE
+                    
+
                 x, y = pygame.mouse.get_pos()
                 row = y // square_size
                 col = x // square_size
@@ -110,6 +108,13 @@ def main():
                     board.actual_state(screen)
                     gui.display_turn(screen, "white" if turn == WHITE else "black")
                     pygame.display.flip()
+
+        winner = board.check_winner()
+        if winner:
+            font = pygame.font.SysFont(None, 48)
+            text = font.render(f"The winner is {winner}!", True, (255, 255, 255))
+            screen.blit(text, (100, height // 2))
+            pygame.display.flip()
             
 
     pygame.quit()

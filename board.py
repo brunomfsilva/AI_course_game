@@ -13,8 +13,15 @@ class Board:
         self.all_pieces_white = [] # Lists to hold the pieces for each player
         self.all_pieces_black = []
 
-    def initialize_pieces(self):
 
+    def start_game(self, gui, screen):
+        gui.main_menu(screen)
+        screen.fill((0,0,0))  
+        self.initialize_pieces()
+        self.draw_initial_state(screen, self.all_pieces_white, self.all_pieces_black)
+        pygame.display.flip()
+
+    def initialize_pieces(self):
         # MAYBE WE CAN TAKE THIS OFF
         self.all_pieces_white = []
         self.all_pieces_black = []
