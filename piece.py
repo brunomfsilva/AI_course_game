@@ -112,7 +112,7 @@ class Piece:
 
         if self.color == BLACK and not self.king:
             #remove positions extra down
-            if self.down >=2:
+            if self.down >= 2:
                 if (self.row+1, self.col) not in blacks and (self.row+1, self.col) not in whites:
                     for i in range(2, self.down+1):
                         inval+= [(self.row+i, self.col)]
@@ -147,41 +147,40 @@ class Piece:
                                      inval+= [(self.row+i, self.col-i)]
         
         if self.color == WHITE and not self.king:
-            #retirar posições em excesso up
-            if self.row >=2:
+            # Remove positions extra up
+            if self.row >= 2:
                 if (self.row-1, self.col) not in blacks and (self.row-1, self.col) not in whites:
-                    #tirar a casa dois espaços acima até fim do range como disponível
                     for i in range(2, self.row+1):
-                        inval+= [(self.row-i, self.col)]
-                        
-                if self.row >=3 and (self.row-1, self.col) in blacks:
-                    #tirar a casa três espaços acima até fim do range como disponível    
-                    for i in range(3, self.row-1):
-                        inval+= [(self.row-i, self.col)]   
-                
-                for j in range (3, size-1):
+                        inval += [(self.row-i, self.col)]
+
+                if self.row >= 3 and (self.row-1, self.col) in blacks:
+                    # Remove positions three spaces up to end
+                    for i in range(3, self.row+1):
+                        inval += [(self.row-i, self.col)]
+
+                for j in range(3, size-1):
                     if self.row >= j and (self.row-1, self.col) in whites:
-                        for k in range (2, j):
+                        for k in range(2, j):
                             if (self.row-k, self.col) not in whites:
-                             #tirar a casa k+1 espaços acima até fim do range como disponível    
-                                 for i in range(k+1, self.row+1):
-                                     inval+= [(self.row-i, self.col)]   
-        
-                #retirar posições em excesso diagonal direita/cima
-                for j in range (2, size-1):
-                     if min(self.row, self.right) >= j:
-                       for k in range (1, j):
-                            if (self.row-k, self.col+k) not in whites:
-                                for i in range(k+1, min(self.row, self.right)+1):
-                                     inval+= [(self.row-i, self.col+i)]   
-            
-                #retirar posições em excesso left/cima
-                for j in range (2, size-1):
-                     if min(self.row, self.col) >= j:
-                       for k in range (1, j):
+                                # Remove positions k+1 spaces up to end
+                                for i in range(k+1, self.row+1):
+                                    inval += [(self.row-i, self.col)]
+
+                # Remove excess positions diagonally left/up
+                for j in range(2, size-1):
+                    if min(self.row, self.col) >= j:
+                        for k in range(1, j):
                             if (self.row-k, self.col-k) not in whites:
                                 for i in range(k+1, min(self.row, self.col)+1):
-                                     inval+= [(self.row-i, self.col-i)]
+                                    inval += [(self.row-i, self.col-i)]
+
+                # Remove excess positions right/up
+                for j in range(2, size-1):
+                    if min(self.row, self.right) >= j:
+                        for k in range(1, j):
+                            if (self.row-k, self.col+k) not in whites:
+                                for i in range(k+1, min(self.row, self.right)+1):
+                                    inval += [(self.row-i, self.col+i)]
             
         for j in range(len(self.legal)):
             if self.legal[j] in inval:
