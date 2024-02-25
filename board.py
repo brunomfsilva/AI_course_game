@@ -74,6 +74,7 @@ class Board:
 
     def draw_king(self, screen, row, col, piece):
         "new form when become king"
+        #escrever "KING"
         radius = self.square_size // 2 - 5
         pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
         
@@ -156,7 +157,7 @@ class Board:
             if message_displayed:    
                 self.actual_state(screen)
                 gui.display_selected_piece(screen, selected_piece)
-                gui.display_message(screen, 'YOU NEED TO EAT!')
+                gui.display_message(screen, '          Must capture piece!')
                 pygame.display.flip()
                 message_displayed = False
                 
@@ -179,7 +180,7 @@ class Board:
 
     def check_winner(board):
         '''check the winner'''
-        if len(board.all_pieces_black) == 0:
+        if len(board.all_pieces_black) == 0: #or black cannot move
             return "WHITE"
-        elif len(board.all_pieces_white) == 0:
+        elif len(board.all_pieces_white) == 0:  #or white cannot move
             return "BLACK"
