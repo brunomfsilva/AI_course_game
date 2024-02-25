@@ -107,7 +107,7 @@ def main():
                                 turn = WHITE
                     
                     board.actual_state(screen)
-                    gui.display_turn(screen, "white" if turn == WHITE else "black")
+                    gui.display_turn(screen, "player 1" if turn == WHITE else "player 2")
                     pygame.display.flip()
 
         winner = board.check_winner()

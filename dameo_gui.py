@@ -32,11 +32,12 @@ class GUI:
         for move in legal_moves:
             row, col = move
             pygame.draw.circle(screen, (0, 0, 255), (col * square_size + square_size // 2, row * square_size + square_size // 2), 5)
-
+            #Fazer quadrado claro para as legal moves
+            
     def display_turn(self, screen, turn):
         '''display who is the next to play'''
-        font = pygame.font.Font(None, 25)
-        text = font.render(f"{turn.capitalize()}", True, (255, 255, 255))
+        font = pygame.font.Font(None, 28)
+        text = font.render(f"{turn.capitalize()}", True,(135, 205, 250))
         text_rect = text.get_rect(center=(450, 50))
         screen.blit(text, text_rect)
 
@@ -46,9 +47,9 @@ class GUI:
             row, col = piece.row, piece.col
             pygame.draw.rect(screen, (0, 0, 255), (col * square_size, row * square_size, square_size, square_size), 3)
 
-    def display_message(self, screen, message, color=(255, 0, 0), place = (450, 350)):
+    def display_message(self, screen, message, color=(135, 206, 250), place =(450, 190)):
         '''display message'''
-        font = pygame.font.Font(None, 15)
+        font = pygame.font.SysFont("Arial", 20)
         text = font.render(message, True, color)
         text_rect = text.get_rect(center=place)
         screen.blit(text, text_rect)
