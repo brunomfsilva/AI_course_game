@@ -42,3 +42,4 @@ class Player:
         board.chessboard[selected_piece.row][selected_piece.col] = None
         selected_piece.move(chosen_move[0], chosen_move[1], board)
         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
+        return selected_piece

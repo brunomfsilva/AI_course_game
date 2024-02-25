@@ -18,7 +18,7 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('Human', 'Human', WHITE)
+    player1 = Player('AI', 'Human', WHITE)
     player2 = Player('AI', 'Very easy', BLACK)
 
     while running:
@@ -26,6 +26,13 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button clicked
+                if winner:
+                    winner = None
+                    board.start_game(gui, screen)
+                    selected_piece = None
+                    turn = WHITE
 
         for player in (player1, player2):
             
@@ -121,15 +128,37 @@ def main():
                             pygame.display.flip()
 
             if player.type == 'AI' and turn == player.team:
-                player2.ai_random_move(board, turn)
+                selected_piece = player.ai_random_move(board, turn)
 
-            if turn == WHITE:
-                turn = BLACK  
+            # Checking if there are other pieces to catch
+            if not selected_piece.king:
+                selected_piece.check_catch(board)
             else:
-                turn = WHITE          
-            time.sleep(1)
+                selected_piece.check_catch_king(board)
+
+            if selected_piece.legal and selected_piece.has_caught:
+                if turn == WHITE:
+                    turn = WHITE  
+                else:
+                    turn = BLACK
+            else:
+                selected_piece.transform_king()
+                selected_piece = None #turn off the selected piece
+                if turn == WHITE:
+                    turn = BLACK  
+                else:
+                    turn = WHITE
+
+            time.sleep(0.1)
             board.actual_state(screen)
             pygame.display.flip()
+
+            winner = board.check_winner()
+            if winner:
+                font = pygame.font.SysFont(None, 45)
+                text = font.render(f"The winner is {winner}!", True, (255, 255, 255))
+                screen.blit(text, (100, height // 2))
+                pygame.display.flip()
 
 if __name__ == "__main__":
     main()
