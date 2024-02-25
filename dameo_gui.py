@@ -28,11 +28,14 @@ class GUI:
                     
     
     def display_legal_moves(self, screen, legal_moves):
-        """Display legal moves as small blue dots"""
+        #"""Display legal moves as small blue dots"""
         for move in legal_moves:
             row, col = move
-            pygame.draw.circle(screen, (0, 0, 255), (col * square_size + square_size // 2, row * square_size + square_size // 2), 5)
-            #Fazer quadrado claro para as legal moves
+            #pygame.draw.circle(screen, (0, 0, 255), (col * square_size + square_size // 2, row * square_size + square_size // 2), 5)
+            
+            """Highlight squares for legal moves"""
+            pygame.draw.rect(screen, (240, 120, 120), (col * square_size, row * square_size, square_size, square_size), 3)
+            
             
     def display_turn(self, screen, turn):
         '''display who is the next to play'''
@@ -45,7 +48,7 @@ class GUI:
         '''highlight selected piece'''
         if piece:
             row, col = piece.row, piece.col
-            pygame.draw.rect(screen, (0, 0, 255), (col * square_size, row * square_size, square_size, square_size), 3)
+            pygame.draw.rect(screen, (50, 50, 50), (col * square_size, row * square_size, square_size, square_size), 3)
 
     def display_message(self, screen, message, color=(135, 206, 250), place =(450, 190)):
         '''display message'''

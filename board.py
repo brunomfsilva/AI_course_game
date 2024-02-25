@@ -79,7 +79,7 @@ class Board:
         pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
         
         if piece.king:  # If the piece is a king, draw a small yellow circle in the center
-            pygame.draw.circle(screen, (255, 0, 0), (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), 5)
+            pygame.draw.circle(screen, (0, 85, 0), (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), 5)
 
     def draw_piece(self, screen, row, col, piece):
         '''draw piece'''
@@ -181,6 +181,6 @@ class Board:
     def check_winner(board):
         '''check the winner'''
         if len(board.all_pieces_black) == 0: #or black cannot move
-            return "WHITE"
+            return "Player 1"
         elif len(board.all_pieces_white) == 0:  #or white cannot move
-            return "BLACK"
+            return "Player 2"
