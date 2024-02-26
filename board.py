@@ -53,6 +53,31 @@ class Board:
                         self.chessboard[row][col] = piece
                         #################################   
                     
+        if self.size== 4 or self.size== 5:
+            # Initial pieces for WHITE
+            for row in range (self.size-2, self.size):
+                for col in range(self.size):
+                    if (row == self.size-2 and col in [0, self.size-1]):
+                        continue     
+                    else:
+                        piece = Piece(row, col, WHITE)  # Assuming Piece class is defined elsewhere
+                        self.all_pieces_white.append(piece)
+                        ############ MATRIX #############
+                        self.chessboard[row][col] = piece
+                        #################################
+        
+            # Initial pieces por BLACK        
+            for row in range (2):
+                for col in range(self.size):
+                    if (row == 1 and col in [0, self.size-1]): 
+                        continue     
+                    else:
+                        piece = Piece(row, col, BLACK)  # Assuming Piece class is defined elsewhere
+                        self.all_pieces_black.append(piece)
+                        ############ MATRIX #############
+                        self.chessboard[row][col] = piece
+                        #################################   
+        
         return self.all_pieces_white, self.all_pieces_black
     
     def draw_initial_state(self, screen, all_pieces_white, all_pieces_black):
