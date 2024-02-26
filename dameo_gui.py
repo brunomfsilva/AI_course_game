@@ -1,5 +1,6 @@
 import pygame
 from vars import *
+import time
 
 class GUI:
     def __init__(self):
@@ -24,16 +25,53 @@ class GUI:
                     pygame.quit()
                     exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Start if click on ecran
+                    #self.player_select_menu(screen)  # Call function to go to the next screen
                     waiting = False
-                    
+
+    def player_select_menu(self, screen):
+        """Displays the select players screen"""
+        players = [None, None, None, None]
+        screen.fill(GREY2)
+        # Create a font object
+        font = pygame.font.Font(None, 36)
+
+        # Player2
+        text_surface = font.render("Player 1", True, WHITE)
+        text_rect = text_surface.get_rect()
+        text_rect.topleft = (100, 200)
+        screen.blit(text_surface, text_rect)
+
+        # Player1
+        text_surface = font.render("Player 2", True, BLACK)
+        text_rect = text_surface.get_rect()
+        text_rect.topright = (450, 200)
+        screen.blit(text_surface, text_rect)
+
+        # Box for player1
+        pygame.draw.rect(screen, WHITE, (100, 250, 100, 50))
+        pygame.draw.polygon(screen, BLACK, [(90, 260), (90, 290), (75, 275)])
+        pygame.draw.polygon(screen, BLACK, [(210, 260), (210, 290), (225, 275)])
+        text_surface = font.render("Human", True, BLACK)
+        text_rect = text_surface.get_rect()
+        text_rect.center = (150, 275)
+        screen.blit(text_surface, text_rect)
+
+        # Box for player2
+        pygame.draw.rect(screen, BLACK, (350, 250, 100, 50))
+        pygame.draw.polygon(screen, WHITE, [(340, 260), (340, 290), (325, 275)])
+        pygame.draw.polygon(screen, WHITE, [(460, 260), (460, 290), (475, 275)])
+        text_surface = font.render("Human", True, WHITE)
+        text_rect = text_surface.get_rect()
+        text_rect.center = (400, 275)
+        screen.blit(text_surface, text_rect)
+
+        pygame.display.flip()
+        time.sleep(5)
     
     def display_legal_moves(self, screen, legal_moves):
-        #"""Display legal moves as small blue dots"""
+        """Highlight squares for legal moves"""
         for move in legal_moves:
             row, col = move
-            #pygame.draw.circle(screen, (0, 0, 255), (col * square_size + square_size // 2, row * square_size + square_size // 2), 5)
-            
-            """Highlight squares for legal moves"""
             pygame.draw.rect(screen, (240, 120, 120), (col * square_size, row * square_size, square_size, square_size), 3)
             
             
