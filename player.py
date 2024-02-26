@@ -36,7 +36,7 @@ class Player:
                 selected_piece.no_jump(board)
 
             legal_moves = selected_piece.legal
-            print(legal_moves)
+            #print(legal_moves)
 
             # To avoid chosing a piece that's stuck and with no legal moves
             # CAREFUL BECAUSE THERE CAN BE JUST ONE OR TWO PIECES WITH NO LEGAL MOVES TO DO -> WINNER FUNCTION?
