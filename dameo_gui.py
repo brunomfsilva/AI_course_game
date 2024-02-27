@@ -25,48 +25,93 @@ class GUI:
                     pygame.quit()
                     exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Start if click on ecran
-                    #self.player_select_menu(screen)  # Call function to go to the next screen
-                    waiting = False
+                    players = self.player_select_menu(screen)  # Call function to go to the next screen
+                    print (players)
+                    return players
+                    #waiting = False
+
 
     def player_select_menu(self, screen):
         """Displays the select players screen"""
-        players = [None, None, None, None]
+        player_options = ['Human', 'Easy', 'Medium', 'Hard']
+        players = [None, None, "Human", "Human"]  # [player1, player2, difficulty1, difficulty2]
         screen.fill(GREY2)
         # Create a font object
         font = pygame.font.Font(None, 36)
 
-        # Player2
-        text_surface = font.render("Player 1", True, WHITE)
-        text_rect = text_surface.get_rect()
-        text_rect.topleft = (100, 200)
-        screen.blit(text_surface, text_rect)
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
 
-        # Player1
-        text_surface = font.render("Player 2", True, BLACK)
-        text_rect = text_surface.get_rect()
-        text_rect.topright = (450, 200)
-        screen.blit(text_surface, text_rect)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    # back player1
+                    if 75 < event.pos[0] < 90 and 260 < event.pos[1] < 290:
+                        players[2] = player_options[(player_options.index(players[2]) - 1) % len(player_options)]
+                    # front player1
+                    elif 210 < event.pos[0] < 225 and 260 < event.pos[1] < 290:
+                        players[2] = player_options[(player_options.index(players[2]) + 1) % len(player_options)]
 
-        # Box for player1
-        pygame.draw.rect(screen, WHITE, (100, 250, 100, 50))
-        pygame.draw.polygon(screen, BLACK, [(90, 260), (90, 290), (75, 275)])
-        pygame.draw.polygon(screen, BLACK, [(210, 260), (210, 290), (225, 275)])
-        text_surface = font.render("Human", True, BLACK)
-        text_rect = text_surface.get_rect()
-        text_rect.center = (150, 275)
-        screen.blit(text_surface, text_rect)
+                    # back player2
+                    if 325 < event.pos[0] < 340 and 260 < event.pos[1] < 290:
+                        players[3] = player_options[(player_options.index(players[3]) - 1) % len(player_options)]
+                    # front player2
+                    elif 460 < event.pos[0] < 475 and 260 < event.pos[1] < 290:
+                        players[3] = player_options[(player_options.index(players[3]) + 1) % len(player_options)]
+                    
+                    # START GAME!!
+                    elif 250 < event.pos[0] < 300 and 335 < event.pos[1] < 365:
+                        players[0] = 'Human' if players[2] == 'Human' else 'AI'
+                        players[1] = 'Human' if players[3] == 'Human' else 'AI'
+                        return players
 
-        # Box for player2
-        pygame.draw.rect(screen, BLACK, (350, 250, 100, 50))
-        pygame.draw.polygon(screen, WHITE, [(340, 260), (340, 290), (325, 275)])
-        pygame.draw.polygon(screen, WHITE, [(460, 260), (460, 290), (475, 275)])
-        text_surface = font.render("Human", True, WHITE)
-        text_rect = text_surface.get_rect()
-        text_rect.center = (400, 275)
-        screen.blit(text_surface, text_rect)
+                    
 
-        pygame.display.flip()
-        time.sleep(5)
+            screen.fill(GREY2)  # Clear the screen
+
+            # Player2
+            text_surface = font.render("Player 1", True, WHITE)
+            text_rect = text_surface.get_rect()
+            text_rect.topleft = (100, 200)
+            screen.blit(text_surface, text_rect)
+
+            # Player1
+            text_surface = font.render("Player 2", True, BLACK)
+            text_rect = text_surface.get_rect()
+            text_rect.topright = (450, 200)
+            screen.blit(text_surface, text_rect)
+
+            # Box for player1
+            pygame.draw.rect(screen, WHITE, (100, 250, 100, 50))
+            pygame.draw.polygon(screen, BLACK, [(90, 260), (90, 290), (75, 275)])
+            pygame.draw.polygon(screen, BLACK, [(210, 260), (210, 290), (225, 275)])
+            text_surface = font.render(players[2], True, BLACK)
+            text_rect = text_surface.get_rect()
+            text_rect.center = (150, 275)
+            screen.blit(text_surface, text_rect)
+
+            # Box for player2
+            pygame.draw.rect(screen, BLACK, (350, 250, 100, 50))
+            pygame.draw.polygon(screen, WHITE, [(340, 260), (340, 290), (325, 275)])
+            pygame.draw.polygon(screen, WHITE, [(460, 260), (460, 290), (475, 275)])
+            text_surface = font.render(players[3], True, WHITE)
+            text_rect = text_surface.get_rect()
+            text_rect.center = (400, 275)
+            screen.blit(text_surface, text_rect)
+
+            # Box for start the game
+            pygame.draw.rect(screen, (0,255,0), (250, 335, 50, 30))
+            text_surface = font.render('GO!', True, (0,0,0))
+            text_rect = text_surface.get_rect()
+            text_rect.center = (275, 350)
+            screen.blit(text_surface, text_rect)
+
+
+            pygame.display.flip()
+            pygame.time.delay(100)  # Add a small delay to prevent the loop from running to
+
+
     
     def display_legal_moves(self, screen, legal_moves):
         """Highlight squares for legal moves"""
