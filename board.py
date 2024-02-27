@@ -51,8 +51,8 @@ class Board:
                         self.all_pieces_black.append(piece)
                         ############ MATRIX #############
                         self.chessboard[row][col] = piece
-                        ################################# 
-                          
+                        #################################
+
         if self.size== 4 or self.size== 5:
             # Initial pieces for WHITE
             for row in range (self.size-2, self.size):
@@ -76,8 +76,8 @@ class Board:
                         self.all_pieces_black.append(piece)
                         ############ MATRIX #############
                         self.chessboard[row][col] = piece
-                        #################################     
-                              
+                        #################################   
+                                  
         return self.all_pieces_white, self.all_pieces_black
     
     def draw_initial_state(self, screen, all_pieces_white, all_pieces_black):
@@ -209,3 +209,47 @@ class Board:
             return "Player 1"
         elif len(board.all_pieces_white) == 0:  #or white cannot move
             return "Player 2"
+        
+    def find_available_moves(self, piece, turn):
+
+        legal_moves = []
+        # Check if any piece has to catch
+        legal_pieces = self.check_piece_to_capture(turn)
+
+        # It there are legal_pieces, it means there are pieces that can catch
+        if legal_pieces:
+
+            # Getting the legal moves for each piece, whether they are kings or not
+            for piece in legal_pieces:
+                if piece.king:
+                    piece.check_catch_king(self)
+                    legal_moves.append(piece.legal) # Confirm if should be .append([piece.legal]) instead
+                else:
+                    piece.check_catch(self)
+
+        # If there are no legal_pieces, it means there are no pieces that can catch. Proceed with normal moves
+        else:
+
+            # According to the turn, the legal_pieces are all pieces from that team
+            if turn == WHITE:
+                legal_pieces = self.all_pieces_white
+            else:
+                legal_pieces = self.all_pieces_black
+
+            # Getting the legal moves for each piece
+            for piece in legal_pieces:
+                piece.legal_positions()
+                piece.check_position(self)
+                piece.no_jump(self)
+                legal_moves.append(piece.legal) # Confirm if should be .append([piece.legal]) instead
+
+            # Getting rid of the pieces with no moves available - this is only applicable if there are no pieces to capture
+            index = []
+            for i in range(len(legal_moves)):
+                if legal_moves[i] = []:
+                    index.append(i)
+
+            legal_pieces = [legal_pieces[i] for i in range(len(legal_pieces)) if i not in index]
+            legal_moves = [legal_moves[i] for i in range(len(legal_moves)) if i not in index]
+        
+        return legal_pieces, legal_moves
