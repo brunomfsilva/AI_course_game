@@ -248,7 +248,7 @@ class Piece:
         # down check
         end = False
         for i in range(1, self.down + 1):
-            if self.row + i + 1 <= size - 1 and board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i + 1][self.col] != None:
+            if self.row + i + 1 <= size - 1 and board.chessboard[self.row + i][self.col] != None and (board.chessboard[self.row + i + 1][self.col] != None or board.chessboard[self.row + i][self.col].color == self.color):
                 break
 
             if self.row + i + 1 <= size - 1 and board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i][self.col].color != self.color and board.chessboard[self.row + i + 1][self.col] == None:
@@ -274,7 +274,7 @@ class Piece:
         # up check
         end = False
         for i in range(1, self.row + 1):
-            if self.row - i - 1 >= 0 and board.chessboard[self.row - i][self.col] != None and board.chessboard[self.row - i - 1][self.col] != None:
+            if self.row - i - 1 >= 0 and board.chessboard[self.row - i][self.col] != None and (board.chessboard[self.row - i - 1][self.col] != None or board.chessboard[self.row - i][self.col].color == self.color):
                 break
 
             if self.row - i - 1 >= 0 and board.chessboard[self.row - i][self.col] != None and board.chessboard[self.row - i][self.col].color != self.color and board.chessboard[self.row - i - 1][self.col] == None:
@@ -300,7 +300,7 @@ class Piece:
         # right check
         end = False
         for i in range(1, self.right + 1):
-            if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i + 1] != None:
+            if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and (board.chessboard[self.row][self.col + i + 1] != None or board.chessboard[self.row][self.col + i].color == self.color):
                 break
 
             if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
@@ -326,7 +326,7 @@ class Piece:
         # left check
         end = False
         for i in range(1, self.col + 1):
-            if self.col - i - 1 >= 0 and board.chessboard[self.row][self.col - i] != None and board.chessboard[self.row][self.col - i - 1] != None:
+            if self.col - i - 1 >= 0 and board.chessboard[self.row][self.col - i] != None and (board.chessboard[self.row][self.col - i - 1] != None or board.chessboard[self.row][self.col - i].color == self.color):
                 break
 
             if self.col - i - 1 >= 0 and board.chessboard[self.row][self.col - i] != None and board.chessboard[self.row][self.col - i].color != self.color and board.chessboard[self.row][self.col - i - 1] == None:
