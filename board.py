@@ -51,8 +51,8 @@ class Board:
                         self.all_pieces_black.append(piece)
                         ############ MATRIX #############
                         self.chessboard[row][col] = piece
-                        #################################   
-                    
+                        ################################# 
+                          
         if self.size== 4 or self.size== 5:
             # Initial pieces for WHITE
             for row in range (self.size-2, self.size):
@@ -76,8 +76,8 @@ class Board:
                         self.all_pieces_black.append(piece)
                         ############ MATRIX #############
                         self.chessboard[row][col] = piece
-                        #################################   
-        
+                        #################################     
+                              
         return self.all_pieces_white, self.all_pieces_black
     
     def draw_initial_state(self, screen, all_pieces_white, all_pieces_black):
