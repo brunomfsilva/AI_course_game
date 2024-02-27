@@ -26,7 +26,6 @@ class GUI:
                     exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Start if click on ecran
                     players = self.player_select_menu(screen)  # Call function to go to the next screen
-                    print (players)
                     return players
                     #waiting = False
 
@@ -109,7 +108,6 @@ class GUI:
 
 
             pygame.display.flip()
-            pygame.time.delay(100)  # Add a small delay to prevent the loop from running to
 
 
     
