@@ -143,21 +143,22 @@ class Player:
         new_board = board
 
         return new_board
+    
     ###############################################
-
+    # ANOTHER MINIMAX
     # Based on https://github.com/dimitrijekaranfilovic/checkers
 
-    def minimax(board, depth, alpha, beta, maximizing_player):
+    def minimax(self, board, depth, alpha, beta, maximizing_player):
          
         if depth == 0:
-            return evaluation_function(board) # just calculates some evaluation function factor, outputs a number
+            return self.evaluate_board(board) # just calculates some evaluation function factor, outputs a number
         current_state = Node(deepcopy(board)) # Each node is an object that houses a different state
         if maximizing_player is True:
             max_eval = -math.inf
             for child in current_state.get_children(True): # Function that gets all the children states
                 # Maybe looks into the possible moving pieces and moves for those pieces and saves the state of the board
                 
-                ev = minimax(child.board, depth - 1, alpha, beta, False)
+                ev = self.minimax(child.board, depth - 1, alpha, beta, False)
 
                 max_eval = max(max_eval, ev)
                 alpha = max(alpha, ev)
@@ -168,7 +169,7 @@ class Player:
         else:
             min_eval = math.inf
             for child in current_state.get_children(False):
-                ev = minimax(child.board, depth - 1, alpha, beta, True)
+                ev = self.minimax(child.board, depth - 1, alpha, beta, True)
                 min_eval = min(min_eval, ev)
                 beta = min(beta, ev)
                 if beta <= alpha:
@@ -191,14 +192,16 @@ class Node:
         children_states = []
 
         if minimizing_player is True:
-            legal_pieces, legal_moves = board.find_available_moves(current_state) # this function will look at the board, get the pieces that can
+            legal_pieces, legal_moves = current_state.find_available_moves(BLACK) # this function will look at the board, get the pieces that can
             # be moved and house them in legal_pieces. It will also, for each moveable piece, get the legal moves.
             # legal_pieces = [p1, p2, p3, p4] (each p is a piece object)
             # legal_moves = [[p1.m1, p1.m2], [p2.m1, p2.m2, p2.m3], [p3.m1], [p4.m1, p4.m2, p4.m3]] (each p.m is a tuple with the new position)
         
         else:
-            legal_pieces, legal_moves = board.find_player_available_moves(current_state) # I guess same for the player
+            legal_pieces, legal_moves = current_state.find_player_available_moves(WHITE) # I guess same for the player
         
+        # THIS IS ASSUMING THE HUMAN ALWAYS PLAYS WITH WHITE AND AI WITH BLACK
+
         for i in range(len(legal_pieces)):
             for j in range(len(legal_moves[i])):
 
