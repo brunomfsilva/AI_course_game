@@ -210,7 +210,7 @@ class Board:
         elif len(board.all_pieces_white) == 0:  #or white cannot move
             return "Player 2"
         
-    def find_available_moves(self, piece, turn):
+    def find_available_moves(self, turn):
 
         legal_moves = []
         # Check if any piece has to catch
@@ -246,10 +246,11 @@ class Board:
             # Getting rid of the pieces with no moves available - this is only applicable if there are no pieces to capture
             index = []
             for i in range(len(legal_moves)):
-                if legal_moves[i] = []:
+                if legal_moves[i] == []:
                     index.append(i)
 
             legal_pieces = [legal_pieces[i] for i in range(len(legal_pieces)) if i not in index]
             legal_moves = [legal_moves[i] for i in range(len(legal_moves)) if i not in index]
-        
+            #print(legal_pieces)
+            #print(legal_moves)
         return legal_pieces, legal_moves

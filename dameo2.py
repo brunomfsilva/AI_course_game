@@ -5,6 +5,7 @@ from dameo_gui import GUI
 from vars import *
 from player import Player
 import time
+from player import *
 
 def main():
     """Initiate game"""
@@ -18,8 +19,8 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('Human', 'Human', WHITE)
-    player2 = Player('Human', 'Very easy', BLACK)
+    player1 = Player('AI', 'Hard', WHITE)
+    player2 = Player('AI', 'Very easy', BLACK)
 
     game_over=False
 
@@ -118,8 +119,14 @@ def main():
                                         gui.display_turn(screen, "player 1" if turn == WHITE else "player 2")
                                         pygame.display.flip()
                     
-                    if player.type == 'AI' and turn == player.team:
+                    if player.type == 'AI' and player.level == 'Very easy' and turn == player.team:
                         selected_piece = player.ai_random_move(board, turn)
+
+                    if player.type == 'AI' and player.level == 'Hard' and turn == player.team:
+                        selected_piece, best_move, best_eval = execute_minimax(board, 1, turn)
+                        board.chessboard[selected_piece.row][selected_piece.col] = None
+                        selected_piece.move(best_move[0], best_move[1], board)
+                        board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
 
                     # Checking if there are other pieces to catch
                     if not selected_piece.king:
@@ -140,7 +147,7 @@ def main():
                         else:
                             turn = WHITE
     
-                        time.sleep(0.1)
+                        time.sleep(1)
                         board.actual_state(screen)
                         pygame.display.flip()
         
