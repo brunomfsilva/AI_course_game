@@ -62,6 +62,8 @@ def minimax(board, depth, maximizing_player, alpha, beta, turn):
         # Evaluate the current state of the board
         return evaluate(board, turn)
 
+    turn = WHITE if turn == BLACK else BLACK
+
     legal_pieces, legal_moves = board.find_available_moves(turn)
     # print(legal_pieces)
     # print(legal_moves)
