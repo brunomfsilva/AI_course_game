@@ -226,6 +226,7 @@ class Board:
                     legal_moves.append(piece.legal) # Confirm if should be .append([piece.legal]) instead
                 else:
                     piece.check_catch(self)
+                    legal_moves.append(piece.legal)
 
         # If there are no legal_pieces, it means there are no pieces that can catch. Proceed with normal moves
         else:

@@ -19,8 +19,8 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('AI', 'Hard', WHITE)
-    player2 = Player('AI', 'Very easy', BLACK)
+    player1 = Player('Human', 'Very easy', WHITE)
+    player2 = Player('AI', 'Hard', BLACK)
 
     game_over=False
 
@@ -38,7 +38,7 @@ def main():
                     selected_piece = None
                     turn = WHITE
             
-            while not game_over:
+            while not game_over and running:
                 for player in (player1, player2):
                     
                     if game_over:
@@ -123,10 +123,17 @@ def main():
                         selected_piece = player.ai_random_move(board, turn)
 
                     if player.type == 'AI' and player.level == 'Hard' and turn == player.team:
-                        selected_piece, best_move, best_eval = execute_minimax(board, 1, turn)
+                        selected_piece, best_move, best_eval = execute_minimax(board, 6, turn)
+                        #selected_piece = board.chessboard[selected_piece_spot[0]][selected_piece_spot[1]]
+                        #c = 0
+                        #c += 1
+                        #print(c)
+                        #print(selected_piece.row, selected_piece.col)
+                        #print(best_move)
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)
                         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
+                        #print(selected_piece.row, selected_piece.col)
 
                     # Checking if there are other pieces to catch
                     if not selected_piece.king:
@@ -149,7 +156,6 @@ def main():
     
                         time.sleep(1)
                         board.actual_state(screen)
-                        pygame.display.flip()
         
                     winner = board.check_winner()
                     if winner:
