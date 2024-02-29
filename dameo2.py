@@ -154,8 +154,8 @@ def main():
                     winner = board.check_winner()
                     if winner:
                         game_over = True
-                        font = pygame.font.SysFont(None, 45)
-                        text = font.render(f"The winner is {winner}!", True, (255, 255, 255))
+                        font = pygame.font.SysFont("Arial", 50)
+                        text = font.render(f"The Winner is {winner}!", True, (0, 85, 0))
                         screen.blit(text, (100, height // 2))
                         pygame.display.flip()
                     

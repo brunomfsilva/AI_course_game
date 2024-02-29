@@ -69,6 +69,12 @@ class GUI:
 
             screen.fill(GREY2)  # Clear the screen
 
+            #DameoGame_Name
+            text_surface = font.render("Dameo Game", True, (50,50,50))
+            text_rect = text_surface.get_rect()
+            text_rect.topleft = (200, 100)
+            screen.blit(text_surface, text_rect)
+            
             # Player2
             text_surface = font.render("Player 1", True, WHITE)
             text_rect = text_surface.get_rect()
@@ -100,7 +106,7 @@ class GUI:
             screen.blit(text_surface, text_rect)
 
             # Box for start the game
-            pygame.draw.rect(screen, (0,255,0), (250, 335, 50, 30))
+            pygame.draw.rect(screen, (180,165,100), (250, 335, 50, 30))
             text_surface = font.render('GO!', True, (0,0,0))
             text_rect = text_surface.get_rect()
             text_rect.center = (275, 350)
