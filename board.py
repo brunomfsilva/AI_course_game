@@ -12,6 +12,7 @@ class Board:
         self.chessboard = [[None for i in range(self.size)] for j in range(self.size)]
         self.all_pieces_white = [] # Lists to hold the pieces for each player
         self.all_pieces_black = []
+        self.last_moved_piece = None
 
 
     def start_game(self, gui, screen):
@@ -100,19 +101,40 @@ class Board:
     def draw_king(self, screen, row, col, piece):
         "new form when become king"
         #escrever "KING"
-        radius = self.square_size // 2 - 5
-        pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
+        # radius = self.square_size // 2 - 5
+        # pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
         
-        if piece.king:  # If the piece is a king, draw a small yellow circle in the center
-            pygame.draw.circle(screen, (0, 85, 0), (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), 5)
+        # if piece.king:  # If the piece is a king, draw a small yellow circle in the center
+        #     pygame.draw.circle(screen, (0, 85, 0), (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), 5)
+        if piece.color == WHITE:
+            piece_image = pygame.image.load("icons\king_white.png")
+        else:
+            piece_image = pygame.image.load("icons\king_black.png")
+
+        # pos
+        x_pos = col * self.square_size + 12
+        y_pos = row * self.square_size + 12
+
+        screen.blit(piece_image, (x_pos, y_pos))
 
     def draw_piece(self, screen, row, col, piece):
         '''draw piece'''
         if piece.king: #if piece become king
             self.draw_king(screen, row, col, piece)
         else: #if piece is normal
-            radius = self.square_size // 2 - 5
-            pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
+            # radius = self.square_size // 2 - 5
+            # pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
+
+            if piece.color == WHITE:
+                piece_image = pygame.image.load("icons\piece_white.png")
+            else:
+                piece_image = pygame.image.load("icons\piece_black.png")
+
+            # pos
+            x_pos = col * self.square_size + 12
+            y_pos = row * self.square_size + 12
+
+            screen.blit(piece_image, (x_pos, y_pos))
 
     def draw_chessboard(self, screen):
         for row in range(self.size):
