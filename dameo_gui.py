@@ -114,15 +114,14 @@ class GUI:
 
 
             pygame.display.flip()
-
-
     
     def display_legal_moves(self, screen, legal_moves):
         """Highlight squares for legal moves"""
         for move in legal_moves:
             row, col = move
-            pygame.draw.rect(screen, (240, 120, 120), (col * square_size, row * square_size, square_size, square_size), 3)
-            
+            pygame.draw.rect(screen, (180, 195, 100), (col * square_size, row * square_size, square_size, square_size))
+            pygame.draw.rect(screen, (255, 255, 153), (col * square_size, row * square_size, square_size, square_size), 3)
+        
             
     def display_turn(self, screen, turn):
         '''display who is the next to play'''
