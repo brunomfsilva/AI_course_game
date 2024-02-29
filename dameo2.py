@@ -123,7 +123,7 @@ def main():
                         selected_piece = player.ai_random_move(board, turn)
 
                     if player.type == 'AI' and player.level == 'Hard' and turn == player.team:
-                        selected_piece, best_move = execute_minimax(board, 6, turn)
+                        selected_piece, best_move = execute_minimax(board, 1, turn)
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)
                         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
@@ -150,7 +150,10 @@ def main():
     
                         time.sleep(1)
                         board.actual_state(screen)
-        
+                        gui.display_turn(screen, "player 1" if turn == WHITE else "player 2")
+                        pygame.display.flip()
+                    
+                            
                     winner = board.check_winner()
                     efeito_w = pygame.mixer.Sound("sounds\guitar_w.mp3")
 
