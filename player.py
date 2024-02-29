@@ -62,7 +62,7 @@ def minimax(board, depth, maximizing_player, alpha, beta, turn):
         # Evaluate the current state of the board
         return evaluate(board, turn)
 
-    turn = WHITE if turn == BLACK else BLACK
+    turn = WHITE if turn == BLACK else BLACK # MOVES SEGUIDOS NÃO ESTÃO INCLUIDOS DE CERTEZA
 
     legal_pieces, legal_moves = board.find_available_moves(turn)
     # print(legal_pieces)
@@ -164,14 +164,22 @@ def execute_minimax(board, depth, turn):
     best_eval = float('-inf')
     best_move = None
     best_piece = None
+    catching_piece = None
 
     for i, piece in enumerate(legal_pieces):
+
+        
+
         for move in legal_moves[i]:
             # Make the move
             previous_row = piece.row
             previous_col = piece.col
             board.chessboard[piece.row][piece.col] = None
             piece.move(move[0], move[1], board)
+
+            if piece.has_caught:
+                catching_piece = piece
+
             board.chessboard[piece.row][piece.col] = piece
             
             eval = minimax(deepcopy(board), depth - 1, True, float('-inf'), float('inf'), turn)
@@ -185,8 +193,8 @@ def execute_minimax(board, depth, turn):
                 best_eval = eval
                 best_move = move
                 best_piece = piece
-    
-    return best_piece , best_move, best_eval
+
+    return best_piece , best_move, best_eval, catching_piece
 
 def evaluate(board, turn):
     score = 0

@@ -147,7 +147,6 @@ class Board:
             if row == self.all_pieces_white[i].row and col == self.all_pieces_white[i].col:
                 self.all_pieces_white.pop(i)
                 break
-        # WORKING BUT DOESN'T MAKE ANY SENSE TO HAVE TWO LOOPS HERE. THERE SHOULD BE A WAY TO OPTIMIZE
             
     def check_piece_to_capture(self, turn):
         can_catch=[]

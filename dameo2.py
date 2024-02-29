@@ -123,17 +123,14 @@ def main():
                         selected_piece = player.ai_random_move(board, turn)
 
                     if player.type == 'AI' and player.level == 'Hard' and turn == player.team:
-                        selected_piece, best_move, best_eval = execute_minimax(board, 6, turn)
-                        #selected_piece = board.chessboard[selected_piece_spot[0]][selected_piece_spot[1]]
-                        #c = 0
-                        #c += 1
-                        #print(c)
-                        #print(selected_piece.row, selected_piece.col)
-                        #print(best_move)
+                        selected_piece, best_move, best_eval, catching_piece = execute_minimax(board, 5, turn)
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)
+                        
+                        if catching_piece == selected_piece:
+                            selected_piece.has_caught = True
+
                         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
-                        #print(selected_piece.row, selected_piece.col)
 
                     # Checking if there are other pieces to catch
                     if not selected_piece.king:
