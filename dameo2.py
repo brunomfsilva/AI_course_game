@@ -15,12 +15,12 @@ def main():
     running = True
     gui = GUI()
     board=Board()
-    board.start_game(gui, screen)
+    chosen_players = board.start_game(gui, screen)
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('AI', 'Very easy', WHITE)
-    player2 = Player('AI', 'Hard', BLACK)
+    player1 = Player(chosen_players[0], chosen_players[2], WHITE)
+    player2 = Player(chosen_players[1], chosen_players[3], BLACK)
 
     game_over=False
 
@@ -123,7 +123,7 @@ def main():
                         selected_piece = player.ai_random_move(board, turn)
 
                     if player.type == 'AI' and player.level == 'Hard' and turn == player.team:
-                        selected_piece, best_move = execute_minimax(board, 1, turn)
+                        selected_piece, best_move = execute_minimax(board, 5, turn)
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)
                         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece

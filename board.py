@@ -16,11 +16,12 @@ class Board:
 
 
     def start_game(self, gui, screen):
-        gui.main_menu(screen)
+        players = gui.main_menu(screen)
         screen.fill((0,0,0))  
         self.initialize_pieces()
         self.draw_initial_state(screen, self.all_pieces_white, self.all_pieces_black)
         pygame.display.flip()
+        return players
 
     def initialize_pieces(self):
         # MAYBE WE CAN TAKE THIS OFF
