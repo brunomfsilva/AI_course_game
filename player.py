@@ -62,13 +62,13 @@ def minimax(board, depth, maximizing_player, alpha, beta, turn):
         # Evaluate the current state of the board
         return evaluate(board, turn)
 
-    # turn = WHITE if turn == BLACK else BLACK
+    turn = WHITE if turn == BLACK else BLACK
     # turn = WHITE if (turn == BLACK) and board.last_moved_piece.has_caught else BLACK
     # turn = turn if board.last_moved_piece.has_caught else (WHITE if turn == BLACK else BLACK)
 
-    if not board.last_moved_piece.has_caught:
-        turn = WHITE if turn == BLACK else BLACK
-        maximizing_player = not maximizing_player
+    # if not board.last_moved_piece.has_caught:
+    #     turn = WHITE if turn == BLACK else BLACK
+    #     maximizing_player = not maximizing_player
 
     legal_pieces, legal_moves = board.find_available_moves(turn)
 
@@ -84,7 +84,7 @@ def minimax(board, depth, maximizing_player, alpha, beta, turn):
             piece.move(move[0], move[1], board)
             board.chessboard[piece.row][piece.col] = piece
 
-            eval = minimax(deepcopy(board), depth - 1, maximizing_player, alpha, beta, turn)
+            eval = minimax(deepcopy(board), depth - 1, not maximizing_player, alpha, beta, turn)
 
             # Undo the move
             board.chessboard[piece.row][piece.col] = None
@@ -108,11 +108,13 @@ def minimax(board, depth, maximizing_player, alpha, beta, turn):
 #         # Evaluate the current state of the board
 #         return evaluate(board, turn)
     
+#     turn = WHITE if turn == BLACK else BLACK
+
 #     legal_pieces, legal_moves = board.find_available_moves(turn)
 #     # print(legal_pieces)
 #     # print(legal_moves)
 #     # print('-----------------------------------------------------------')
-    
+#     print(maximizing_player, turn)
 #     if maximizing_player:
 #         max_eval = float('-inf')
 #         for i, piece in enumerate(legal_pieces):
@@ -184,7 +186,7 @@ def execute_minimax(board, depth, turn):
 
             board_copy.chessboard[piece.row][piece.col] = piece
             
-            eval = minimax(deepcopy(board_copy), depth - 1, False, float('-inf'), float('inf'), turn)
+            eval = minimax(deepcopy(board_copy), depth - 1, True, float('-inf'), float('inf'), turn)
 
             # Undo the move
             board_copy.chessboard[piece.row][piece.col] = None
