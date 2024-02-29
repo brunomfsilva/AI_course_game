@@ -109,11 +109,14 @@ def main():
                     board.actual_state(screen)
                     gui.display_turn(screen, "player 1" if turn == WHITE else "player 2")
                     pygame.display.flip()
-
+        
         winner = board.check_winner()
+        efeito_w = pygame.mixer.Sound("guitar_w.mp3")
+
         if winner:
-            font = pygame.font.SysFont("Arial", 50)
-            text = font.render(f"The Winner is {winner}!", True, (0, 85, 0))
+            efeito_w.play()
+            font = pygame.font.SysFont("Impact", 50)
+            text = font.render(f"The Winner is {winner}!", True, (255, 255, 153))
             screen.blit(text, (100, height // 2))
             pygame.display.flip()
             
