@@ -155,7 +155,6 @@ def main():
                     efeito_w = pygame.mixer.Sound("sounds\guitar_w.mp3")
 
                     if winner:
-                        game_over = True
                         efeito_w.play()
                         font = pygame.font.SysFont("Impact", 50)
                         text = font.render(f"The Winner is {winner}!", True, (255, 255, 153))
