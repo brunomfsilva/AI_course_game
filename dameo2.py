@@ -19,7 +19,7 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('Human', 'Very easy', WHITE)
+    player1 = Player('AI', 'Very easy', WHITE)
     player2 = Player('AI', 'Hard', BLACK)
 
     game_over=False
