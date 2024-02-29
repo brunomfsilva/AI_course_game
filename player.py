@@ -182,35 +182,36 @@ def execute_minimax(board, depth, turn):
     best_piece = None
     catching_piece = None
 
-    for i, piece in enumerate(legal_pieces):
+    board_copy = deepcopy(board)
+    legal_pieces_copy, legal_moves_copy = board_copy.find_available_moves(turn)
 
-        
+    for i, piece in enumerate(legal_pieces_copy):
 
-        for move in legal_moves[i]:
+        for move in legal_moves_copy[i]:
             # Make the move
             previous_row = piece.row
             previous_col = piece.col
-            board.chessboard[piece.row][piece.col] = None
-            piece.move(move[0], move[1], board)
+            board_copy.chessboard[piece.row][piece.col] = None
+            piece.move(move[0], move[1], board_copy)
 
             if piece.has_caught:
                 catching_piece = piece
 
-            board.chessboard[piece.row][piece.col] = piece
+            board_copy.chessboard[piece.row][piece.col] = piece
             
-            eval = minimax(deepcopy(board), depth - 1, True, float('-inf'), float('inf'), turn)
+            eval = minimax(deepcopy(board_copy), depth - 1, True, float('-inf'), float('inf'), turn)
 
             # Undo the move
-            board.chessboard[piece.row][piece.col] = None
-            piece.move(previous_row, previous_col, board)
-            board.chessboard[piece.row][piece.col] = piece
+            board_copy.chessboard[piece.row][piece.col] = None
+            piece.move(previous_row, previous_col, board_copy)
+            board_copy.chessboard[piece.row][piece.col] = piece
             
             if eval > best_eval:
                 best_eval = eval
                 best_move = move
-                best_piece = piece
+                best_piece = legal_pieces[i]
 
-    return best_piece , best_move, best_eval, catching_piece
+    return best_piece, best_move, best_eval, catching_piece
 
 def evaluate(board, turn):
     score = 0
