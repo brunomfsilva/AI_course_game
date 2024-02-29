@@ -57,114 +57,114 @@ class Player:
 
 #########################################
 # MINIMAX CHATGPT
-def minimax(board, depth, maximizing_player, alpha, beta, turn):
-    if depth == 0 or board.check_winner():
-        # Evaluate the current state of the board
-        return evaluate(board, turn)
-
-    turn = WHITE if turn == BLACK else BLACK
-    # turn = WHITE if (turn == BLACK) and board.last_moved_piece.has_caught else BLACK
-    # turn = turn if board.last_moved_piece.has_caught else (WHITE if turn == BLACK else BLACK)
-
-    # if not board.last_moved_piece.has_caught:
-    #     turn = WHITE if turn == BLACK else BLACK
-    #     maximizing_player = not maximizing_player
-
-    legal_pieces, legal_moves = board.find_available_moves(turn)
-
-    max_eval = float('-inf')
-    min_eval = float('inf')
-
-    for i, piece in enumerate(legal_pieces):
-        for move in legal_moves[i]:
-            # Make the move
-            previous_row = piece.row
-            previous_col = piece.col
-            board.chessboard[piece.row][piece.col] = None
-            piece.move(move[0], move[1], board)
-            board.chessboard[piece.row][piece.col] = piece
-
-            eval = minimax(deepcopy(board), depth - 1, not maximizing_player, alpha, beta, turn)
-
-            # Undo the move
-            board.chessboard[piece.row][piece.col] = None
-            piece.move(previous_row, previous_col, board)
-            board.chessboard[piece.row][piece.col] = piece
-
-            #if maximizing_player:
-            max_eval = max(max_eval, eval)
-            alpha = max(alpha, eval)
-            #else:
-            min_eval = min(min_eval, eval)
-            beta = min(beta, eval)
-
-            if beta <= alpha:
-                break  # Pruning
-
-    return max_eval if maximizing_player else min_eval
-    
 # def minimax(board, depth, maximizing_player, alpha, beta, turn):
 #     if depth == 0 or board.check_winner():
 #         # Evaluate the current state of the board
 #         return evaluate(board, turn)
-    
+
 #     turn = WHITE if turn == BLACK else BLACK
+#     # turn = WHITE if (turn == BLACK) and board.last_moved_piece.has_caught else BLACK
+#     # turn = turn if board.last_moved_piece.has_caught else (WHITE if turn == BLACK else BLACK)
+
+#     # if not board.last_moved_piece.has_caught:
+#     #     turn = WHITE if turn == BLACK else BLACK
+#     #     maximizing_player = not maximizing_player
 
 #     legal_pieces, legal_moves = board.find_available_moves(turn)
-#     # print(legal_pieces)
-#     # print(legal_moves)
-#     # print('-----------------------------------------------------------')
-#     print(maximizing_player, turn)
-#     if maximizing_player:
-#         max_eval = float('-inf')
-#         for i, piece in enumerate(legal_pieces):
-#             for move in legal_moves[i]:
-#                 # Make the move
-#                 previous_row = piece.row
-#                 previous_col = piece.col
-#                 board.chessboard[piece.row][piece.col] = None
-#                 piece.move(move[0], move[1], board)
-#                 board.chessboard[piece.row][piece.col] = piece
 
-#                 eval = minimax(deepcopy(board), depth - 1, False, alpha, beta, turn)
-                
-#                 # Undo the move
-#                 board.chessboard[piece.row][piece.col] = None
-#                 piece.move(previous_row, previous_col, board)
-#                 board.chessboard[piece.row][piece.col] = piece
-                
-#                 max_eval = max(max_eval, eval)
-#                 alpha = max(alpha, eval)
-                
-#                 if beta <= alpha:
-#                     break  # Pruning
-                
-#         return max_eval
-#     else:
-#         min_eval = float('inf')
-#         for i, piece in enumerate(legal_pieces):
-#             for move in legal_moves[i]:
-#                 # Make the move
-#                 previous_row = piece.row
-#                 previous_col = piece.col
-#                 board.chessboard[piece.row][piece.col] = None
-#                 piece.move(move[0], move[1], board)
-#                 board.chessboard[piece.row][piece.col] = piece
+#     max_eval = float('-inf')
+#     min_eval = float('inf')
 
-#                 eval = minimax(board, depth - 1, True, alpha, beta, turn)
+#     for i, piece in enumerate(legal_pieces):
+#         for move in legal_moves[i]:
+#             # Make the move
+#             previous_row = piece.row
+#             previous_col = piece.col
+#             board.chessboard[piece.row][piece.col] = None
+#             piece.move(move[0], move[1], board)
+#             board.chessboard[piece.row][piece.col] = piece
+
+#             eval = minimax(deepcopy(board), depth - 1, not maximizing_player, alpha, beta, turn)
+
+#             # Undo the move
+#             board.chessboard[piece.row][piece.col] = None
+#             piece.move(previous_row, previous_col, board)
+#             board.chessboard[piece.row][piece.col] = piece
+
+#             #if maximizing_player:
+#             max_eval = max(max_eval, eval)
+#             alpha = max(alpha, eval)
+#             #else:
+#             min_eval = min(min_eval, eval)
+#             beta = min(beta, eval)
+
+#             if beta <= alpha:
+#                 break  # Pruning
+
+#     return max_eval if maximizing_player else min_eval
+    
+def minimax(board, depth, maximizing_player, alpha, beta, turn):
+    if depth == 0 or board.check_winner():
+        # Evaluate the current state of the board
+        return evaluate(board, turn)
+    
+    turn = WHITE if turn == BLACK else BLACK
+
+    legal_pieces, legal_moves = board.find_available_moves(turn)
+    # print(legal_pieces)
+    # print(legal_moves)
+    # print('-----------------------------------------------------------')
+
+    if maximizing_player:
+        max_eval = float('-inf')
+        for i, piece in enumerate(legal_pieces):
+            for move in legal_moves[i]:
+                # Make the move
+                previous_row = piece.row
+                previous_col = piece.col
+                board.chessboard[piece.row][piece.col] = None
+                piece.move(move[0], move[1], board)
+                board.chessboard[piece.row][piece.col] = piece
+
+                eval = minimax(deepcopy(board), depth - 1, False, alpha, beta, turn)
                 
-#                 # Undo the move
-#                 board.chessboard[piece.row][piece.col] = None
-#                 piece.move(previous_row, previous_col, board)
-#                 board.chessboard[piece.row][piece.col] = piece
+                # Undo the move
+                board.chessboard[piece.row][piece.col] = None
+                piece.move(previous_row, previous_col, board)
+                board.chessboard[piece.row][piece.col] = piece
                 
-#                 min_eval = min(min_eval, eval)
-#                 beta = min(beta, eval)
+                max_eval = max(max_eval, eval)
+                alpha = max(alpha, eval)
                 
-#                 if beta <= alpha:
-#                     break  # Pruning
+                if beta <= alpha:
+                    break  # Pruning
                 
-#         return min_eval
+        return max_eval
+    else:
+        min_eval = float('inf')
+        for i, piece in enumerate(legal_pieces):
+            for move in legal_moves[i]:
+                # Make the move
+                previous_row = piece.row
+                previous_col = piece.col
+                board.chessboard[piece.row][piece.col] = None
+                piece.move(move[0], move[1], board)
+                board.chessboard[piece.row][piece.col] = piece
+
+                eval = minimax(board, depth - 1, True, alpha, beta, turn)
+                
+                # Undo the move
+                board.chessboard[piece.row][piece.col] = None
+                piece.move(previous_row, previous_col, board)
+                board.chessboard[piece.row][piece.col] = piece
+                
+                min_eval = min(min_eval, eval)
+                beta = min(beta, eval)
+                
+                if beta <= alpha:
+                    break  # Pruning
+                
+        return min_eval
 
 def execute_minimax(board, depth, turn):
     legal_pieces, legal_moves = board.find_available_moves(turn)
