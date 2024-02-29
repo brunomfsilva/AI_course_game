@@ -126,7 +126,7 @@ def main():
                         selected_piece, best_move, best_eval, catching_piece = execute_minimax(board, 5, turn)
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)
-                        
+
                         if catching_piece == selected_piece:
                             selected_piece.has_caught = True
 

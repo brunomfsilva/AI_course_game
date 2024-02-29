@@ -62,6 +62,22 @@ def minimax(board, depth, maximizing_player, alpha, beta, turn):
         # Evaluate the current state of the board
         return evaluate(board, turn)
 
+    # if not board.last_moved_piece.king:
+    #     board.last_moved_piece.check_catch(board)
+    # else:
+    #     board.last_moved_piece.check_catch_king(board)
+
+    # if board.last_moved_piece.legal and board.last_moved_piece.has_caught:
+    #     if turn == WHITE:
+    #         turn = WHITE
+    #     else:
+    #         turn = BLACK
+    # else:
+    #     if turn == WHITE:
+    #         turn = BLACK
+    #     else:
+    #         turn = WHITE
+
     turn = WHITE if turn == BLACK else BLACK # MOVES SEGUIDOS NÃO ESTÃO INCLUIDOS DE CERTEZA
 
     legal_pieces, legal_moves = board.find_available_moves(turn)

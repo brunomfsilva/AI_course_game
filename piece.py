@@ -45,6 +45,8 @@ class Piece:
                         board.drop_piece(self.previous_position[0], self.previous_position[1] + i)
                         board.chessboard[self.previous_position[0]][self.previous_position[1] + i] = None
                         self.has_caught = True
+        
+        board.last_moved_piece = self
     
     #Transforming normal pieces into kings
     def transform_king(self):
