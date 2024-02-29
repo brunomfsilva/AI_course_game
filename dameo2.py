@@ -155,7 +155,7 @@ def main():
                     
                             
                     winner = board.check_winner()
-                    efeito_w = pygame.mixer.Sound("sounds\guitar_w.mp3")
+                    efeito_w = pygame.mixer.Sound("sounds\winner.mp3")
 
                     if winner:
                         game_over = True
