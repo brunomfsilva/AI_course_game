@@ -123,13 +123,9 @@ def main():
                         selected_piece = player.ai_random_move(board, turn)
 
                     if player.type == 'AI' and player.level == 'Hard' and turn == player.team:
-                        selected_piece, best_move, best_eval, catching_piece = execute_minimax(board, 5, turn)
+                        selected_piece, best_move = execute_minimax(board, 5, turn)
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)
-
-                        if catching_piece == selected_piece:
-                            selected_piece.has_caught = True
-
                         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
 
                     # Checking if there are other pieces to catch
@@ -139,10 +135,11 @@ def main():
                         selected_piece.check_catch_king(board)
     
                     if selected_piece.legal and selected_piece.has_caught:
-                        if turn == WHITE:
-                            turn = WHITE  
-                        else:
-                            turn = BLACK
+                        # if turn == WHITE:
+                        #     turn = WHITE  
+                        # else:
+                        #     turn = BLACK
+                        pass # NOT NEEDED
                     else:
                         selected_piece.transform_king()
                         selected_piece = None #turn off the selected piece
