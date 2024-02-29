@@ -111,7 +111,7 @@ def main():
                     pygame.display.flip()
         
         winner = board.check_winner()
-        efeito_w = pygame.mixer.Sound("guitar_w.mp3")
+        efeito_w = pygame.mixer.Sound("sounds\guitar_w.mp3")
 
         if winner:
             efeito_w.play()
