@@ -136,7 +136,7 @@ class Piece:
                 #retirar posições em excesso diagonal direita/baixo
                 for j in range (2, size-1):
                      if min(self.down, self.right) >= j: #and (self.row+1, self.col+1) not in blacks:
-                       for k in range (1, j):
+                       for k in range (1, j+1):
                             if (self.row+k, self.col+k) not in blacks:
                                 for i in range(k+1, min(self.down, self.right)+1):
                                      inval+= [(self.row+i, self.col+i)]   
@@ -144,7 +144,7 @@ class Piece:
                 #retirar posições em excesso left/down
                 for j in range (2, size-1):
                      if min(self.down, self.col) >= j: #and (self.row+1, self.col+1) not in blacks:
-                       for k in range (1, j):
+                       for k in range (1, j+1):
                             if (self.row+k, self.col-k) not in blacks:
                                 for i in range(k+1, min(self.down, self.col)+1):
                                      inval+= [(self.row+i, self.col-i)]
