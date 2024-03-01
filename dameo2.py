@@ -19,7 +19,7 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('AI', 'Very easy', WHITE)
+    player1 = Player('AI', 'Medium', WHITE)
     player2 = Player('AI', 'Hard', BLACK)
 
     game_over=False
@@ -123,6 +123,12 @@ def main():
                         selected_piece = player.ai_random_move(board, turn)
 
                     if player.type == 'AI' and player.level == 'Hard' and turn == player.team:
+                        selected_piece, best_move = execute_minimax(board, 4, turn)
+                        board.chessboard[selected_piece.row][selected_piece.col] = None
+                        selected_piece.move(best_move[0], best_move[1], board)
+                        board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
+                    
+                    if player.type == 'AI' and player.level == 'Medium' and turn == player.team:
                         selected_piece, best_move = execute_minimax(board, 1, turn)
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)

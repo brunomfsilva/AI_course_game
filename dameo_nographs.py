@@ -32,20 +32,18 @@ def main():
     p2_medium_time_play_catch = []
 
 
-    for _ in range(10):
+    for _ in range(15):
         board = Board()
         board.initialize_pieces()
         selected_piece = None
         turn = WHITE
         winner = False
-        p1_difficult = random.randint(0, 3)
-       
-        p2_difficult = p1_difficult 
-        while p2_difficult == p1_difficult:
-            p2_difficult = random.randint(0, 3)
 
-        player1 = Player('AI', difficults[p1_difficult], WHITE)
-        player2 = Player('AI', difficults[p2_difficult], BLACK)
+        for p1_difficult in len(difficults):
+            for p2_difficult in len(difficults):
+                if p1_difficult != p2_difficult and (p1_difficult, p2_difficult)!=(0,2):
+                    player1 = Player('AI', difficults[p1_difficult], WHITE)
+                    player2 = Player('AI', difficults[p2_difficult], BLACK)
 
         print(board.size, p1_difficult, p2_difficult)
 
@@ -177,12 +175,12 @@ def main():
                             'total_time': total_time,
                             'p1_medium_time_play': p1_medium_time_play,
                             'p1_medium_time_play_catch':p1_medium_time_play_catch,
-                            'p2_medium_time_play': p1_medium_time_play,
-                            'p2_medium_time_play_catch':p1_medium_time_play_catch,
+                            'p2_medium_time_play': p2_medium_time_play,
+                            'p2_medium_time_play_catch':p2_medium_time_play_catch,
                             }
                     
                     df = pd.DataFrame(data)
-                    df.to_csv('game_results.csv', index=False)
+                    df.to_csv('game_results_size_6.csv', index=False)
 
                     
                     game_over = True
