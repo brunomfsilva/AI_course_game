@@ -34,7 +34,9 @@ def main():
                 if winner:
                     winner = None
                     game_over = False
-                    board.start_game(gui, screen)
+                    players = board.start_game(gui, screen)
+                    player1 = Player(players[0], players[2], WHITE)
+                    player2 = Player(players[1], players[3], BLACK)
                     selected_piece = None
                     turn = WHITE
             
