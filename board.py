@@ -112,9 +112,11 @@ class Board:
         else:
             piece_image = pygame.image.load("icons\king_black.png")
 
+        piece_image = pygame.transform.scale(piece_image, (self.square_size - 10, self.square_size - 10))
+
         # pos
-        x_pos = col * self.square_size + 12
-        y_pos = row * self.square_size + 12
+        x_pos = col * self.square_size + 5
+        y_pos = row * self.square_size + 5
 
         screen.blit(piece_image, (x_pos, y_pos))
 
@@ -130,10 +132,12 @@ class Board:
                 piece_image = pygame.image.load("icons\piece_white.png")
             else:
                 piece_image = pygame.image.load("icons\piece_black.png")
+            
+            piece_image = pygame.transform.scale(piece_image, (self.square_size - 10, self.square_size - 10))
 
             # pos
-            x_pos = col * self.square_size + 12
-            y_pos = row * self.square_size + 12
+            x_pos = col * self.square_size + 5
+            y_pos = row * self.square_size + 5
 
             screen.blit(piece_image, (x_pos, y_pos))
 
