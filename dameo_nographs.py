@@ -38,12 +38,17 @@ def main():
         selected_piece = None
         turn = WHITE
         winner = False
+        p1_difficult = random.randint(0, 3)
+       
+        p2_difficult = p1_difficult 
+        while p2_difficult == p1_difficult:
+            p2_difficult = random.randint(0, 3)
+        
+        if p1_difficult == 0 and p2_difficult==2:
+            p2_difficult == 1
 
-        for p1_difficult in len(difficults):
-            for p2_difficult in len(difficults):
-                if p1_difficult != p2_difficult and (p1_difficult, p2_difficult)!=(0,2):
-                    player1 = Player('AI', difficults[p1_difficult], WHITE)
-                    player2 = Player('AI', difficults[p2_difficult], BLACK)
+        player1 = Player('AI', difficults[p1_difficult], WHITE)
+        player2 = Player('AI', difficults[p2_difficult], BLACK)
 
         print(board.size, p1_difficult, p2_difficult)
 
@@ -180,7 +185,7 @@ def main():
                             }
                     
                     df = pd.DataFrame(data)
-                    df.to_csv('game_results_size_6.csv', index=False)
+                    df.to_csv('game_results.csv', index=False)
 
                     
                     game_over = True
