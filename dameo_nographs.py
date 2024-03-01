@@ -32,7 +32,7 @@ def main():
     p2_medium_time_play_catch = []
 
 
-    for _ in range(15):
+    for _ in range(20):
         board = Board()
         board.initialize_pieces()
         selected_piece = None
@@ -44,8 +44,8 @@ def main():
         while p2_difficult == p1_difficult:
             p2_difficult = random.randint(0, 3)
         
-        if p1_difficult == 0 and p2_difficult==2:
-            p2_difficult == 1
+        # if p1_difficult == 0 and p2_difficult==2:
+        #     p2_difficult == 1
 
         player1 = Player('AI', difficults[p1_difficult], WHITE)
         player2 = Player('AI', difficults[p2_difficult], BLACK)
@@ -185,7 +185,7 @@ def main():
                             }
                     
                     df = pd.DataFrame(data)
-                    df.to_csv('game_results.csv', index=False)
+                    df.to_csv('game_results_5_2.csv', index=False)
 
                     
                     game_over = True

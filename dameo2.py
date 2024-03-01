@@ -15,12 +15,12 @@ def main():
     running = True
     gui = GUI()
     board=Board()
-    board.start_game(gui, screen)
+    players = board.start_game(gui, screen)
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('AI', 'Medium', WHITE)
-    player2 = Player('AI', 'Hard', BLACK)
+    player1 = Player(players[0], players[2], WHITE)
+    player2 = Player(players[1], players[3], BLACK)
 
     game_over=False
 
@@ -43,6 +43,16 @@ def main():
                     
                     if game_over:
                         break
+                    
+                    if player.type == 'AI' and turn == player.team:
+                        if player.level == 'Very easy':
+                            depth= 1
+                        elif player.level == 'Easy':
+                            depth= 2
+                        elif player.level == 'Medium':
+                            depth= 4
+                        elif player.level == 'Hard':
+                            depth= 5
                     
                     if player.type == 'Human' and turn == player.team:
                         human_playing = True
@@ -119,17 +129,9 @@ def main():
                                         gui.display_turn(screen, "player 1" if turn == WHITE else "player 2")
                                         pygame.display.flip()
                     
-                    if player.type == 'AI' and player.level == 'Very easy' and turn == player.team:
-                        selected_piece = player.ai_random_move(board, turn)
 
-                    if player.type == 'AI' and player.level == 'Hard' and turn == player.team:
-                        selected_piece, best_move = execute_minimax(board, 4, turn)
-                        board.chessboard[selected_piece.row][selected_piece.col] = None
-                        selected_piece.move(best_move[0], best_move[1], board)
-                        board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
-                    
-                    if player.type == 'AI' and player.level == 'Medium' and turn == player.team:
-                        selected_piece, best_move = execute_minimax(board, 1, turn)
+                    if player.type == 'AI' and turn == player.team:
+                        selected_piece, best_move = execute_minimax(board, depth, turn)
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)
                         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece

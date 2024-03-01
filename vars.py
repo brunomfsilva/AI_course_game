@@ -3,7 +3,7 @@ BLACK = (200, 42, 42)
 GREY1 = (100, 100, 100)
 GREY2 = (128, 180, 180)
 
-size = 6
+size = 5
 
 def update_size(new_size):
     global size
