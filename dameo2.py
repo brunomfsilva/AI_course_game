@@ -144,12 +144,23 @@ def main():
                     else:
                         selected_piece.check_catch_king(board)
     
-                    if selected_piece.legal and selected_piece.has_caught:
+             #       if selected_piece.legal and selected_piece.has_caught:
                         # if turn == WHITE:
                         #     turn = WHITE  
                         # else:
                         #     turn = BLACK
-                        pass # NOT NEEDED
+              #          pass # NOT NEEDED
+                    if selected_piece.legal and selected_piece.has_caught:
+                         if turn == WHITE:
+                             turn = WHITE  
+                             if turn != BLACK:
+                                 turn == WHITE
+                         else:
+                             turn = BLACK
+                             if turn != WHITE:
+                                 turn == BLACK
+                        #pass # NOT NEEDED
+                    
                     else:
                         selected_piece.transform_king()
                         selected_piece = None #turn off the selected piece

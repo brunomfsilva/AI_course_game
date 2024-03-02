@@ -52,10 +52,10 @@ class Piece:
     #Transforming normal pieces into kings
     def transform_king(self):
         efeito_k = pygame.mixer.Sound("sounds\king_sound.mp3")
-        if self.row == 0 and self.color == WHITE:
+        if self.row == 0 and self.color == WHITE and self.king == False:
             self.king = True
             efeito_k.play()
-        if self.row == size - 1 and self.color == BLACK:
+        if self.row == size - 1 and self.color == BLACK and self.king == False:
             self.king = True
             efeito_k.play()
 
