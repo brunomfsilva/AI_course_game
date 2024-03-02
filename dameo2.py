@@ -40,11 +40,11 @@ def main():
                     selected_piece = None
                     turn = WHITE
             
+            if game_over:
+                break
+            
             while not game_over and running:
                 for player in (player1, player2):
-                    
-                    if game_over:
-                        break
                     
                     if player.type == 'AI' and turn == player.team:
                         if player.level == 'Very easy':
@@ -174,7 +174,10 @@ def main():
                         text = font.render(f"The Winner is {winner}!", True, (255, 255, 153))
                         screen.blit(text, (100, height // 2))
                         pygame.display.flip()
-                    
+                        break
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            running = False
 
 if __name__ == "__main__":
     main()

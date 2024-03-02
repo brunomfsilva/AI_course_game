@@ -131,7 +131,7 @@ class Piece:
                 
                 for j in range (3, size-1):
                     if self.down >= j and (self.row+1, self.col) in blacks:
-                        for k in range (2, j):
+                        for k in range (2, j+1):
                             if (self.row+k, self.col) not in blacks:
                              #tirar a casa k+1 espaços abaixo até fim    
                                  for i in range(k+1, self.down+1):
@@ -165,7 +165,7 @@ class Piece:
                     for i in range(3, self.row+1):
                         inval += [(self.row-i, self.col)]
 
-                for j in range(3, size-1):
+                for j in range(3, size):
                     if self.row >= j and (self.row-1, self.col) in whites:
                         for k in range(2, j):
                             if (self.row-k, self.col) not in whites:
