@@ -1,4 +1,5 @@
 from vars import *
+import pygame
 
 class Piece:
 
@@ -50,10 +51,13 @@ class Piece:
     
     #Transforming normal pieces into kings
     def transform_king(self):
+        efeito_k = pygame.mixer.Sound("sounds\king_sound.mp3")
         if self.row == 0 and self.color == WHITE:
             self.king = True
+            efeito_k.play()
         if self.row == size - 1 and self.color == BLACK:
             self.king = True
+            efeito_k.play()
 
     # Function to check the legal moves
     def legal_positions(self):

@@ -170,7 +170,7 @@ def main():
                     if winner:
                         game_over = True
                         efeito_w.play()
-                        font = pygame.font.SysFont("Impact", 50)
+                        font = pygame.font.SysFont("Impact", 45)
                         text = font.render(f"The Winner is {winner}!", True, (255, 255, 153))
                         screen.blit(text, (100, height // 2))
                         pygame.display.flip()
