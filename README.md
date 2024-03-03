@@ -1,8 +1,11 @@
-AI work
+Requirements:
+pygame 2.5.2
 
-In progress....
+
+To run the game:
+Run dameo.py file
+
+or in bash:
+python3 dameo.py
 
 
-o que falta:
-Seguir o caminho da que tem mais peças
-* Se nenhuma peça se conseguir mexer => lose
