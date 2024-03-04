@@ -126,6 +126,10 @@ def minimax(board, depth, maximizing_player, alpha, beta, turn):
                 piece.move(move[0], move[1], board)
                 board.chessboard[piece.row][piece.col] = piece
 
+                #if piece.has_caught:
+                    #maximizing remains True
+                #else:
+                    #maximizing swithces to minimizing
                 eval = minimax(deepcopy(board), depth - 1, False, alpha, beta, turn)
                 
                 # Undo the move
@@ -151,6 +155,10 @@ def minimax(board, depth, maximizing_player, alpha, beta, turn):
                 piece.move(move[0], move[1], board)
                 board.chessboard[piece.row][piece.col] = piece
 
+                #if piece.has_caught:
+                    #maximizing remains False
+                #else:
+                    #minimizing swithces to maximizing
                 eval = minimax(board, depth - 1, True, alpha, beta, turn)
                 
                 # Undo the move
