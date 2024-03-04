@@ -27,10 +27,10 @@ def main():
     while running:
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+          #  if event.type == pygame.QUIT:
+           #     running = False
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button clicked
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button clicked
                 if winner:
                     winner = None
                     game_over = False
@@ -62,7 +62,7 @@ def main():
                             for event in pygame.event.get():
                                 if event.type == pygame.QUIT:
                                     running = False
-        
+                                    pygame.quit()
                                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button clicked
                                     if winner:
                                         winner = None
@@ -174,7 +174,7 @@ def main():
                         gui.display_turn(screen, "player 1" if turn == WHITE else "player 2")
                         pygame.display.flip()
                     
-                            
+
                     winner = board.check_winner()
                     efeito_w = pygame.mixer.Sound("sounds\winner.mp3")
 
@@ -186,9 +186,9 @@ def main():
                         screen.blit(text, (100, height // 2))
                         pygame.display.flip()
                         break
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            running = False
+               #     for event in pygame.event.get():
+                #        if event.type == pygame.QUIT:
+                 #           running = False
 
 if __name__ == "__main__":
     main()
