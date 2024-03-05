@@ -15,6 +15,7 @@ class Board:
         self.last_moved_piece = None
         self.last_move = ()
         self.is_terminal = False
+        self.turn = None
 
     def change_size(self, size):
         """make variable mutable"""
@@ -288,5 +289,6 @@ class Board:
 
             legal_pieces = [legal_pieces[i] for i in range(len(legal_pieces)) if i not in index]
             legal_moves = [legal_moves[i] for i in range(len(legal_moves)) if i not in index]
-
+            #print(legal_pieces)
+            #print(legal_moves)
         return legal_pieces, legal_moves
