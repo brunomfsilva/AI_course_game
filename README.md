@@ -1,3 +1,5 @@
+# ![](icons/king_white.png) DAMEO GAME ![](icons/king_black.png)
+
 Requirements:
 pygame 2.5.2
 
