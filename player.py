@@ -224,14 +224,97 @@ def evaluate(board, turn):
     # Board Control
     for piece in board.all_pieces_white:
         if turn == WHITE:
-            score += piece.row  # Favor higher rows for white pieces
+            #score += piece.row  # Favor higher rows for white pieces
+            score += (board.size - 1 - piece.row)
         else:
             score -= (board.size - 1 - piece.row)  # Favor lower rows for black pieces
 
     for piece in board.all_pieces_black:
         if turn == BLACK:
-            score += (board.size - 1 - piece.row)  # Favor higher rows for black pieces
+            #score += (board.size - 1 - piece.row)  # Favor higher rows for black pieces
+            score += piece.row
         else:
             score -= piece.row  # Favor lower rows for white pieces
 
     return score
+
+#---------- MONTE CARLO TREE SEARCH ---------------------------------------
+
+class MCTSNode:
+    def __init__(self, state, turn, parent=None):
+        self.state = state
+        self.parent = parent
+        self.children = []
+        self.visits = 0
+        self.reward = 0.0
+        self.turn = turn
+
+def expand(node):
+    legal_pieces, legal_moves = node.state.find_available_moves(node.turn)
+    for i, piece in enumerate(legal_pieces):
+        for move in legal_moves[i]:
+            new_state = deepcopy(node.state)  # Create a copy of the current board
+            new_state.chessboard[piece.row][piece.col] = None
+            piece.move(move[0], move[1], new_state)
+            new_state.chessboard[piece.row][piece.col] = piece
+
+            if piece.has_caught and not piece.king:
+                piece.check_catch(new_state)
+                if piece.legal:
+                    node.turn = WHITE if node.turn == WHITE else BLACK
+                else:
+                    node.turn = WHITE if node.turn == BLACK else BLACK
+
+            elif piece.has_caught and piece.king:
+                piece.check_catch_king(new_state)
+                if piece.legal:
+                    node.turn = WHITE if node.turn == WHITE else BLACK
+                else:
+                    node.turn = WHITE if node.turn == BLACK else BLACK
+
+            else:
+                node.turn = WHITE if node.turn == BLACK else BLACK
+
+            new_node = MCTSNode(new_state, node.turn, parent=node)
+            node.children.append(new_node)
+
+def select(node):
+    if not node.children:
+        return node
+
+    selected_child = max(node.children, key=lambda child: ucb_score(child))
+    return select(selected_child)
+
+def ucb_score(node):
+    exploration_weight = 1.4  # You may need to tune this parameter
+    return node.reward / node.visits + exploration_weight * math.sqrt(math.log(node.parent.visits) / node.visits)
+
+def simulate(node):
+    current_state = deepcopy(node.state)
+    while not current_state.is_terminal():
+        legal_pieces, legal_moves = current_state.find_available_moves(node.turn)
+        random_index = random.choice(range(len(legal_pieces)))
+        random_piece = legal_pieces[random_index]
+        random_move = legal_moves[random_index]
+        current_state.chessboard[random_piece.row][random_piece.col] = None
+        random_piece.move(random_move[0], random_move[1], current_state)
+        current_state.chessboard[random_piece.row][random_piece.col] = random_piece
+    return current_state.get_reward()  # Adjust based on your game's reward mechanism
+
+def backpropagate(node, reward):
+    while node is not None:
+        node.visits += 1
+        node.reward += reward
+        node = node.parent
+
+def mcts(root_state, iterations):
+    root = MCTSNode(root_state)
+
+    for _ in range(iterations):
+        selected_node = select(root)
+        expand(selected_node)
+        reward = simulate(selected_node)
+        backpropagate(selected_node, reward)
+
+    best_move = max(root.children, key=lambda child: child.visits).state.get_last_move()
+    return best_move
