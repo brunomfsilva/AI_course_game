@@ -50,6 +50,7 @@ class Piece:
                         self.has_caught = True
         
         board.last_moved_piece = self
+        board.last_move = (row, col)
     
     #Transforming normal pieces into kings
     def transform_king(self):

@@ -13,6 +13,8 @@ class Board:
         self.all_pieces_white = [] # Lists to hold the pieces for each player
         self.all_pieces_black = []
         self.last_moved_piece = None
+        self.last_move = ()
+        self.is_terminal = False
 
     def change_size(self, size):
         """make variable mutable"""
@@ -234,11 +236,14 @@ class Board:
         return piece
     
 
-    def check_winner(board):
+    def check_winner(self):
         '''check the winner'''
-        if len(board.all_pieces_black) == 0: #or black cannot move
+        self.is_terminal = False # reset
+        if len(self.all_pieces_black) == 0: #or black cannot move
+            self.is_terminal = True
             return "Player 1"
-        elif len(board.all_pieces_white) == 0:  #or white cannot move
+        elif len(self.all_pieces_white) == 0:  #or white cannot move
+            self.is_terminal = True
             return "Player 2"
         
     def find_available_moves(self, turn):
@@ -283,6 +288,5 @@ class Board:
 
             legal_pieces = [legal_pieces[i] for i in range(len(legal_pieces)) if i not in index]
             legal_moves = [legal_moves[i] for i in range(len(legal_moves)) if i not in index]
-            #print(legal_pieces)
-            #print(legal_moves)
+
         return legal_pieces, legal_moves

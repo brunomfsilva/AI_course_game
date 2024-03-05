@@ -289,9 +289,9 @@ def ucb_score(node):
     exploration_weight = 1.4  # You may need to tune this parameter
     return node.reward / node.visits + exploration_weight * math.sqrt(math.log(node.parent.visits) / node.visits)
 
-def simulate(node):
+def simulate(node, initial_turn):
     current_state = deepcopy(node.state)
-    while not current_state.is_terminal():
+    while not current_state.is_terminal:
         legal_pieces, legal_moves = current_state.find_available_moves(node.turn)
         random_index = random.choice(range(len(legal_pieces)))
         random_piece = legal_pieces[random_index]
@@ -299,7 +299,11 @@ def simulate(node):
         current_state.chessboard[random_piece.row][random_piece.col] = None
         random_piece.move(random_move[0], random_move[1], current_state)
         current_state.chessboard[random_piece.row][random_piece.col] = random_piece
-    return current_state.get_reward()  # Adjust based on your game's reward mechanism
+    if current_state.last_moved_piece.color == initial_turn: # if the last moved piece is of the same color of the MCTS color, MCTS wins
+        reward = 1
+    else:
+        reward = -1
+    return reward
 
 def backpropagate(node, reward):
     while node is not None:
@@ -309,12 +313,14 @@ def backpropagate(node, reward):
 
 def mcts(root_state, iterations):
     root = MCTSNode(root_state)
+    initial_turn = root.turn
 
     for _ in range(iterations):
         selected_node = select(root)
         expand(selected_node)
-        reward = simulate(selected_node)
+        reward = simulate(selected_node, initial_turn)
         backpropagate(selected_node, reward)
 
-    best_move = max(root.children, key=lambda child: child.visits).state.get_last_move()
-    return best_move
+    best_piece = max(root.children, key=lambda child: child.visits).state.last_moved_piece
+    best_move = max(root.children, key=lambda child: child.visits).state.last_move
+    return best_piece, best_move
