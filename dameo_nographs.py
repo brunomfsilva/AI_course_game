@@ -15,6 +15,9 @@ def calculate_time(start_time):
 
 def main():
     """Initiate game"""
+    size= 8
+
+    
     pygame.init()
     gui = GUI()
     difficults = ['Very easy', 'Easy', 'Medium', 'Hard']

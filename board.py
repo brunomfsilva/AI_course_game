@@ -4,9 +4,9 @@ from piece import Piece
 from vars import *
 
 class Board:
-    def __init__(self):
+    def __init__(self, size):
         self.size = size
-        self.square_size = square_size
+        self.square_size = int(min(width, height)/self.size)
         self.color1 =  GREY1
         self.color2 = GREY2
         self.chessboard = [[None for i in range(self.size)] for j in range(self.size)]
@@ -14,14 +14,19 @@ class Board:
         self.all_pieces_black = []
         self.last_moved_piece = None
 
+    def change_size(self, size):
+        """make variable mutable"""
+        self.size = size
+        self.square_size = int(min(width, height)/size)
+        self.chessboard = [[None for i in range(self.size)] for j in range(self.size)]
 
     def start_game(self, gui, screen):
-        players = gui.main_menu(screen)
+        #players = gui.main_menu(screen)
         screen.fill((0,0,0))  
         self.initialize_pieces()
         self.draw_initial_state(screen, self.all_pieces_white, self.all_pieces_black)
         pygame.display.flip()
-        return players
+        #return players
 
     def initialize_pieces(self):
         # MAYBE WE CAN TAKE THIS OFF
@@ -37,7 +42,7 @@ class Board:
                     if (row == self.size-2 and col in [0, self.size-1]) or (row == self.size-3 and col in [0, 1, self.size-1, self.size-2]):
                         continue     
                     else:
-                        piece = Piece(row, col, WHITE)  # Assuming Piece class is defined elsewhere
+                        piece = Piece(self.size, row, col, WHITE)  # Assuming Piece class is defined elsewhere
                         self.all_pieces_white.append(piece)
                         ############ MATRIX #############
                         self.chessboard[row][col] = piece
@@ -49,7 +54,7 @@ class Board:
                     if (row == 1 and col in [0, self.size-1]) or (row == 2 and col in [0, 1, self.size-1, self.size-2]): 
                         continue     
                     else:
-                        piece = Piece(row, col, BLACK)  # Assuming Piece class is defined elsewhere
+                        piece = Piece(self.size, row, col, BLACK)  # Assuming Piece class is defined elsewhere
                         self.all_pieces_black.append(piece)
                         ############ MATRIX #############
                         self.chessboard[row][col] = piece
@@ -62,7 +67,7 @@ class Board:
                     if (row == self.size-2 and col in [0, self.size-1]):
                         continue     
                     else:
-                        piece = Piece(row, col, WHITE)  # Assuming Piece class is defined elsewhere
+                        piece = Piece(self.size, row, col, WHITE)  # Assuming Piece class is defined elsewhere
                         self.all_pieces_white.append(piece)
                         ############ MATRIX #############
                         self.chessboard[row][col] = piece
@@ -74,7 +79,7 @@ class Board:
                     if (row == 1 and col in [0, self.size-1]): 
                         continue     
                     else:
-                        piece = Piece(row, col, BLACK)  # Assuming Piece class is defined elsewhere
+                        piece = Piece(self.size, row, col, BLACK)  # Assuming Piece class is defined elsewhere
                         self.all_pieces_black.append(piece)
                         ############ MATRIX #############
                         self.chessboard[row][col] = piece
@@ -218,8 +223,8 @@ class Board:
                     
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
-                    row = y // square_size
-                    col = x // square_size
+                    row = y // self.square_size
+                    col = x // self.square_size
         
                     piece = self.find_piece(row, col, self.all_pieces_black, self.all_pieces_white)
                     if piece is not None:

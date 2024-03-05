@@ -3,7 +3,8 @@ import pygame
 
 class Piece:
 
-    def __init__(self, row, col, color, king = False):
+    def __init__(self, size, row, col, color, king = False):
+        self.size = size
         self.row = row
         self.col = col
         self.color = color
@@ -15,12 +16,13 @@ class Piece:
         self.previous_position = ()
         self.has_caught = False
     
+
     def move(self, row, col, board):
         self.previous_position = (self.row, self.col)
         self.row = row
         self.col = col
-        self.right = size - 1 - col
-        self.down = size - 1 - row
+        self.right = self.size - 1 - col
+        self.down = self.size - 1 - row
         self.has_caught = False # To reset this state if it does not catch anything
 
         # To eliminate the piece caught
@@ -55,7 +57,7 @@ class Piece:
         if self.row == 0 and self.color == WHITE and self.king == False:
             self.king = True
             efeito_k.play()
-        if self.row == size - 1 and self.color == BLACK and self.king == False:
+        if self.row == self.size - 1 and self.color == BLACK and self.king == False:
             self.king = True
             efeito_k.play()
 
@@ -129,7 +131,7 @@ class Piece:
                     for i in range(3, self.down+1):
                         inval+= [(self.row+i, self.col)]   
                 
-                for j in range (3, size-1):
+                for j in range (3, self.size-1):
                     if self.down >= j and (self.row+1, self.col) in blacks:
                         for k in range (2, j+1):
                             if (self.row+k, self.col) not in blacks:
@@ -138,7 +140,7 @@ class Piece:
                                      inval+= [(self.row+i, self.col)]   
         
                 #retirar posições em excesso diagonal direita/baixo
-                for j in range (2, size-1):
+                for j in range (2, self.size-1):
                      if min(self.down, self.right) >= j: #and (self.row+1, self.col+1) not in blacks:
                        for k in range (1, j+1):
                             if (self.row+k, self.col+k) not in blacks:
@@ -146,7 +148,7 @@ class Piece:
                                      inval+= [(self.row+i, self.col+i)]   
             
                 #retirar posições em excesso left/down
-                for j in range (2, size-1):
+                for j in range (2, self.size-1):
                      if min(self.down, self.col) >= j: #and (self.row+1, self.col+1) not in blacks:
                        for k in range (1, j+1):
                             if (self.row+k, self.col-k) not in blacks:
@@ -165,7 +167,7 @@ class Piece:
                     for i in range(3, self.row+1):
                         inval += [(self.row-i, self.col)]
 
-                for j in range(3, size):
+                for j in range(3, self.size):
                     if self.row >= j and (self.row-1, self.col) in whites:
                         for k in range(2, j):
                             if (self.row-k, self.col) not in whites:
@@ -174,7 +176,7 @@ class Piece:
                                     inval += [(self.row-i, self.col)]
 
                 # Remove excess positions diagonally left/up
-                for j in range(2, size-1):
+                for j in range(2, self.size-1):
                     if min(self.row, self.col) >= j:
                         for k in range(1, j):
                             if (self.row-k, self.col-k) not in whites:
@@ -182,7 +184,7 @@ class Piece:
                                     inval += [(self.row-i, self.col-i)]
 
                 # Remove excess positions right/up
-                for j in range(2, size-1):
+                for j in range(2, self.size-1):
                     if min(self.row, self.right) >= j:
                         for k in range(1, j):
                             if (self.row-k, self.col+k) not in whites:
@@ -241,11 +243,11 @@ class Piece:
                 
         if self.color == WHITE:
             for i in range(len(catchable)):
-                if catchable[i] in blacks and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= size - 1:
+                if catchable[i] in blacks and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= self.size - 1:
                     self.legal += [(landing_pos[i])]
         if self.color == BLACK:
             for i in range(len(catchable)):
-                if catchable[i] in whites and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= size - 1:
+                if catchable[i] in whites and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= self.size - 1:
                     self.legal += [(landing_pos[i])]
         self.drop_out_range()
         
@@ -254,14 +256,14 @@ class Piece:
         # down check
         end = False
         for i in range(1, self.down + 1):
-            if self.row + i + 1 <= size - 1 and board.chessboard[self.row + i][self.col] != None and (board.chessboard[self.row + i + 1][self.col] != None or board.chessboard[self.row + i][self.col].color == self.color):
+            if self.row + i + 1 <= self.size - 1 and board.chessboard[self.row + i][self.col] != None and (board.chessboard[self.row + i + 1][self.col] != None or board.chessboard[self.row + i][self.col].color == self.color):
                 break
 
-            if self.row + i + 1 <= size - 1 and board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i][self.col].color != self.color and board.chessboard[self.row + i + 1][self.col] == None:
+            if self.row + i + 1 <= self.size - 1 and board.chessboard[self.row + i][self.col] != None and board.chessboard[self.row + i][self.col].color != self.color and board.chessboard[self.row + i + 1][self.col] == None:
                 if i == 1:
                     self.legal += [(self.row + i + 1, self.col)]
                     for j in range(1, self.row + i + 2):
-                        if self.row + i + 1 + j <= size - 1 and board.chessboard[self.row + i + 1 + j][self.col] == None:
+                        if self.row + i + 1 + j <= self.size - 1 and board.chessboard[self.row + i + 1 + j][self.col] == None:
                             self.legal += [(self.row + i + 1 + j, self.col)]
                         else:
                             end = True
@@ -269,7 +271,7 @@ class Piece:
                 elif i > 1 and board.chessboard[self.row + i - 1][self.col] == None:
                     self.legal += [(self.row + i + 1, self.col)]
                     for j in range(1, self.row + i + 2):
-                        if self.row + i + 1 + j <= size - 1 and board.chessboard[self.row + i + 1 + j][self.col] == None:
+                        if self.row + i + 1 + j <= self.size - 1 and board.chessboard[self.row + i + 1 + j][self.col] == None:
                             self.legal += [(self.row + i + 1 + j, self.col)]
                         else:
                             end = True
@@ -306,14 +308,14 @@ class Piece:
         # right check
         end = False
         for i in range(1, self.right + 1):
-            if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and (board.chessboard[self.row][self.col + i + 1] != None or board.chessboard[self.row][self.col + i].color == self.color):
+            if self.col + i + 1 <= self.size - 1 and board.chessboard[self.row][self.col + i] != None and (board.chessboard[self.row][self.col + i + 1] != None or board.chessboard[self.row][self.col + i].color == self.color):
                 break
 
-            if self.col + i + 1 <= size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
+            if self.col + i + 1 <= self.size - 1 and board.chessboard[self.row][self.col + i] != None and board.chessboard[self.row][self.col + i].color != self.color and board.chessboard[self.row][self.col + i + 1] == None:
                 if i == 1:
                     self.legal += [(self.row, self.col + i + 1)]
                     for j in range(1, self.col + i + 2):
-                        if self.col + i + 1 + j <= size - 1 and board.chessboard[self.row][self.col + i + 1 + j] == None:
+                        if self.col + i + 1 + j <= self.size - 1 and board.chessboard[self.row][self.col + i + 1 + j] == None:
                             self.legal += [(self.row, self.col + i + 1 + j)]
                         else:
                             end = True
@@ -321,7 +323,7 @@ class Piece:
                 elif i > 1 and board.chessboard[self.row][self.col + i - 1] == None:
                     self.legal += [(self.row, self.col + i + 1)]
                     for j in range(1, self.col + i + 2):
-                        if self.col + i + 1 + j <= size - 1 and board.chessboard[self.row][self.col + i + 1 + j] == None:
+                        if self.col + i + 1 + j <= self.size - 1 and board.chessboard[self.row][self.col + i + 1 + j] == None:
                             self.legal += [(self.row, self.col + i + 1 + j)]
                         else:
                             end = True
@@ -362,6 +364,6 @@ class Piece:
     def drop_out_range(self):
         drop = []
         for i in range(len(self.legal)):
-            if self.legal[i][0] < 0 or self.legal[i][0] > size - 1 or self.legal[i][1] < 0 or self.legal[i][1] > size - 1:
+            if self.legal[i][0] < 0 or self.legal[i][0] > self.size - 1 or self.legal[i][1] < 0 or self.legal[i][1] > self.size - 1:
                 drop.append(i)
         self.legal = [self.legal[i] for i in range(len(self.legal)) if i not in drop]

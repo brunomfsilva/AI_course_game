@@ -14,8 +14,11 @@ def main():
     pygame.display.set_caption('DAMEO')
     running = True
     gui = GUI()
-    board=Board()
-    players = board.start_game(gui, screen)
+    players, size = gui.main_menu(screen)
+    square_size = int(min(width, height)/size)
+    gui.square_size = square_size
+    board=Board(size)
+    board.start_game(gui, screen)
     selected_piece = None
     turn = WHITE
     winner = None
@@ -34,11 +37,16 @@ def main():
                 if winner:
                     winner = None
                     game_over = False
-                    players = board.start_game(gui, screen)
+                    players, size = gui.main_menu(screen)
+                    square_size = int(min(width, height)/size)
+                    gui.square_size = square_size
+                    board.change_size(size)
+                    board.start_game(gui, screen)
                     player1 = Player(players[0], players[2], WHITE)
                     player2 = Player(players[1], players[3], BLACK)
                     selected_piece = None
                     turn = WHITE
+                                        
             
             if game_over:
                 break
@@ -66,7 +74,14 @@ def main():
                                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button clicked
                                     if winner:
                                         winner = None
+                                        game_over = False
+                                        players, size = gui.main_menu(screen)
+                                        square_size = int(min(width, height)/size)
+                                        gui.square_size = square_size
+                                        board.change_size(size)
                                         board.start_game(gui, screen)
+                                        player1 = Player(players[0], players[2], WHITE)
+                                        player2 = Player(players[1], players[3], BLACK)
                                         selected_piece = None
                                         turn = WHITE
                                         
@@ -159,9 +174,10 @@ def main():
                         else:
                             turn = WHITE
     
-                        time.sleep(1)
+                        
                         board.actual_state(screen)
                         gui.display_turn(screen, "player 1" if turn == WHITE else "player 2")
+                        time.sleep(0.5)
                         pygame.display.flip()
                     
 
