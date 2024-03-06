@@ -48,7 +48,7 @@ class Player:
             else:
                 break
 
-        # Chose one of the legal_moves
+        # Choose one of the legal_moves
         chosen_move = random.choice(legal_moves)
         board.chessboard[selected_piece.row][selected_piece.col] = None
         selected_piece.move(chosen_move[0], chosen_move[1], board)
@@ -253,7 +253,7 @@ def expand(node):
     for i in range(len(legal_pieces)):
         for j in range(len(legal_moves[i])):
             new_state = deepcopy(node.state)  # Create a copy of the current board
-            new_legal_pieces, new_legal_moves = node.new_state.find_available_moves(node.new_state.turn)
+            new_legal_pieces, new_legal_moves = new_state.find_available_moves(new_state.turn)
             piece = new_legal_pieces[i]
             move = new_legal_moves[i][j]
             new_state.chessboard[piece.row][piece.col] = None
@@ -263,19 +263,19 @@ def expand(node):
             if piece.has_caught and not piece.king:
                 piece.check_catch(new_state)
                 if piece.legal:
-                    node.new_state.turn = WHITE if node.new_state.turn == WHITE else BLACK
+                    new_state.turn = WHITE if new_state.turn == WHITE else BLACK
                 else:
-                    node.new_state.turn = WHITE if node.new_state.turn == BLACK else BLACK
+                    new_state.turn = WHITE if new_state.turn == BLACK else BLACK
 
             elif piece.has_caught and piece.king:
                 piece.check_catch_king(new_state)
                 if piece.legal:
-                    node.new_state.turn = WHITE if node.new_state.turn == WHITE else BLACK
+                    new_state.turn = WHITE if new_state.turn == WHITE else BLACK
                 else:
-                    node.new_state.turn = WHITE if node.new_state.turn == BLACK else BLACK
+                    new_state.turn = WHITE if new_state.turn == BLACK else BLACK
 
             else:
-                node.new_state.turn = WHITE if node.new_state.turn == BLACK else BLACK
+                new_state.turn = WHITE if new_state.turn == BLACK else BLACK
 
             new_node = MCTSNode(new_state, parent=node)
             node.children.append(new_node)
@@ -293,25 +293,48 @@ def ucb_score(node):
 
 def simulate(node, initial_turn):
     current_state = deepcopy(node.state)
-    while not current_state.is_terminal:
-        legal_pieces, legal_moves = current_state.find_available_moves(node.turn)
+    while True:
+        legal_pieces, legal_moves = current_state.find_available_moves(current_state.turn)
         random_piece_index = random.choice(range(len(legal_pieces)))
         random_piece = legal_pieces[random_piece_index]
         random_move_index = random.choice(range(len(legal_moves[random_piece_index])))
-        print("--------------Start----------------")
-        print(legal_pieces)
-        print(legal_moves)
-        print("--------------End----------------")
-        print('\n')
+        # print("--------------Start----------------")
+        # print(legal_pieces)
+        # print(legal_moves)
+        # print("--------------End----------------")
+        # print('\n')
         random_move = legal_moves[random_piece_index][random_move_index]
         current_state.chessboard[random_piece.row][random_piece.col] = None
         random_piece.move(random_move[0], random_move[1], current_state)
         current_state.chessboard[random_piece.row][random_piece.col] = random_piece
-    if current_state.last_moved_piece.color == initial_turn: # if the last moved piece is of the same color of the MCTS color, MCTS wins
-        reward = 1
-    else:
-        reward = -1
-    return reward
+
+        winner = current_state.check_winner()
+        if (winner == 'Player 1' and initial_turn == WHITE) or (winner == 'Player 2' and initial_turn == BLACK):
+            return 1
+        elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
+            return -1
+
+        # Checking if there are other pieces to catch
+        if not random_piece.king:
+            random_piece.check_catch(current_state)
+        else:
+            random_piece.check_catch_king(current_state)
+
+        if random_piece.legal and random_piece.has_caught:
+            pass
+        
+        else:
+            random_piece.transform_king()
+            if current_state.turn == WHITE:
+                current_state.turn = BLACK  
+            else:
+                current_state.turn = WHITE
+
+    # if current_state.last_moved_piece.color == initial_turn: # if the last moved piece is of the same color of the MCTS color, MCTS wins
+    #     reward = 1
+    # else:
+    #     reward = -1
+    # return reward
 
 def backpropagate(node, reward):
     while node is not None:
