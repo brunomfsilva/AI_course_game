@@ -148,8 +148,8 @@ def main():
                     
 
                     if player.type == 'AI' and turn == player.team:
-                        #selected_piece, best_move = execute_minimax(board, depth, turn)
-                        best_piece_pos, best_move = mcts(board, turn, 100)
+                        best_piece_pos, best_move = execute_minimax(board, depth, turn)
+                        #best_piece_pos, best_move = mcts2(board, turn, 100)
                         # print(best_piece)
                         # print(best_piece.row, best_piece.col)
                         selected_piece = board.chessboard[best_piece_pos[0]][best_piece_pos[1]]

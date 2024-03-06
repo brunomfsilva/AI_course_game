@@ -308,3 +308,11 @@ class Board:
                     row += ("O" if piece.king else "o") if piece.color == WHITE else ("X" if piece.king else "x")
             print(row)
         print('\n')
+
+    def count_possible_moves(self):
+        legal_pieces, legal_moves = self.find_available_moves(self.turn)
+        n_children = 0
+        for i in range(len(legal_pieces)):
+            for j in range(len(legal_moves)):
+                n_children += 1
+        return n_children

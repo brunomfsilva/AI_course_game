@@ -206,7 +206,7 @@ def execute_minimax(board, depth, turn):
                 best_move = move
                 best_piece = legal_pieces[i]
 
-    return best_piece, best_move
+    return (best_piece.row, best_piece.col), best_move
 
 def evaluate(board, turn):
     score = 0
@@ -246,7 +246,7 @@ class MCTSNode:
         self.parent = parent
         self.children = []
         self.visits = 0
-        self.reward = 0.0
+        self.reward = 0
 
 def expand(node):
     new_state = deepcopy(node.state)  # Create a copy of the current board
@@ -285,18 +285,21 @@ def expand(node):
     else:
         random_piece.transform_king()
 
+    new_state.check_winner()
+
     new_node = MCTSNode(new_state, parent=node)
     node.children.append(new_node)
     return new_node
 
 def select(node):
-    legal_pieces, legal_moves = node.state.find_available_moves(node.state.turn)
-    n_children = 0
-    for i in range(len(legal_pieces)):
-        for j in range(len(legal_moves)):
-            n_children += 1
+    n_children = node.state.count_possible_moves()
     if not node.children or len(node.children) < n_children:
+        print('Mid1')
+        print(n_children)
+        print(len(node.children))
+        print(node.state.print_board())
         return node
+    print('Mid2')
 
     selected_child = max(node.children, key=lambda child: ucb_score(child))
     return select(selected_child)
@@ -365,34 +368,72 @@ def simulate(node, initial_turn):
     #     reward = -1
     # return reward
 
-def backpropagate(node, reward):
-    while node is not None:
-        node.visits += 1
-        node.reward += reward
-        node = node.parent
+# def backpropagate(node, reward):
+#     while node is not None:
+#         node.visits += 1
+#         node.reward += reward
+#         node = node.parent
 
-def mcts(root_state, turn, iterations):
+def backpropagate(node, result):
+    node.visits += 1
+    node.reward += result
+    if node.parent:
+        # node.parent.backpropagate(result)
+        backpropagate(node.parent, result)
+
+# def mcts(root_state, turn, iterations):
+#     root_state.turn = turn # So that the turn is associated with the state
+#     root = MCTSNode(root_state)
+
+#     for _ in range(iterations):
+
+#         # while not root_state.is_terminal:
+#         #     if len(root.children) < numb_of_possible_moves:
+#         #         new_node = expand(selected_node)
+#         #         break
+#         #     else:
+#         #         select(root)
+
+#         selected_node = select(root)
+#         # print('--------init----------')
+#         # selected_node.state.print_board()
+#         new_node = expand(selected_node)
+#         #new_node.state.print_board()
+#         #print('--------end-----------')
+#         reward = simulate(new_node, root_state.turn)
+#         backpropagate(new_node, reward)
+
+#     best_piece_pos = max(root.children, key=lambda child: child.visits).state.last_moved_piece.previous_position
+#     best_move = max(root.children, key=lambda child: child.visits).state.last_move
+#     return best_piece_pos, best_move
+
+def mcts2(root_state, turn, iterations):
     root_state.turn = turn # So that the turn is associated with the state
     root = MCTSNode(root_state)
 
     for _ in range(iterations):
+        node = root
 
-        # while not root_state.is_terminal:
-        #     if len(root.children) < numb_of_possible_moves:
-        #         new_node = expand(selected_node)
-        #         break
-        #     else:
-        #         select(root)
+        # Selection phase
+        while not node.state.is_terminal:
+            n_children = node.state.count_possible_moves()
+            if len(node.children) < n_children:
+                # Expand
+                node = expand(node)
+                break
+            else: # Max expansion
+                # Selection
+                print('Init')
+                node = select(node)
+                print('End')
 
-        selected_node = select(root)
-        # print('--------init----------')
-        # selected_node.state.print_board()
-        new_node = expand(selected_node)
-        #new_node.state.print_board()
-        #print('--------end-----------')
-        reward = simulate(new_node, root_state.turn)
-        backpropagate(new_node, reward)
+        # Simulation phase
+        reward = simulate(node, turn)
 
+        # Backpropagation phase
+        backpropagate(node, reward)
+    
     best_piece_pos = max(root.children, key=lambda child: child.visits).state.last_moved_piece.previous_position
     best_move = max(root.children, key=lambda child: child.visits).state.last_move
     return best_piece_pos, best_move
+
