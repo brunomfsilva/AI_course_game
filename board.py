@@ -240,10 +240,13 @@ class Board:
     def check_winner(self):
         '''check the winner'''
         self.is_terminal = False # reset
-        if len(self.all_pieces_black) == 0: #or black cannot move
+        legal_pieces_white, _ = self.find_available_moves(WHITE)
+        legal_pieces_black, _ = self.find_available_moves(BLACK)
+
+        if len(self.all_pieces_black) == 0 or (not legal_pieces_black and self.turn == BLACK): #or black cannot move
             self.is_terminal = True
             return "Player 1"
-        elif len(self.all_pieces_white) == 0:  #or white cannot move
+        elif len(self.all_pieces_white) == 0 or (not legal_pieces_white and self.turn == WHITE):  #or white cannot move
             self.is_terminal = True
             return "Player 2"
         
@@ -292,3 +295,16 @@ class Board:
             #print(legal_pieces)
             #print(legal_moves)
         return legal_pieces, legal_moves
+    
+    def print_board(self):
+        print("O" if self.turn == WHITE else "X")
+        for i in range(self.size):
+            row = ""
+            for j in range(self.size):
+                piece = self.chessboard[i][j]
+                if piece == None:
+                    row += "-"
+                else:
+                    row += ("O" if piece.king else "o") if piece.color == WHITE else ("X" if piece.king else "x")
+            print(row)
+        print('\n')

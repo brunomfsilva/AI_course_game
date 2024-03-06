@@ -57,10 +57,12 @@ class Piece:
         efeito_k = pygame.mixer.Sound("sounds\king_sound.mp3")
         if self.row == 0 and self.color == WHITE and self.king == False:
             self.king = True
-            efeito_k.play()
+            #print('King O')
+            #efeito_k.play()
         if self.row == self.size - 1 and self.color == BLACK and self.king == False:
             self.king = True
-            efeito_k.play()
+            #print('King X')
+            #efeito_k.play()
 
     # Function to check the legal moves
     def legal_positions(self):

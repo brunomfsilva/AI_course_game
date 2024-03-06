@@ -148,8 +148,11 @@ def main():
                     
 
                     if player.type == 'AI' and turn == player.team:
-                        selected_piece, best_move = execute_minimax(board, depth, turn)
-                        #selected_piece, best_move = mcts(board, turn, 100)
+                        #selected_piece, best_move = execute_minimax(board, depth, turn)
+                        best_piece_pos, best_move = mcts(board, turn, 100)
+                        # print(best_piece)
+                        # print(best_piece.row, best_piece.col)
+                        selected_piece = board.chessboard[best_piece_pos[0]][best_piece_pos[1]]
                         board.chessboard[selected_piece.row][selected_piece.col] = None
                         selected_piece.move(best_move[0], best_move[1], board)
                         board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
@@ -187,7 +190,7 @@ def main():
 
                     if winner:
                         game_over = True
-                        efeito_w.play()
+                        #efeito_w.play()
                         font = pygame.font.SysFont("Impact", 45)
                         text = font.render(f"The Winner is {winner}!", True, (255, 255, 153))
                         screen.blit(text, (100, height // 2))

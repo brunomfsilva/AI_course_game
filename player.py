@@ -249,39 +249,53 @@ class MCTSNode:
         self.reward = 0.0
 
 def expand(node):
-    legal_pieces, legal_moves = node.state.find_available_moves(node.state.turn)
-    for i in range(len(legal_pieces)):
-        for j in range(len(legal_moves[i])):
-            new_state = deepcopy(node.state)  # Create a copy of the current board
-            new_legal_pieces, new_legal_moves = new_state.find_available_moves(new_state.turn)
-            piece = new_legal_pieces[i]
-            move = new_legal_moves[i][j]
-            new_state.chessboard[piece.row][piece.col] = None
-            piece.move(move[0], move[1], new_state)
-            new_state.chessboard[piece.row][piece.col] = piece
+    new_state = deepcopy(node.state)  # Create a copy of the current board
+    new_legal_pieces, new_legal_moves = new_state.find_available_moves(new_state.turn)
+    if not new_legal_pieces:
+        new_state.print_board()
+    random_piece_index = random.choice(range(len(new_legal_pieces)))
+    random_piece = new_legal_pieces[random_piece_index]
+    random_move_index = random.choice(range(len(new_legal_moves[random_piece_index])))
+    random_move = new_legal_moves[random_piece_index][random_move_index]
 
-            if piece.has_caught and not piece.king:
-                piece.check_catch(new_state)
-                if piece.legal:
-                    new_state.turn = WHITE if new_state.turn == WHITE else BLACK
-                else:
-                    new_state.turn = WHITE if new_state.turn == BLACK else BLACK
+    new_state.chessboard[random_piece.row][random_piece.col] = None
+    random_piece.move(random_move[0], random_move[1], new_state)
+    new_state.chessboard[random_piece.row][random_piece.col] = random_piece
 
-            elif piece.has_caught and piece.king:
-                piece.check_catch_king(new_state)
-                if piece.legal:
-                    new_state.turn = WHITE if new_state.turn == WHITE else BLACK
-                else:
-                    new_state.turn = WHITE if new_state.turn == BLACK else BLACK
+    if random_piece.has_caught and not random_piece.king:
+        random_piece.check_catch(new_state)
+        if random_piece.legal:
+            new_state.turn = WHITE if new_state.turn == WHITE else BLACK
+        else:
+            new_state.turn = WHITE if new_state.turn == BLACK else BLACK
 
-            else:
-                new_state.turn = WHITE if new_state.turn == BLACK else BLACK
+    elif random_piece.has_caught and random_piece.king:
+        random_piece.check_catch_king(new_state)
+        if random_piece.legal:
+            new_state.turn = WHITE if new_state.turn == WHITE else BLACK
+        else:
+            new_state.turn = WHITE if new_state.turn == BLACK else BLACK
 
-            new_node = MCTSNode(new_state, parent=node)
-            node.children.append(new_node)
+    else:
+        new_state.turn = WHITE if new_state.turn == BLACK else BLACK
+    
+    if random_piece.legal and random_piece.has_caught:
+        pass
+        
+    else:
+        random_piece.transform_king()
+
+    new_node = MCTSNode(new_state, parent=node)
+    node.children.append(new_node)
+    return new_node
 
 def select(node):
-    if not node.children:
+    legal_pieces, legal_moves = node.state.find_available_moves(node.state.turn)
+    n_children = 0
+    for i in range(len(legal_pieces)):
+        for j in range(len(legal_moves)):
+            n_children += 1
+    if not node.children or len(node.children) < n_children:
         return node
 
     selected_child = max(node.children, key=lambda child: ucb_score(child))
@@ -292,27 +306,42 @@ def ucb_score(node):
     return node.reward / node.visits + exploration_weight * math.sqrt(math.log(node.parent.visits) / node.visits)
 
 def simulate(node, initial_turn):
+    #print('--------init----------')
+    # node.state.print_board()
     current_state = deepcopy(node.state)
+    # current_state.print_board()
+    # print('--------end----------')
+
+    winner = current_state.check_winner()
+    if (winner == 'Player 1' and initial_turn == WHITE) or (winner == 'Player 2' and initial_turn == BLACK):
+        return 1
+    elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
+        return -1
+    
     while True:
-        legal_pieces, legal_moves = current_state.find_available_moves(current_state.turn)
-        random_piece_index = random.choice(range(len(legal_pieces)))
-        random_piece = legal_pieces[random_piece_index]
-        random_move_index = random.choice(range(len(legal_moves[random_piece_index])))
-        # print("--------------Start----------------")
-        # print(legal_pieces)
-        # print(legal_moves)
-        # print("--------------End----------------")
-        # print('\n')
-        random_move = legal_moves[random_piece_index][random_move_index]
-        current_state.chessboard[random_piece.row][random_piece.col] = None
-        random_piece.move(random_move[0], random_move[1], current_state)
-        current_state.chessboard[random_piece.row][random_piece.col] = random_piece
 
         winner = current_state.check_winner()
         if (winner == 'Player 1' and initial_turn == WHITE) or (winner == 'Player 2' and initial_turn == BLACK):
             return 1
         elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
             return -1
+        
+        legal_pieces, legal_moves = current_state.find_available_moves(current_state.turn)
+        # if not legal_pieces:
+        #     current_state.print_board()
+        random_piece_index = random.choice(range(len(legal_pieces)))
+        random_piece = legal_pieces[random_piece_index]
+        random_move_index = random.choice(range(len(legal_moves[random_piece_index])))
+        random_move = legal_moves[random_piece_index][random_move_index]
+        current_state.chessboard[random_piece.row][random_piece.col] = None
+        random_piece.move(random_move[0], random_move[1], current_state)
+        current_state.chessboard[random_piece.row][random_piece.col] = random_piece
+
+        # winner = current_state.check_winner()
+        # if (winner == 'Player 1' and initial_turn == WHITE) or (winner == 'Player 2' and initial_turn == BLACK):
+        #     return 1
+        # elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
+        #     return -1
 
         # Checking if there are other pieces to catch
         if not random_piece.king:
@@ -347,11 +376,23 @@ def mcts(root_state, turn, iterations):
     root = MCTSNode(root_state)
 
     for _ in range(iterations):
-        selected_node = select(root)
-        expand(selected_node)
-        reward = simulate(selected_node, root_state.turn)
-        backpropagate(selected_node, reward)
 
-    best_piece = max(root.children, key=lambda child: child.visits).state.last_moved_piece
+        # while not root_state.is_terminal:
+        #     if len(root.children) < numb_of_possible_moves:
+        #         new_node = expand(selected_node)
+        #         break
+        #     else:
+        #         select(root)
+
+        selected_node = select(root)
+        # print('--------init----------')
+        # selected_node.state.print_board()
+        new_node = expand(selected_node)
+        #new_node.state.print_board()
+        #print('--------end-----------')
+        reward = simulate(new_node, root_state.turn)
+        backpropagate(new_node, reward)
+
+    best_piece_pos = max(root.children, key=lambda child: child.visits).state.last_moved_piece.previous_position
     best_move = max(root.children, key=lambda child: child.visits).state.last_move
-    return best_piece, best_move
+    return best_piece_pos, best_move
