@@ -23,8 +23,8 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('Minimax', 2, WHITE)
-    player2 = Player('Montecarlo', 100, BLACK)
+    player1 = Player('Human', 2, WHITE)
+    player2 = Player('Human', 100, BLACK)
 
     game_over=False
 
@@ -47,6 +47,7 @@ def main():
                     player2 = Player(players[1], players[3], BLACK)
                     selected_piece = None
                     turn = WHITE
+                    board.turn = WHITE
                                         
             
             if game_over:
@@ -85,6 +86,7 @@ def main():
                                         player2 = Player(players[1], players[3], BLACK)
                                         selected_piece = None
                                         turn = WHITE
+                                        board.turn = WHITE
                                         
         
                                     x, y = pygame.mouse.get_pos()
@@ -176,9 +178,11 @@ def main():
                         selected_piece.transform_king()
                         selected_piece = None #turn off the selected piece
                         if turn == WHITE:
-                            turn = BLACK  
+                            turn = BLACK
+                            board.turn = BLACK  
                         else:
                             turn = WHITE
+                            board.turn = WHITE
     
                         
                         board.actual_state(screen)
