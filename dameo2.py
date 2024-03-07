@@ -6,6 +6,7 @@ from vars import *
 from player import Player
 import time
 from player import *
+import ai
 
 def main():
     """Initiate game"""
@@ -22,8 +23,8 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player(players[0], players[2], WHITE)
-    player2 = Player(players[1], players[3], BLACK)
+    player1 = Player('Minimax', 4, WHITE)
+    player2 = Player('Minimax', 2, BLACK)
 
     game_over=False
 
@@ -147,8 +148,9 @@ def main():
                                         pygame.display.flip()
                     
 
-                    if player.type == 'AI' and turn == player.team:
-                        best_piece_pos, best_move = execute_minimax(board, depth, turn)
+                    if player.type != 'Human' and turn == player.team:
+            
+                        best_piece_pos, best_move = player.get_move(board)
                         #best_piece_pos, best_move = mcts2(board, turn, 100)
                         # print(best_piece)
                         # print(best_piece.row, best_piece.col)
