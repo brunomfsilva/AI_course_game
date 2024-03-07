@@ -329,8 +329,6 @@ class MontecarloTreeSearch:
     def mcts(self, root_state, turn):
         root_state.turn = turn # So that the turn is associated with the state
         root = MCTSNode(root_state)
-        print(self.iterations)
-        time.sleep(2)
         for _ in range(self.iterations):
             node = root
 
