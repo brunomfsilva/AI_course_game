@@ -1,9 +1,9 @@
 import random
 from vars import *
 from board import Board
-import utils
 import math
 from copy import deepcopy
+import time
 
 
 class Minimax:
@@ -151,3 +151,208 @@ class Minimax:
     
 
 
+class MCTSNode:
+    def __init__(self, state, parent=None):
+        self.state = state
+        self.parent = parent
+        self.children = []
+        self.visits = 0
+        self.reward = 0
+
+
+class MontecarloTreeSearch:
+    def __init__(self, iterations, exploration_weight=1.4):
+        self.iterations = iterations
+        self.exploration_weight = exploration_weight
+        
+
+
+    def expand(self, node):
+        new_state = deepcopy(node.state)  # Create a copy of the current board
+        new_legal_pieces, new_legal_moves = new_state.find_available_moves(new_state.turn)
+        if not new_legal_pieces:
+            new_state.print_board()
+        random_piece_index = random.choice(range(len(new_legal_pieces)))
+        random_piece = new_legal_pieces[random_piece_index]
+        random_move_index = random.choice(range(len(new_legal_moves[random_piece_index])))
+        random_move = new_legal_moves[random_piece_index][random_move_index]
+
+        new_state.chessboard[random_piece.row][random_piece.col] = None
+        random_piece.move(random_move[0], random_move[1], new_state)
+        new_state.chessboard[random_piece.row][random_piece.col] = random_piece
+
+        if random_piece.has_caught and not random_piece.king:
+            random_piece.check_catch(new_state)
+            if random_piece.legal:
+                new_state.turn = WHITE if new_state.turn == WHITE else BLACK
+            else:
+                new_state.turn = WHITE if new_state.turn == BLACK else BLACK
+
+        elif random_piece.has_caught and random_piece.king:
+            random_piece.check_catch_king(new_state)
+            if random_piece.legal:
+                new_state.turn = WHITE if new_state.turn == WHITE else BLACK
+            else:
+                new_state.turn = WHITE if new_state.turn == BLACK else BLACK
+
+        else:
+            new_state.turn = WHITE if new_state.turn == BLACK else BLACK
+        
+        if random_piece.legal and random_piece.has_caught:
+            pass
+            
+        else:
+            random_piece.transform_king()
+
+        new_state.check_winner()
+
+        new_node = MCTSNode(new_state, parent=node)
+        node.children.append(new_node)
+        return new_node
+
+    def select(self, node):
+        n_children = node.state.count_possible_moves()
+        if not node.children or len(node.children) < n_children:
+            print('Mid1')
+            print(n_children)
+            print(len(node.children))
+            print(node.state.print_board())
+            return node
+        print('Mid2')
+
+        selected_child = max(node.children, key=lambda child: self.ucb_score(child))
+        return self.select(selected_child)
+
+    def ucb_score(self, node):
+        self.exploration_weight = 1.4  # You may need to tune this parameter
+        return node.reward / node.visits + self.exploration_weight * math.sqrt(math.log(node.parent.visits) / node.visits)
+
+    def simulate(self, node, initial_turn):
+        #print('--------init----------')
+        # node.state.print_board()
+        current_state = deepcopy(node.state)
+        # current_state.print_board()
+        # print('--------end----------')
+
+        winner = current_state.check_winner()
+        if (winner == 'Player 1' and initial_turn == WHITE) or (winner == 'Player 2' and initial_turn == BLACK):
+            return 1
+        elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
+            return -1
+        
+        while True:
+
+            winner = current_state.check_winner()
+            if (winner == 'Player 1' and initial_turn == WHITE) or (winner == 'Player 2' and initial_turn == BLACK):
+                return 1
+            elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
+                return -1
+            
+            legal_pieces, legal_moves = current_state.find_available_moves(current_state.turn)
+            # if not legal_pieces:
+            #     current_state.print_board()
+            random_piece_index = random.choice(range(len(legal_pieces)))
+            random_piece = legal_pieces[random_piece_index]
+            random_move_index = random.choice(range(len(legal_moves[random_piece_index])))
+            random_move = legal_moves[random_piece_index][random_move_index]
+            current_state.chessboard[random_piece.row][random_piece.col] = None
+            random_piece.move(random_move[0], random_move[1], current_state)
+            current_state.chessboard[random_piece.row][random_piece.col] = random_piece
+
+            # winner = current_state.check_winner()
+            # if (winner == 'Player 1' and initial_turn == WHITE) or (winner == 'Player 2' and initial_turn == BLACK):
+            #     return 1
+            # elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
+            #     return -1
+
+            # Checking if there are other pieces to catch
+            if not random_piece.king:
+                random_piece.check_catch(current_state)
+            else:
+                random_piece.check_catch_king(current_state)
+
+            if random_piece.legal and random_piece.has_caught:
+                pass
+            
+            else:
+                random_piece.transform_king()
+                if current_state.turn == WHITE:
+                    current_state.turn = BLACK  
+                else:
+                    current_state.turn = WHITE
+
+    # if current_state.last_moved_piece.color == initial_turn: # if the last moved piece is of the same color of the MCTS color, MCTS wins
+    #     reward = 1
+    # else:
+    #     reward = -1
+    # return reward
+
+# def backpropagate(node, reward):
+#     while node is not None:
+#         node.visits += 1
+#         node.reward += reward
+#         node = node.parent
+
+    def backpropagate(self, node, result):
+        node.visits += 1
+        node.reward += result
+        if node.parent:
+            # node.parent.backpropagate(result)
+            self.backpropagate(node.parent, result)
+
+# def mcts(root_state, turn, iterations):
+#     root_state.turn = turn # So that the turn is associated with the state
+#     root = MCTSNode(root_state)
+
+#     for _ in range(iterations):
+
+#         # while not root_state.is_terminal:
+#         #     if len(root.children) < numb_of_possible_moves:
+#         #         new_node = expand(selected_node)
+#         #         break
+#         #     else:
+#         #         select(root)
+
+#         selected_node = select(root)
+#         # print('--------init----------')
+#         # selected_node.state.print_board()
+#         new_node = expand(selected_node)
+#         #new_node.state.print_board()
+#         #print('--------end-----------')
+#         reward = simulate(new_node, root_state.turn)
+#         backpropagate(new_node, reward)
+
+#     best_piece_pos = max(root.children, key=lambda child: child.visits).state.last_moved_piece.previous_position
+#     best_move = max(root.children, key=lambda child: child.visits).state.last_move
+#     return best_piece_pos, best_move
+
+    def mcts(self, root_state, turn):
+        root_state.turn = turn # So that the turn is associated with the state
+        root = MCTSNode(root_state)
+        print(self.iterations)
+        time.sleep(2)
+        for _ in range(self.iterations):
+            node = root
+
+            # Selection phase
+            while not node.state.is_terminal:
+                n_children = node.state.count_possible_moves()
+                if len(node.children) < n_children:
+                    # Expand
+                    node = self.expand(node)
+                    break
+                else: # Max expansion
+                    # Selection
+                    print('Init')
+                    node = self.select(node)
+                    print('End')
+
+            # Simulation phase
+            reward = self.simulate(node, turn)
+
+            # Backpropagation phase
+            self.backpropagate(node, reward)
+        
+        best_piece_pos = max(root.children, key=lambda child: child.visits).state.last_moved_piece.previous_position
+        best_move = max(root.children, key=lambda child: child.visits).state.last_move
+        return best_piece_pos, best_move

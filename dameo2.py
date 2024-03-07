@@ -23,8 +23,8 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('Minimax', 4, WHITE)
-    player2 = Player('Minimax', 2, BLACK)
+    player1 = Player('Minimax', 2, WHITE)
+    player2 = Player('Montecarlo', 100, BLACK)
 
     game_over=False
 

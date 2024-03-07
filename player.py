@@ -1,10 +1,9 @@
 import random
 from vars import *
 from board import Board
-import utils
 import math
 from copy import deepcopy
-from ai import Minimax
+from ai import Minimax, MontecarloTreeSearch
 
 class Player:
     def __init__(self, player_type, depth_or_iterations, team):
@@ -18,12 +17,15 @@ class Player:
         elif self.type == "Minimax":
             minimax = Minimax(self.depth_or_iterations)
             return minimax.execute_minimax(board, self.depth_or_iterations, self.team)
-        # elif self.type == "Montecarlo":
-        #     monte_carlo = MonteCarlo(board, self.depth_or_iterations, self.team)
-        #     return monte_carlo.get_best_move(board)
+            
+        elif self.type == "Montecarlo":
+            monte_carlo = MontecarloTreeSearch(self.depth_or_iterations)
+            return monte_carlo.mcts(board, self.team)
 
-    #def get_human_move(self, ):
-    
+
+##################################################
+    #def get_human_move(self, ):  #### FAZER AMANHÃ
+###################################################
 
     # def ai_random_move(self, board, turn):
         
