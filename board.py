@@ -16,6 +16,7 @@ class Board:
         self.last_move = ()
         self.is_terminal = False
         self.turn = None
+        self.moves_whitout_catching = 0
 
     def change_size(self, size):
         """make variable mutable"""
@@ -249,6 +250,10 @@ class Board:
         elif len(self.all_pieces_white) == 0 or (not legal_pieces_white and self.turn == WHITE):  #or white cannot move
             self.is_terminal = True
             return "Player 2"
+        
+        #Tie
+        if self.moves_whitout_catching == self.size*2:
+            return "Tie"
         
     def find_available_moves(self, turn):
 

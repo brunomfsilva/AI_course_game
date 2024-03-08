@@ -259,6 +259,8 @@ class MontecarloTreeSearch:
             return 1
         elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
             return -1
+        elif winner == 'Tie':
+            return 0
         
         while True:
 
@@ -267,6 +269,8 @@ class MontecarloTreeSearch:
                 return 1
             elif (winner == 'Player 1' and initial_turn == BLACK) or (winner == 'Player 2' and initial_turn == WHITE):
                 return -1
+            elif winner == 'Tie':
+                return 0
             
             legal_pieces, legal_moves = current_state.find_available_moves(current_state.turn)
             # if not legal_pieces:

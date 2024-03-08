@@ -49,6 +49,10 @@ class Piece:
                         board.chessboard[self.previous_position[0]][self.previous_position[1] + i] = None
                         self.has_caught = True
         
+        board.moves_whitout_catching += 1
+        if self.has_caught:
+            board.moves_whitout_catching = 0
+            
         board.last_moved_piece = self
         board.last_move = (row, col)
     
