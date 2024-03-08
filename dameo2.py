@@ -24,7 +24,7 @@ def main():
     turn = WHITE
     winner = None
     player1 = Player('Minimax', 2, WHITE)
-    player2 = Player('Montecarlo', 100, BLACK)
+    player2 = Player('Human', 100, BLACK)
 
     game_over=False
 
@@ -56,7 +56,7 @@ def main():
             while not game_over and running:
                 for player in (player1, player2):
                     
-                    if player.type == 'AI' and turn == player.team:
+                    if player.type == 'AI':
                         if player.level == 'Very easy':
                             depth= 1
                         elif player.level == 'Easy':
@@ -66,7 +66,8 @@ def main():
                         elif player.level == 'Hard':
                             depth= 5
                     
-                    # if player.type == 'Human' and turn == player.team:
+                    if player.type == 'Human':
+                        selected_piece = player.get_human_move(board, gui, screen, winner, square_size, selected_piece)
                     #     human_playing = True
                     #     while human_playing:
                     #         for event in pygame.event.get():
@@ -150,16 +151,9 @@ def main():
                     #                     pygame.display.flip()
                     
 
-                    if player.type != 'Human' and turn == player.team:
-            
-                        selected_piece = player.get_move(board)
-                        #best_piece_pos, best_move = mcts2(board, turn, 100)
-                        # print(best_piece)
-                        # print(best_piece.row, best_piece.col)
-                        # selected_piece = board.chessboard[best_piece_pos[0]][best_piece_pos[1]]
-                        # board.chessboard[selected_piece.row][selected_piece.col] = None
-                        # selected_piece.move(best_move[0], best_move[1], board)
-                        # board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
+                    # if player.type != 'Human' and turn == player.team:
+                    else:
+                        selected_piece = player.get_ai_move(board)
 
                     # Checking if there are other pieces to catch
                     if not selected_piece.king:
