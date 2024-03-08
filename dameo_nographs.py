@@ -15,7 +15,7 @@ def calculate_time(start_time):
 
 def main():
     """Initiate game"""
-    size= 8
+    size= 5
 
     
     pygame.init()
@@ -50,8 +50,8 @@ def main():
         # if p1_difficult == 0 and p2_difficult==2:
         #     p2_difficult == 1
 
-        player1 = Player('AI', difficults[p1_difficult], WHITE)
-        player2 = Player('AI', difficults[p2_difficult], BLACK)
+        player1 = Player('Montecarlo', 100, WHITE)
+        player2 = Player('Minimax', 5, BLACK)
 
         print(board.size, p1_difficult, p2_difficult)
 
