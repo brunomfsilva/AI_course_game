@@ -185,7 +185,7 @@ class Piece:
                 # Remove excess positions diagonally left/up
                 for j in range(2, self.size-1):
                     if min(self.row, self.col) >= j:
-                        for k in range(1, j):
+                        for k in range(1, j+1):
                             if (self.row-k, self.col-k) not in whites:
                                 for i in range(k+1, min(self.row, self.col)+1):
                                     inval += [(self.row-i, self.col-i)]
@@ -193,7 +193,7 @@ class Piece:
                 # Remove excess positions right/up
                 for j in range(2, self.size-1):
                     if min(self.row, self.right) >= j:
-                        for k in range(1, j):
+                        for k in range(1, j+1):
                             if (self.row-k, self.col+k) not in whites:
                                 for i in range(k+1, min(self.row, self.right)+1):
                                     inval += [(self.row-i, self.col+i)]
