@@ -28,6 +28,10 @@ def main():
     sizes = []
     p1_depth_or_iterations = []
     p2_depth_or_iterations = []
+    p1_algorithm =[]
+    p2_algorithm =[]
+    p1_evaluation=[]
+    p2_evaluation=[]
     total_plays = []
     total_time = []
     player_winner = []
@@ -38,55 +42,65 @@ def main():
 
 
     p1 = [
-            ('Minimax', 1, 5),
-            ('Minimax', 1, 5),
-            ('Minimax', 2, 5),
-            ('Minimax', 1, 2),
-            ('Minimax', 1, 2),
-            ('Minimax', 2, 2),
-            ('Montecarlo', 'NA', 100),
-            ('Montecarlo', 'NA', 100),
-            ('Montecarlo', 'NA', 500),
-            ('Montecarlo', 'NA', 1000),
-            ('Montecarlo', 'NA', 1000),
-            ('Montecarlo', 'NA', 100),
-            ('Montecarlo', 'NA', 100),
-            ('Montecarlo', 'NA', 100),
-            ('Montecarlo', 'NA', 500),
-            ('Montecarlo', 'NA', 500),
-            ('Montecarlo', 'NA', 500),
-            ('Montecarlo', 'NA', 1000),
-            ('Montecarlo', 'NA', 1000),
-            ('Montecarlo', 'NA', 1000)
-        ]
+    ('Minimax', 1, 5),
+    ('Minimax', 1, 5),
+    ('Minimax', 2, 5),
+    ('Minimax', 1, 2),
+    ('Minimax', 1, 2),
+    ('Minimax', 2, 2),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 1000)
+]
 
 
     p2 = [
-            ('Minimax', 2, 5),
-            ('Minimax', 3, 5),
-            ('Minimax', 3, 5),
-            ('Minimax', 2, 2),
-            ('Minimax', 3, 2),
-            ('Minimax', 3, 2),
-            ('Montecarlo', 'NA', 500),
-            ('Montecarlo', 'NA', 1000),
-            ('Montecarlo', 'NA', 1000),
-            ('Montecarlo', 'NA', 1000),
-            ('Montecarlo', 'NA', 1000),
-            ('Minimax', 1, 2),
-            ('Minimax', 1, 5),
-            ('Minimax', 1, 7),
-            ('Minimax', 1, 2),
-            ('Minimax', 1, 5),
-            ('Minimax', 1, 7),
-            ('Minimax', 1, 2),
-            ('Minimax', 1, 5),
-            ('Minimax', 1, 7)
-        ]
+        ('Minimax', 2, 5),
+        ('Minimax', 3, 5),
+        ('Minimax', 3, 5),
+        ('Minimax', 2, 2),
+        ('Minimax', 3, 2),
+        ('Minimax', 3, 2),
+        ('Montecarlo', 'NA', 500),
+        ('Montecarlo', 'NA', 500),
+        ('Montecarlo', 'NA', 500),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Minimax', 1, 2),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 7),
+        ('Minimax', 1, 2),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 7),
+        ('Minimax', 1, 2),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 7)
+    ]
 
-    board_size = [5,5,5,5,5,5,5,5,5,5,8,5,5,5,5,5,5,5,5,5]
+    board_size = [5,5,5,5,5,5,5,6,7,5,6,7,5,6,7,8,5,5,5,5,5,5,5,5,5]
 
-    n_games = [5,5,5,5,5,5,3,3,3,1,1,3,3,3,3,3,3,3,3,3]
+    n_games = [1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3]
 
 
 
@@ -100,7 +114,6 @@ def main():
             turn = WHITE
             winner = False
             
-            print(n, p1[n], p2[n])
             pls = [p1[n], p2[n]]
 
             pl1_index = random.randint(0,1)
@@ -114,11 +127,13 @@ def main():
 
             print ('n: ', n, ' n_game: ', n_game, ' size: ',size, pl1, pl2)
 
-            print(pl1[0], pl1[2], WHITE, pl1[1])
-            print(pl2[0], pl2[2], BLACK, pl2[1])
+            player1 = Player(pl1[0], pl1[2], WHITE, pl1[1])
+            player2 = Player(pl2[0], pl2[2], BLACK, pl2[1])
 
-            player1 = Player(pl1[0], pl1[2], WHITE, 1)
-            player2 = Player(pl2[0], pl2[2], BLACK, 1)
+            p1_algorithm.append(pl1[0])
+            p2_algorithm.append(pl2[0])
+            p1_evaluation.append(pl1[1])
+            p2_evaluation.append(pl2[2])
             
 
 
@@ -234,6 +249,10 @@ def main():
                                 'sizes': sizes,
                                 'p1_difficult': p1_depth_or_iterations,
                                 'p2_difficult': p2_depth_or_iterations,
+                                'p1_algorithm': p1_algorithm,
+                                'p2_algorithm': p2_algorithm,
+                                'p1_evaluation': p1_evaluation,
+                                'p2_evaluation': p2_evaluation,
                                 'player_winner': player_winner,
                                 'total_plays': total_plays,
                                 'total_time': total_time,
