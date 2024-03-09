@@ -157,7 +157,7 @@ class Minimax:
         black_pieces = len(board.all_pieces_black)
         score += white_pieces - black_pieces if turn == WHITE else black_pieces - white_pieces
 
-    def evaluate3(self, board, turn):
+    def evaluate_3(self, board, turn):
         score = 0
 
         # Piece Count
@@ -190,8 +190,8 @@ class MontecarloTreeSearch:
     def expand(self, node):
         new_state = deepcopy(node.state)  # Create a copy of the current board
         new_legal_pieces, new_legal_moves = new_state.find_available_moves(new_state.turn)
-        if not new_legal_pieces:
-            new_state.print_board()
+        # if not new_legal_pieces:
+        #     new_state.print_board()
         random_piece_index = random.choice(range(len(new_legal_pieces)))
         random_piece = new_legal_pieces[random_piece_index]
         random_move_index = random.choice(range(len(new_legal_moves[random_piece_index])))
@@ -233,12 +233,12 @@ class MontecarloTreeSearch:
     def select(self, node):
         n_children = node.state.count_possible_moves()
         if not node.children or len(node.children) < n_children:
-            print('Mid1')
-            print(n_children)
-            print(len(node.children))
-            print(node.state.print_board())
+            # print('Mid1')
+            # print(n_children)
+            # print(len(node.children))
+            # print(node.state.print_board())
             return node
-        print('Mid2')
+        # print('Mid2')
 
         selected_child = max(node.children, key=lambda child: self.ucb_score(child))
         return self.select(selected_child)
@@ -365,9 +365,9 @@ class MontecarloTreeSearch:
                     break
                 else: # Max expansion
                     # Selection
-                    print('Init')
+                    # print('Init')
                     node = self.select(node)
-                    print('End')
+                    # print('End')
 
             # Simulation phase
             reward = self.simulate(node, turn)

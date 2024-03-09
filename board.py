@@ -252,7 +252,7 @@ class Board:
             return "Player 2"
         
         #Tie
-        if self.moves_whitout_catching == self.size*2:
+        if self.moves_whitout_catching == self.size*3:
             return "Tie"
         
     def find_available_moves(self, turn):

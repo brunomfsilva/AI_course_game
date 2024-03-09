@@ -23,8 +23,8 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('Minimax', 2, WHITE)
-    player2 = Player('Human', 100, BLACK)
+    player1 = Player('Minimax', 5, WHITE)
+    player2 = Player('Montecarlo', 5000, BLACK)
 
     game_over=False
 
@@ -192,7 +192,10 @@ def main():
                         game_over = True
                         #efeito_w.play()
                         font = pygame.font.SysFont("Impact", 45)
-                        text = font.render(f"The Winner is {winner}!", True, (255, 255, 153))
+                        if winner == 'Tie':
+                            text = font.render("It is a Tie!", True, (255, 255, 153))
+                        elif winner and winner != 'Tie':
+                            text = font.render(f"The Winner is {winner}!", True, (255, 255, 153))
                         screen.blit(text, (100, height // 2))
                         pygame.display.flip()
                         break
