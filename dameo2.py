@@ -153,7 +153,7 @@ def main():
 
                     if player.type != 'Human' and turn == player.team:
                     #else:
-                        selected_piece = player.get_ai_move(board)
+                        selected_piece = player.get_ai_move(board, 1)
 
                     # Checking if there are other pieces to catch
                     if not selected_piece.king:

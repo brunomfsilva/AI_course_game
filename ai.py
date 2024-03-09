@@ -12,11 +12,15 @@ class Minimax:
         self.depth = depth
 
     
-    def minimax(self, board, depth, maximizing_player, alpha, beta, turn):
+    def minimax(self, board, depth, maximizing_player, alpha, beta, turn, evaluation_func):
         if depth == 0 or board.check_winner():
             # Evaluate the current state of the board
-
-            return self.evaluate(board, turn)
+            if evaluation_func == 1:
+                return self.evaluate(board, turn)
+            elif evaluation_func == 2:
+                return self.evaluate_2(board, turn)
+            elif evaluation_func == 3:
+                return self.evaluate_3(board, turn)
         
         turn = WHITE if turn == BLACK else BLACK
 
@@ -40,7 +44,7 @@ class Minimax:
                         #maximizing remains True
                     #else:
                         #maximizing swithces to minimizing
-                    eval = self.minimax(deepcopy(board), depth - 1, False, alpha, beta, turn)
+                    eval = self.minimax(deepcopy(board), depth - 1, False, alpha, beta, turn, evaluation_func)
                     
                     # Undo the move
                     board.chessboard[piece.row][piece.col] = None
@@ -69,7 +73,7 @@ class Minimax:
                         #maximizing remains False
                     #else:
                         #minimizing swithces to maximizing
-                    eval = self.minimax(board, depth - 1, True, alpha, beta, turn)
+                    eval = self.minimax(board, depth - 1, True, alpha, beta, turn, evaluation_func)
                     
                     # Undo the move
                     board.chessboard[piece.row][piece.col] = None
@@ -85,7 +89,7 @@ class Minimax:
             return min_eval
         
 
-    def execute_minimax(self, board, depth, turn):
+    def execute_minimax(self, board, depth, turn, evaluation_func):
         legal_pieces, legal_moves = board.find_available_moves(turn)
         best_eval = float('-inf')
         best_move = None
@@ -105,7 +109,7 @@ class Minimax:
 
                 board_copy.chessboard[piece.row][piece.col] = piece
                 
-                eval = self.minimax(deepcopy(board_copy), depth - 1, True, float('-inf'), float('inf'), turn)
+                eval = self.minimax(deepcopy(board_copy), depth - 1, True, float('-inf'), float('inf'), turn, evaluation_func)
 
                 # Undo the move
                 board_copy.chessboard[piece.row][piece.col] = None

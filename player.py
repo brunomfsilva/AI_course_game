@@ -12,12 +12,12 @@ class Player:
         self.depth_or_iterations = depth_or_iterations
         self.team = team
 
-    def get_ai_move(self, board):
+    def get_ai_move(self, board, evaluation_function):
         """get the movements"""
         
         if self.type == "Minimax":
             minimax = Minimax(self.depth_or_iterations)
-            best_piece_pos, best_move = minimax.execute_minimax(board, self.depth_or_iterations, self.team)
+            best_piece_pos, best_move = minimax.execute_minimax(board, self.depth_or_iterations, self.team, evaluation_function)
             return self.make_ai_move(board, best_piece_pos, best_move)
 
             
