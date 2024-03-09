@@ -114,10 +114,13 @@ def main():
 
             print ('n: ', n, ' n_game: ', n_game, ' size: ',size, pl1, pl2)
 
+            print(pl1[0], pl1[2], WHITE, pl1[1])
+            print(pl2[0], pl2[2], BLACK, pl2[1])
+
             player1 = Player(pl1[0], pl1[2], WHITE, pl1[1])
             player2 = Player(pl2[0], pl2[2], BLACK, pl2[1])
             
-            
+
 
 
             game_over = False
@@ -139,6 +142,7 @@ def main():
                     # if player.type == 'AI' and player.level == 'Very easy' and turn == player.team:
                     #     selected_piece = player.ai_random_move(board, turn)
                     start_time_play = time.time()
+                        
                         
                     can_catch = board.check_piece_to_capture(turn)
                     if can_catch:
