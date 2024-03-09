@@ -195,6 +195,10 @@ class Board:
 
             if piece.legal:
                 can_catch.append(piece)
+                
+                if piece.has_caught:
+                    can_catch = [piece]
+                    break
         return can_catch
     
     def check_if_capture(self, gui, screen, can_catch, piece, turn, selected_piece):
