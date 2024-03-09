@@ -66,7 +66,12 @@ def main():
     ('Montecarlo', 'NA', 500),
     ('Montecarlo', 'NA', 1000),
     ('Montecarlo', 'NA', 1000),
-    ('Montecarlo', 'NA', 1000)
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 2000),
+    ('Montecarlo', 'NA', 3000),
+    ('Montecarlo', 'NA', 4000),
+    ('Montecarlo', 'NA', 5000),
 ]
 
 
@@ -95,12 +100,17 @@ def main():
         ('Minimax', 1, 7),
         ('Minimax', 1, 2),
         ('Minimax', 1, 5),
-        ('Minimax', 1, 7)
+        ('Minimax', 1, 7),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 5)
     ]
 
-    board_size = [5,5,5,5,5,5,5,6,7,5,6,7,5,6,7,8,5,5,5,5,5,5,5,5,5]
+    board_size = [5,5,5,5,5,5,5,6,7,5,6,7,5,6,7,8,5,5,5,5,5,5,5,5,5,6,6,6,6,6]
 
-    n_games = [1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3]
+    n_games = [1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3,5,5,5,5,5]
 
 
 
