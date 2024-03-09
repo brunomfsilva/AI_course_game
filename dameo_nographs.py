@@ -105,17 +105,19 @@ def main():
 
             pl1_index = random.randint(0,1)
             pl2_index = random.randint(0,1)
-            
+
             while pl1_index == pl2_index:
                 pl2_index = random.randint(0,1)
             
             pl1 = pls[pl1_index]
             pl2 = pls[pl2_index]
 
-            print ('n: ', n, ' n_game: ', n_game, ' size: ',size, pl1[n], pl2[n])
+            print ('n: ', n, ' n_game: ', n_game, ' size: ',size, pl1, pl2)
 
             player1 = Player(pl1[0], pl1[2], WHITE, pl1[1])
             player2 = Player(pl2[0], pl2[2], BLACK, pl2[1])
+            
+            
 
 
             game_over = False
@@ -138,9 +140,9 @@ def main():
                     #     selected_piece = player.ai_random_move(board, turn)
                     start_time_play = time.time()
                         
-                    # can_catch = board.check_piece_to_capture(turn)
-                    # if can_catch:
-                    #     catch= True
+                    can_catch = board.check_piece_to_capture(turn)
+                    if can_catch:
+                        catch= True
 
                     selected_piece = player.get_ai_move(board)
 

@@ -23,8 +23,8 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('Minimax', 5, WHITE)
-    player2 = Player('Human', 1000, BLACK)
+    player1 = Player('Minimax', 5, WHITE, 1)
+    player2 = Player('Minimax', 5, WHITE, 1)
 
     game_over=False
 
@@ -153,7 +153,8 @@ def main():
 
                     if player.type != 'Human' and turn == player.team:
                     #else:
-                        selected_piece = player.get_ai_move(board, 1)
+                        selected_piece = player.get_ai_move(board)
+                        print(selected_piece)
 
                     # Checking if there are other pieces to catch
                     if not selected_piece.king:
