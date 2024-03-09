@@ -17,17 +17,17 @@ def calculate_time(start_time):
 
 def main():
     """Initiate game"""
-    size= 5
+    
 
     
-    pygame.init()
-    gui = GUI()
+    #pygame.init()
+    #gui = GUI()
     #difficults = ['Very easy', 'Easy', 'Medium', 'Hard']
 
 
     sizes = []
-    p1_difs = []
-    p2_difs = []
+    p1_depth_or_iterations = []
+    p2_depth_or_iterations = []
     total_plays = []
     total_time = []
     player_winner = []
@@ -36,181 +36,209 @@ def main():
     p2_medium_time_play = []
     p2_medium_time_play_catch = []
 
-    
 
-    # games = [
-    #     ('Minimax', evaluate, 5, 'Minimax', evaluate_2, 5, 5, 5),
-    #     ('Minimax', evaluate, 5, 'Minimax', evaluate_3, 5, 5, 5),
-    #     ('Minimax', evaluate_2, 5, 'Minimax', evaluate_3, 5, 5, 5),
-    #     ('Minimax', evaluate, 2, 'Minimax', evaluate_2, 2, 5, 5),
-    #     ('Minimax', evaluate, 2, 'Minimax', evaluate_3, 2, 5, 5),
-    #     ('Minimax', evaluate_2, 2, 'Minimax', evaluate_3, 2, 5, 5),
-    #     ('Montecarlo', 100, 'Montecarlo', 500, 5, 3),
-    #     ('Montecarlo', 100, 'Montecarlo', 1000, 5, 3),
-    #     ('Montecarlo', 500, 'Montecarlo', 1000, 5, 3),
-    #     ('Montecarlo', 1000, 'Montecarlo', 1000, 5, 1),
-    #     ('Montecarlo', 1000, 'Montecarlo', 1000, 8, 1),
-    #     ('Minimax', evaluate, 2, 'Montecarlo', 100, 5, 3),
-    #     ('Minimax', evaluate, 2, 'Montecarlo', 1000, 5, 3),
-    #     ('Minimax', evaluate, 2, 'Montecarlo', 5000, 5, 3),
-    #     ('Minimax', evaluate, 5, 'Montecarlo', 100, 5, 3),
-    #     ('Minimax', evaluate, 5, 'Montecarlo', 1000, 5, 3),
-    #     ('Minimax', evaluate, 5, 'Montecarlo', 5000, 5, 3),
-    #     ('Minimax', evaluate, 7, 'Montecarlo', 100, 5, 3),
-    #     ('Minimax', evaluate, 7, 'Montecarlo', 1000, 5, 3),
-    #     ('Minimax', evaluate, 7, 'Montecarlo', 5000, 5, 3),
-    # ]
-    for _ in range(20):
-        board = Board(5)
-        board.initialize_pieces()
-        selected_piece = None
-        turn = WHITE
-        winner = False
-        p1_difficult = random.randint(0, 3)
-       
-        p2_difficult = p1_difficult 
-        while p2_difficult == p1_difficult:
-            p2_difficult = random.randint(0, 3)
-        
-        # if p1_difficult == 0 and p2_difficult==2:
-        #     p2_difficult == 1
+    p1 = [
+            ('Minimax', 1, 5),
+            ('Minimax', 1, 5),
+            ('Minimax', 2, 5),
+            ('Minimax', 1, 2),
+            ('Minimax', 1, 2),
+            ('Minimax', 2, 2),
+            ('Montecarlo', 'NA', 100),
+            ('Montecarlo', 'NA', 100),
+            ('Montecarlo', 'NA', 500),
+            ('Montecarlo', 'NA', 1000),
+            ('Montecarlo', 'NA', 1000),
+            ('Montecarlo', 'NA', 100),
+            ('Montecarlo', 'NA', 100),
+            ('Montecarlo', 'NA', 100),
+            ('Montecarlo', 'NA', 500),
+            ('Montecarlo', 'NA', 500),
+            ('Montecarlo', 'NA', 500),
+            ('Montecarlo', 'NA', 1000),
+            ('Montecarlo', 'NA', 1000),
+            ('Montecarlo', 'NA', 1000)
+        ]
 
-        player1 = Player('Montecarlo', 100, WHITE)
-        player2 = Player('Minimax', 5, BLACK)
 
-        print(board.size, p1_difficult, p2_difficult)
+    p2 = [
+            ('Minimax', 2, 5),
+            ('Minimax', 3, 5),
+            ('Minimax', 3, 5),
+            ('Minimax', 2, 2),
+            ('Minimax', 3, 2),
+            ('Minimax', 3, 2),
+            ('Montecarlo', 'NA', 500),
+            ('Montecarlo', 'NA', 1000),
+            ('Montecarlo', 'NA', 1000),
+            ('Montecarlo', 'NA', 1000),
+            ('Montecarlo', 'NA', 1000),
+            ('Minimax', 1, 2),
+            ('Minimax', 1, 5),
+            ('Minimax', 1, 7),
+            ('Minimax', 1, 2),
+            ('Minimax', 1, 5),
+            ('Minimax', 1, 7),
+            ('Minimax', 1, 2),
+            ('Minimax', 1, 5),
+            ('Minimax', 1, 7)
+        ]
 
-        game_over = False
-        n_plays = 0
-        
+    board_size = [5,5,5,5,5,5,5,5,5,5,8,5,5,5,5,5,5,5,5,5]
 
-        start_time = time.time()
-        p1_times_can_catch = []
-        p2_times_can_catch = []
-        p1_times_no_catch = []
-        p2_times_no_catch = []
+    n_games = [5,5,5,5,5,5,3,3,3,1,1,3,3,3,3,3,3,3,3,3]
 
-        while not game_over:
-            for player in (player1, player2):
-                catch = False
-                if game_over:
-                    break
-                
-                # if player.type == 'AI' and player.level == 'Very easy' and turn == player.team:
-                #     selected_piece = player.ai_random_move(board, turn)
-                start_time_play = time.time()
 
-                if player.type == 'AI' and turn == player.team:
-                    if player.level == 'Very easy':
-                        depth= 1
-                    elif player.level == 'Easy':
-                        depth= 2
-                    elif player.level == 'Medium':
-                        depth= 4
-                    elif player.level == 'Hard':
-                        depth= 5
+
+
+    for n, size in enumerate(board_size):
+        for n_game in range(n_games[n]):
+            size= board_size[n]
+            board = Board(size)
+            board.initialize_pieces()
+            selected_piece = None
+            turn = WHITE
+            winner = False
+            
+            print(n, p1[n], p2[n])
+            pls = [p1[n], p2[n]]
+
+            pl1_index = random.randint(0,1)
+            pl2_index = random.randint(0,1)
+            
+            while pl1_index == pl2_index:
+                pl2_index = random.randint(0,1)
+            
+            pl1 = pls[pl1_index]
+            pl2 = pls[pl2_index]
+
+            print ('n: ', n, ' n_game: ', n_game, ' size: ',size, pl1[n], pl2[n])
+
+            player1 = Player(pl1[0], pl1[2], WHITE, pl1[1])
+            player2 = Player(pl2[0], pl2[2], BLACK, pl2[1])
+
+
+            game_over = False
+            n_plays = 0
+            
+
+            start_time = time.time()
+            p1_times_can_catch = []
+            p2_times_can_catch = []
+            p1_times_no_catch = []
+            p2_times_no_catch = []
+
+            while not game_over:
+                for player in (player1, player2):
+                    catch = False
+                    if game_over:
+                        break
                     
-                    can_catch = board.check_piece_to_capture(turn)
-                    if can_catch:
-                        catch= True
+                    # if player.type == 'AI' and player.level == 'Very easy' and turn == player.team:
+                    #     selected_piece = player.ai_random_move(board, turn)
+                    start_time_play = time.time()
+                        
+                    # can_catch = board.check_piece_to_capture(turn)
+                    # if can_catch:
+                    #     catch= True
 
                     selected_piece = player.get_ai_move(board)
 
-                # Checking if there are other pieces to catch
-                if not selected_piece.king:
-                    selected_piece.check_catch(board)
-                else:
-                    selected_piece.check_catch_king(board)
-
-                if selected_piece.legal and selected_piece.has_caught:
-                    # if turn == WHITE:
-                    #     turn = WHITE  
-                    # else:
-                    #     turn = BLACK
-                    pass # NOT NEEDED
-                else:
-                    selected_piece.transform_king()
-                    selected_piece = None #turn off the selected piece
-                    playtime = calculate_time(start_time_play)
-
-                    if catch == True:
-                        if turn == WHITE:
-                            p1_times_can_catch.append(playtime)
-
-
-                        if turn == BLACK:
-                            p2_times_can_catch.append(playtime)
-
-                    if catch == False:
-                        if turn == WHITE:
-                            p1_times_no_catch.append(playtime)
-
-                        if turn == BLACK:
-                            p2_times_no_catch.append(playtime)
-
-
-
-                    if turn == WHITE:
-                        turn = BLACK  
+                    # Checking if there are other pieces to catch
+                    if not selected_piece.king:
+                        selected_piece.check_catch(board)
                     else:
-                        turn = WHITE
-                    
+                        selected_piece.check_catch_king(board)
 
-                end_time_play = time.time()
+                    if selected_piece.legal and selected_piece.has_caught:
+                        # if turn == WHITE:
+                        #     turn = WHITE  
+                        # else:
+                        #     turn = BLACK
+                        pass # NOT NEEDED
+                    else:
+                        selected_piece.transform_king()
+                        selected_piece = None #turn off the selected piece
+                        playtime = calculate_time(start_time_play)
 
-                    #time.sleep(1)
-                
-                n_plays += 1
-                winner = board.check_winner()
+                        if catch == True:
+                            if turn == WHITE:
+                                p1_times_can_catch.append(playtime)
 
-                if winner:
-                    print(winner + ' Wins!')
-                    end_time = time.time()
-                    sizes.append(size)
-                    p1_difs.append(p1_difficult)
-                    p2_difs.append(p2_difficult)
-                    total_plays.append(n_plays)
-                    total_time.append(end_time - start_time)
-                    player_winner.append(winner)
 
-                    try:
-                        p1_medium_time_play.append(statistics.mean(p1_times_no_catch))
-                    except:
-                        p1_medium_time_play.append('not eat')
+                            if turn == BLACK:
+                                p2_times_can_catch.append(playtime)
 
-                    try:
-                        p1_medium_time_play_catch.append(statistics.mean(p1_times_can_catch))
-                    except:
-                        p1_medium_time_play_catch.append('not eat')
-                    try:
-                        p2_medium_time_play.append(statistics.mean(p2_times_no_catch))
-                    except:
-                        p2_medium_time_play.append('not eat')
+                        if catch == False:
+                            if turn == WHITE:
+                                p1_times_no_catch.append(playtime)
 
-                    try:
-                        p2_medium_time_play_catch.append(statistics.mean(p2_times_can_catch))
-                    except:
-                        p2_medium_time_play_catch.append('no eat')
+                            if turn == BLACK:
+                                p2_times_no_catch.append(playtime)
+
+
+
+                        if turn == WHITE:
+                            turn = BLACK  
+                        else:
+                            turn = WHITE
                         
-                    data = {
-                            'sizes': sizes,
-                            'p1_difficult': p1_difs,
-                            'p2_difficult': p2_difs,
-                            'player_winner': player_winner,
-                            'total_plays': total_plays,
-                            'total_time': total_time,
-                            'p1_medium_time_play': p1_medium_time_play,
-                            'p1_medium_time_play_catch':p1_medium_time_play_catch,
-                            'p2_medium_time_play': p2_medium_time_play,
-                            'p2_medium_time_play_catch':p2_medium_time_play_catch,
-                            }
-                    
-                    df = pd.DataFrame(data)
-                    df.to_csv('game_results_5_2.csv', index=False)
 
+                    end_time_play = time.time()
+
+                        #time.sleep(1)
                     
-                    game_over = True
-                    running = False
+                    n_plays += 1
+                    winner = board.check_winner()
+
+                    if winner:
+                        print(winner + ' Wins!')
+                        end_time = time.time()
+                        sizes.append(size)
+                        p1_depth_or_iterations.append()
+                        p2_depth_or_iterations.append()
+                        total_plays.append(n_plays)
+                        total_time.append(end_time - start_time)
+                        player_winner.append(winner)
+
+                        try:
+                            p1_medium_time_play.append(statistics.mean(p1_times_no_catch))
+                        except:
+                            p1_medium_time_play.append('not eat')
+
+                        try:
+                            p1_medium_time_play_catch.append(statistics.mean(p1_times_can_catch))
+                        except:
+                            p1_medium_time_play_catch.append('not eat')
+                        try:
+                            p2_medium_time_play.append(statistics.mean(p2_times_no_catch))
+                        except:
+                            p2_medium_time_play.append('not eat')
+
+                        try:
+                            p2_medium_time_play_catch.append(statistics.mean(p2_times_can_catch))
+                        except:
+                            p2_medium_time_play_catch.append('no eat')
+                            
+                        data = {
+                                'sizes': sizes,
+                                'p1_difficult': p1_depth_or_iterations,
+                                'p2_difficult': p2_depth_or_iterations,
+                                'player_winner': player_winner,
+                                'total_plays': total_plays,
+                                'total_time': total_time,
+                                'p1_medium_time_play': p1_medium_time_play,
+                                'p1_medium_time_play_catch':p1_medium_time_play_catch,
+                                'p2_medium_time_play': p2_medium_time_play,
+                                'p2_medium_time_play_catch':p2_medium_time_play_catch,
+                                }
+                        
+                        df = pd.DataFrame(data)
+                        df.to_csv('game_results.csv', index=False)
+
+                        
+                        game_over = True
+                        running = False
 
 if __name__ == "__main__":
     main()

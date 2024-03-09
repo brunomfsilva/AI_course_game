@@ -7,17 +7,19 @@ from ai import Minimax, MontecarloTreeSearch
 import pygame
 
 class Player:
-    def __init__(self, player_type, depth_or_iterations, team):
+    def __init__(self, player_type, depth_or_iterations, team, evaluation_function = 1):
         self.type = player_type
         self.depth_or_iterations = depth_or_iterations
         self.team = team
+        self.evaluation_function = evaluation_function
+        
 
-    def get_ai_move(self, board, evaluation_function):
+    def get_ai_move(self, board):
         """get the movements"""
         
         if self.type == "Minimax":
             minimax = Minimax(self.depth_or_iterations)
-            best_piece_pos, best_move = minimax.execute_minimax(board, self.depth_or_iterations, self.team, evaluation_function)
+            best_piece_pos, best_move = minimax.execute_minimax(board, self.depth_or_iterations, self.team, self.evaluation_function)
             return self.make_ai_move(board, best_piece_pos, best_move)
 
             
