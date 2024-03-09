@@ -160,6 +160,7 @@ class Minimax:
         white_pieces = len(board.all_pieces_white)
         black_pieces = len(board.all_pieces_black)
         score += white_pieces - black_pieces if turn == WHITE else black_pieces - white_pieces
+        return score
 
     def evaluate_3(self, board, turn):
         score = 0
@@ -173,6 +174,7 @@ class Minimax:
         white_kings = sum(piece.king for piece in board.all_pieces_white)
         black_kings = sum(piece.king for piece in board.all_pieces_black)
         score += (white_kings - black_kings) * 5 if turn == WHITE else (black_kings - white_kings) * 5
+        return score
 
 
 class MCTSNode:

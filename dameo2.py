@@ -24,7 +24,7 @@ def main():
     turn = WHITE
     winner = None
     player1 = Player('Minimax', 5, WHITE, 1)
-    player2 = Player('Minimax', 5, BLACK, 1)
+    player2 = Player('Minimax', 5, BLACK, 2)
 
     game_over=False
 

@@ -117,8 +117,8 @@ def main():
             print(pl1[0], pl1[2], WHITE, pl1[1])
             print(pl2[0], pl2[2], BLACK, pl2[1])
 
-            player1 = Player(pl1[0], pl1[2], WHITE, pl1[1])
-            player2 = Player(pl2[0], pl2[2], BLACK, pl2[1])
+            player1 = Player(pl1[0], pl1[2], WHITE, 1)
+            player2 = Player(pl2[0], pl2[2], BLACK, 1)
             
 
 
@@ -143,12 +143,16 @@ def main():
                     #     selected_piece = player.ai_random_move(board, turn)
                     start_time_play = time.time()
                         
-                        
-                    can_catch = board.check_piece_to_capture(turn)
-                    if can_catch:
-                        catch= True
 
-                    selected_piece = player.get_ai_move(board)
+                    
+                    
+
+                    if player.type != 'Human' and turn == player.team:
+
+                        can_catch = board.check_piece_to_capture(turn)
+                        if can_catch:
+                            catch= True
+                        selected_piece = player.get_ai_move(board)
 
                     # Checking if there are other pieces to catch
                     if not selected_piece.king:
