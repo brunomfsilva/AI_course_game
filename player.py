@@ -114,10 +114,10 @@ class Player:
                             board.chessboard[selected_piece.row][selected_piece.col] = selected_piece ## MATRIX
                             human_playing = False
                         
-                        board.actual_state(screen)
-                        gui.display_turn(screen, "player 1" if self.team == WHITE else "player 2")
-                        pygame.display.flip()
-                        return selected_piece
+                            board.actual_state(screen)
+                            gui.display_turn(screen, "player 1" if self.team == WHITE else "player 2")
+                            pygame.display.flip()
+                            return selected_piece
         
 
 

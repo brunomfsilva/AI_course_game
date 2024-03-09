@@ -13,6 +13,8 @@ import statistics
 def calculate_time(start_time):
     return time.time() - start_time
 
+
+
 def main():
     """Initiate game"""
     size= 5
@@ -20,7 +22,7 @@ def main():
     
     pygame.init()
     gui = GUI()
-    difficults = ['Very easy', 'Easy', 'Medium', 'Hard']
+    #difficults = ['Very easy', 'Easy', 'Medium', 'Hard']
 
 
     sizes = []
@@ -34,9 +36,32 @@ def main():
     p2_medium_time_play = []
     p2_medium_time_play_catch = []
 
+    
 
+    # games = [
+    #     ('Minimax', evaluate, 5, 'Minimax', evaluate_2, 5, 5, 5),
+    #     ('Minimax', evaluate, 5, 'Minimax', evaluate_3, 5, 5, 5),
+    #     ('Minimax', evaluate_2, 5, 'Minimax', evaluate_3, 5, 5, 5),
+    #     ('Minimax', evaluate, 2, 'Minimax', evaluate_2, 2, 5, 5),
+    #     ('Minimax', evaluate, 2, 'Minimax', evaluate_3, 2, 5, 5),
+    #     ('Minimax', evaluate_2, 2, 'Minimax', evaluate_3, 2, 5, 5),
+    #     ('Montecarlo', 100, 'Montecarlo', 500, 5, 3),
+    #     ('Montecarlo', 100, 'Montecarlo', 1000, 5, 3),
+    #     ('Montecarlo', 500, 'Montecarlo', 1000, 5, 3),
+    #     ('Montecarlo', 1000, 'Montecarlo', 1000, 5, 1),
+    #     ('Montecarlo', 1000, 'Montecarlo', 1000, 8, 1),
+    #     ('Minimax', evaluate, 2, 'Montecarlo', 100, 5, 3),
+    #     ('Minimax', evaluate, 2, 'Montecarlo', 1000, 5, 3),
+    #     ('Minimax', evaluate, 2, 'Montecarlo', 5000, 5, 3),
+    #     ('Minimax', evaluate, 5, 'Montecarlo', 100, 5, 3),
+    #     ('Minimax', evaluate, 5, 'Montecarlo', 1000, 5, 3),
+    #     ('Minimax', evaluate, 5, 'Montecarlo', 5000, 5, 3),
+    #     ('Minimax', evaluate, 7, 'Montecarlo', 100, 5, 3),
+    #     ('Minimax', evaluate, 7, 'Montecarlo', 1000, 5, 3),
+    #     ('Minimax', evaluate, 7, 'Montecarlo', 5000, 5, 3),
+    # ]
     for _ in range(20):
-        board = Board()
+        board = Board(5)
         board.initialize_pieces()
         selected_piece = None
         turn = WHITE
@@ -89,14 +114,7 @@ def main():
                     if can_catch:
                         catch= True
 
-                    selected_piece, best_move = execute_minimax(board, depth, turn)
-
-
-
-
-                    board.chessboard[selected_piece.row][selected_piece.col] = None
-                    selected_piece.move(best_move[0], best_move[1], board)
-                    board.chessboard[selected_piece.row][selected_piece.col] = selected_piece
+                    selected_piece = player.get_ai_move(board)
 
                 # Checking if there are other pieces to catch
                 if not selected_piece.king:
