@@ -92,11 +92,12 @@ def main():
                     
 
                     winner = board.check_winner()
-                    efeito_w = pygame.mixer.Sound("sounds\winner.mp3")
+                    
 
                     if winner:
+                        efeito_w = pygame.mixer.Sound("sounds\winner.mp3")
                         game_over = True
-                        #efeito_w.play()
+                        efeito_w.play()
                         font = pygame.font.SysFont("Impact", 45)
                         if winner == 'Tie':
                             text = font.render("It is a Tie!", True, (255, 255, 153))

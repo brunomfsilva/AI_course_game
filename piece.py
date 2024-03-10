@@ -58,10 +58,13 @@ class Piece:
     
     #Transforming normal pieces into kings
     def transform_king(self):
-        #efeito_k = pygame.mixer.Sound("sounds\king_sound.mp3")
         if self.row == 0 and self.color == WHITE and self.king == False:
+            # efeito_k = pygame.mixer.Sound("sounds\king_sound.mp3")
+            # efeito_k.play()
             self.king = True
         if self.row == self.size - 1 and self.color == BLACK and self.king == False:
+            # efeito_k = pygame.mixer.Sound("sounds\king_sound.mp3")
+            # efeito_k.play()
             self.king = True
 
     # Function to check the legal moves

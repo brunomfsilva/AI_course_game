@@ -79,7 +79,7 @@ class GUI:
                             players[0], players[2] = 'Minimax', 2
                             
                         elif players[0] == 'Easy':
-                            players[0], players[2] = 'MonteCarlo', 100
+                            players[0], players[2] = 'Montecarlo', 100
 
                         elif players[0] == 'Medium':
                             players[0], players[2] = 'Minimax', 5
@@ -98,7 +98,7 @@ class GUI:
                             players[1], players[3] = 'Minimax', 2
                             
                         elif players[1] == 'Easy':
-                            players[1], players[3] = 'MonteCarlo', 100
+                            players[1], players[3] = 'Montecarlo', 100
 
                         elif players[1] == 'Medium':
                             players[1], players[3] = 'Minimax', 5
