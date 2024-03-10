@@ -75,7 +75,11 @@ def main():
                         pass # NOT NEEDED
                     
                     else:
+                        is_king = selected_piece.king
                         selected_piece.transform_king()
+                        if not is_king and selected_piece.king:
+                            efeito_k.play()
+                            
                         selected_piece = None #turn off the selected piece
                         if turn == WHITE:
                             turn = BLACK
@@ -95,7 +99,6 @@ def main():
                     
 
                     if winner:
-                        efeito_w = pygame.mixer.Sound("sounds\winner.mp3")
                         game_over = True
                         efeito_w.play()
                         font = pygame.font.SysFont("Impact", 45)
