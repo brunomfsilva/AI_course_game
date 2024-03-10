@@ -33,10 +33,10 @@ class GUI:
 
     def player_select_menu(self, screen):
         """Displays the select players screen"""
-        player_options = ['Human', 'Easy', 'Medium', 'Hard']
+        player_options = ['Human','Baby', 'Easy', 'Medium', 'Hard', 'Impossible']
         size_board_options = ['5x5', '6x6', '7x7', '8x8']
-        size='8x8'
-        players = [None, None, "Human", "Human"]  # [player1, player2, difficulty1, difficulty2]
+        size='6x6'
+        players = ["Human", "Human", None, None]  # [player1, player2, depth1, depth2]
         screen.fill(GREY2)
         # Create a font object
         font = pygame.font.Font(None, 36)
@@ -50,17 +50,17 @@ class GUI:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     # back player1
                     if 75 < event.pos[0] < 90 and 260 < event.pos[1] < 290:
-                        players[2] = player_options[(player_options.index(players[2]) - 1) % len(player_options)]
+                        players[0] = player_options[(player_options.index(players[0]) - 1) % len(player_options)]
                     # front player1
                     elif 210 < event.pos[0] < 225 and 260 < event.pos[1] < 290:
-                        players[2] = player_options[(player_options.index(players[2]) + 1) % len(player_options)]
+                        players[0] = player_options[(player_options.index(players[0]) + 1) % len(player_options)]
 
                     # back player2
                     if 325 < event.pos[0] < 340 and 260 < event.pos[1] < 290:
-                        players[3] = player_options[(player_options.index(players[3]) - 1) % len(player_options)]
+                        players[1] = player_options[(player_options.index(players[1]) - 1) % len(player_options)]
                     # front player2
                     elif 460 < event.pos[0] < 475 and 260 < event.pos[1] < 290:
-                        players[3] = player_options[(player_options.index(players[3]) + 1) % len(player_options)]
+                        players[1] = player_options[(player_options.index(players[1]) + 1) % len(player_options)]
                     
                     # decrease board size
                     elif 255 < event.pos[0] < 295 and 235 < event.pos[1] < 255:
@@ -71,8 +71,43 @@ class GUI:
                     
                     # START GAME!!
                     elif 250 < event.pos[0] < 300 and 335 < event.pos[1] < 365:
-                        players[0] = 'Human' if players[2] == 'Human' else 'AI'
-                        players[1] = 'Human' if players[3] == 'Human' else 'AI'
+                        ##DECIDE PLAYER1
+                        if players[0] == 'Human':
+                            players[0], players[2] = 'Human', None
+
+                        elif players[0] == 'Baby':
+                            players[0], players[2] = 'Minimax', 2
+                            
+                        elif players[0] == 'Easy':
+                            players[0], players[2] = 'Minimax', 3
+
+                        elif players[0] == 'Medium':
+                            players[0], players[2] = 'Montecarlo', 100
+
+                        elif players[0] == 'Hard':
+                            players[0], players[2] = 'Minimax', 5
+
+                        elif players[2] == 'Impossible':
+                            players[0], players[2] = 'Montecarlo', 1000
+
+                        #DECIDE PLAYER2
+                        if players[1] == 'Human':
+                            players[1], players[3] = 'Human', None
+
+                        elif players[1] == 'Baby':
+                            players[1], players[3] = 'Minimax', 2
+                            
+                        elif players[1] == 'Easy':
+                            players[1], players[3] = 'Minimax', 3
+
+                        elif players[1] == 'Medium':
+                            players[1], players[3] = 'Montecarlo', 100
+
+                        elif players[1] == 'Hard':
+                            players[1], players[3] = 'Minimax', 5
+
+                        elif players[1] == 'Impossible':
+                            players[1], players[3] = 'Montecarlo', 1000
 
                         return players, int(size[0])
 
@@ -108,7 +143,7 @@ class GUI:
             pygame.draw.rect(screen, WHITE, (100, 250, 100, 50))
             pygame.draw.polygon(screen, BLACK, [(90, 260), (90, 290), (75, 275)])
             pygame.draw.polygon(screen, BLACK, [(210, 260), (210, 290), (225, 275)])
-            text_surface = font.render(players[2], True, BLACK)
+            text_surface = font.render(players[0], True, BLACK)
             text_rect = text_surface.get_rect()
             text_rect.center = (150, 275)
             screen.blit(text_surface, text_rect)
@@ -117,7 +152,7 @@ class GUI:
             pygame.draw.rect(screen, BLACK, (350, 250, 100, 50))
             pygame.draw.polygon(screen, WHITE, [(340, 260), (340, 290), (325, 275)])
             pygame.draw.polygon(screen, WHITE, [(460, 260), (460, 290), (475, 275)])
-            text_surface = font.render(players[3], True, WHITE)
+            text_surface = font.render(players[1], True, WHITE)
             text_rect = text_surface.get_rect()
             text_rect.center = (400, 275)
             screen.blit(text_surface, text_rect)

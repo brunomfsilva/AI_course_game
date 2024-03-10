@@ -15,7 +15,7 @@ def main():
     pygame.display.set_caption('DAMEO')
     running = True
     gui = GUI()
-    players, size = gui.main_menu(screen)
+    players, size = gui.main_menu(screen)  # [player1, player2, depth1, depth2], size board
     square_size = int(min(width, height)/size)
     gui.square_size = square_size
     board=Board(size)
@@ -23,8 +23,8 @@ def main():
     selected_piece = None
     turn = WHITE
     winner = None
-    player1 = Player('Montecarlo', 100, WHITE, 1)
-    player2 = Player('Montecarlo', 1000, BLACK, 2)
+    player1 = Player(players[0], players[2], WHITE)
+    player2 = Player(players[1], players[3], BLACK)
 
     game_over=False
 
@@ -55,16 +55,6 @@ def main():
             
             while not game_over and running:
                 for player in (player1, player2):
-                    
-                    if player.type == 'AI':
-                        if player.level == 'Very easy':
-                            depth= 1
-                        elif player.level == 'Easy':
-                            depth= 2
-                        elif player.level == 'Medium':
-                            depth= 4
-                        elif player.level == 'Hard':
-                            depth= 5
                     
                     if player.type == 'Human' and turn == player.team:
                         selected_piece = player.get_human_move(board, gui, screen, winner, square_size, selected_piece)

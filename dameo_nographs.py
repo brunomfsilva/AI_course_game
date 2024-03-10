@@ -42,75 +42,90 @@ def main():
 
 
     p1 = [
-    ('Minimax', 1, 5),
-    ('Minimax', 1, 5),
-    ('Minimax', 2, 5),
-    ('Minimax', 1, 2),
-    ('Minimax', 1, 2),
-    ('Minimax', 2, 2),
+    # ('Minimax', 1, 5),
+    # ('Minimax', 1, 5),
+    # ('Minimax', 2, 5),
+    # ('Minimax', 1, 2),
+    # ('Minimax', 1, 2),
+    # ('Minimax', 2, 2),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 500),
+    # ('Montecarlo', 'NA', 500),
+    # ('Montecarlo', 'NA', 500),
+    # ('Montecarlo', 'NA', 1000),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 100),
+    # ('Montecarlo', 'NA', 500),
+    # ('Montecarlo', 'NA', 500),
+    # ('Montecarlo', 'NA', 500),
+    # ('Montecarlo', 'NA', 1000),
+    # ('Montecarlo', 'NA', 1000),
+    # ('Montecarlo', 'NA', 1000),
+    # ('Montecarlo', 'NA', 1000),
+    # ('Montecarlo', 'NA', 2000),
+    # ('Montecarlo', 'NA', 3000),
+    # ('Montecarlo', 'NA', 4000),
     ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 500),
-    ('Montecarlo', 'NA', 500),
     ('Montecarlo', 'NA', 500),
     ('Montecarlo', 'NA', 1000),
     ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 100),
-    ('Montecarlo', 'NA', 500),
-    ('Montecarlo', 'NA', 500),
     ('Montecarlo', 'NA', 500),
     ('Montecarlo', 'NA', 1000),
-    ('Montecarlo', 'NA', 1000),
-    ('Montecarlo', 'NA', 1000),
-    ('Montecarlo', 'NA', 1000),
-    ('Montecarlo', 'NA', 2000),
-    ('Montecarlo', 'NA', 3000),
-    ('Montecarlo', 'NA', 4000),
-    ('Montecarlo', 'NA', 5000),
 ]
 
 
     p2 = [
-        ('Minimax', 2, 5),
-        ('Minimax', 3, 5),
-        ('Minimax', 3, 5),
-        ('Minimax', 2, 2),
-        ('Minimax', 3, 2),
-        ('Minimax', 3, 2),
-        ('Montecarlo', 'NA', 500),
-        ('Montecarlo', 'NA', 500),
-        ('Montecarlo', 'NA', 500),
-        ('Montecarlo', 'NA', 1000),
-        ('Montecarlo', 'NA', 1000),
-        ('Montecarlo', 'NA', 1000),
-        ('Montecarlo', 'NA', 1000),
-        ('Montecarlo', 'NA', 1000),
-        ('Montecarlo', 'NA', 1000),
-        ('Montecarlo', 'NA', 1000),
-        ('Minimax', 1, 2),
-        ('Minimax', 1, 5),
-        ('Minimax', 1, 7),
-        ('Minimax', 1, 2),
-        ('Minimax', 1, 5),
-        ('Minimax', 1, 7),
-        ('Minimax', 1, 2),
-        ('Minimax', 1, 5),
-        ('Minimax', 1, 7),
-        ('Minimax', 1, 5),
-        ('Minimax', 1, 5),
-        ('Minimax', 1, 5),
-        ('Minimax', 1, 5),
-        ('Minimax', 1, 5)
+        # ('Minimax', 2, 5),
+        # ('Minimax', 3, 5),
+        # ('Minimax', 3, 5),
+        # ('Minimax', 2, 2),
+        # ('Minimax', 3, 2),
+        # ('Minimax', 3, 2),
+        # ('Montecarlo', 'NA', 500),
+        # ('Montecarlo', 'NA', 500),
+        # ('Montecarlo', 'NA', 500),
+        # ('Montecarlo', 'NA', 1000),
+        # ('Montecarlo', 'NA', 1000),
+        # ('Montecarlo', 'NA', 1000),
+        # ('Montecarlo', 'NA', 1000),
+        # ('Montecarlo', 'NA', 1000),
+        # ('Montecarlo', 'NA', 1000),
+        # ('Montecarlo', 'NA', 1000),
+        # ('Minimax', 1, 2),
+        # ('Minimax', 1, 5),
+        # ('Minimax', 1, 7),
+        # ('Minimax', 1, 2),
+        # ('Minimax', 1, 5),
+        # ('Minimax', 1, 7),
+        # ('Minimax', 1, 2),
+        # ('Minimax', 1, 5),
+        # ('Minimax', 1, 7),
+        # ('Minimax', 1, 5),
+        # ('Minimax', 1, 5),
+        # ('Minimax', 1, 5),
+        # ('Minimax', 1, 5),
+        # ('Minimax', 1, 5)
+        ('Montecarlo', 'NA', 2000),
+        ('Montecarlo', 'NA', 2000),
+        ('Montecarlo', 'NA', 2000),
+        ('Montecarlo', 'NA', 2000),
+        ('Montecarlo', 'NA', 2000),
+        ('Montecarlo', 'NA', 2000)
+
+
     ]
 
-    board_size = [5,5,5,5,5,5,5,6,7,5,6,7,5,6,7,8,5,5,5,5,5,5,5,5,5,6,6,6,6,6]
+    board_size = [5,5,5,6,6,6,5,6,6,6,6,6]
+    #[5,5,5,5,5,5,5,6,7,5,6,7,5,6,7,8,5,5,5,5,5,5,5,5,5,6,6,6,6,6]
 
-    n_games = [1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3,5,5,5,5,5]
+    n_games = [3,3,3,3,3,3,3,5,5,5,5,5]
+    # [1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3,5,5,5,5,5]
 
 
 
@@ -144,7 +159,7 @@ def main():
                 p1_algorithm.append(pl1[0])
                 p2_algorithm.append(pl2[0])
                 p1_evaluation.append(pl1[1])
-                p2_evaluation.append(pl2[2])
+                p2_evaluation.append(pl2[1])
                 
 
 
@@ -274,7 +289,7 @@ def main():
                                     }
                             
                             df = pd.DataFrame(data)
-                            df.to_csv('game_results.csv', index=False)
+                            df.to_csv('game_results_3.csv', index=False)
 
                             
                             game_over = True
@@ -282,8 +297,8 @@ def main():
 
         except:
             null_row = {col: None for col in df.columns}
-            df = df.append(null_row, ignore_index=True)
-            df.to_csv('game_results.csv', index=False)
+            # df = df.append(null_row, ignore_index=True)
+            pd.concat([df, pd.DataFrame([null_row])], ignore_index=True)
             continue
 
 if __name__ == "__main__":
