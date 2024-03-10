@@ -111,11 +111,6 @@ class Board:
     def draw_king(self, screen, row, col, piece):
         "new form when become king"
         #escrever "KING"
-        # radius = self.square_size // 2 - 5
-        # pygame.draw.circle(screen, piece.color, (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), radius)
-        
-        # if piece.king:  # If the piece is a king, draw a small yellow circle in the center
-        #     pygame.draw.circle(screen, (0, 85, 0), (col * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2), 5)
         if piece.color == WHITE:
             piece_image = pygame.image.load("icons\king_white.png")
         else:

@@ -19,11 +19,6 @@ def main():
     """Initiate game"""
     
 
-    
-    #pygame.init()
-    #gui = GUI()
-    #difficults = ['Very easy', 'Easy', 'Medium', 'Hard']
-
 
     sizes = []
     p1_depth_or_iterations = []
@@ -42,35 +37,35 @@ def main():
 
 
     p1 = [
-    # ('Minimax', 1, 5),
-    # ('Minimax', 1, 5),
-    # ('Minimax', 2, 5),
-    # ('Minimax', 1, 2),
-    # ('Minimax', 1, 2),
-    # ('Minimax', 2, 2),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 500),
-    # ('Montecarlo', 'NA', 500),
-    # ('Montecarlo', 'NA', 500),
-    # ('Montecarlo', 'NA', 1000),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 100),
-    # ('Montecarlo', 'NA', 500),
-    # ('Montecarlo', 'NA', 500),
-    # ('Montecarlo', 'NA', 500),
-    # ('Montecarlo', 'NA', 1000),
-    # ('Montecarlo', 'NA', 1000),
-    # ('Montecarlo', 'NA', 1000),
-    # ('Montecarlo', 'NA', 1000),
-    # ('Montecarlo', 'NA', 2000),
-    # ('Montecarlo', 'NA', 3000),
-    # ('Montecarlo', 'NA', 4000),
+    ('Minimax', 1, 5),
+    ('Minimax', 1, 5),
+    ('Minimax', 2, 5),
+    ('Minimax', 1, 2),
+    ('Minimax', 1, 2),
+    ('Minimax', 2, 2),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 100),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 500),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 1000),
+    ('Montecarlo', 'NA', 2000),
+    ('Montecarlo', 'NA', 3000),
+    ('Montecarlo', 'NA', 4000),
     ('Montecarlo', 'NA', 100),
     ('Montecarlo', 'NA', 500),
     ('Montecarlo', 'NA', 1000),
@@ -81,36 +76,36 @@ def main():
 
 
     p2 = [
-        # ('Minimax', 2, 5),
-        # ('Minimax', 3, 5),
-        # ('Minimax', 3, 5),
-        # ('Minimax', 2, 2),
-        # ('Minimax', 3, 2),
-        # ('Minimax', 3, 2),
-        # ('Montecarlo', 'NA', 500),
-        # ('Montecarlo', 'NA', 500),
-        # ('Montecarlo', 'NA', 500),
-        # ('Montecarlo', 'NA', 1000),
-        # ('Montecarlo', 'NA', 1000),
-        # ('Montecarlo', 'NA', 1000),
-        # ('Montecarlo', 'NA', 1000),
-        # ('Montecarlo', 'NA', 1000),
-        # ('Montecarlo', 'NA', 1000),
-        # ('Montecarlo', 'NA', 1000),
-        # ('Minimax', 1, 2),
-        # ('Minimax', 1, 5),
-        # ('Minimax', 1, 7),
-        # ('Minimax', 1, 2),
-        # ('Minimax', 1, 5),
-        # ('Minimax', 1, 7),
-        # ('Minimax', 1, 2),
-        # ('Minimax', 1, 5),
-        # ('Minimax', 1, 7),
-        # ('Minimax', 1, 5),
-        # ('Minimax', 1, 5),
-        # ('Minimax', 1, 5),
-        # ('Minimax', 1, 5),
-        # ('Minimax', 1, 5)
+        ('Minimax', 2, 5),
+        ('Minimax', 3, 5),
+        ('Minimax', 3, 5),
+        ('Minimax', 2, 2),
+        ('Minimax', 3, 2),
+        ('Minimax', 3, 2),
+        ('Montecarlo', 'NA', 500),
+        ('Montecarlo', 'NA', 500),
+        ('Montecarlo', 'NA', 500),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Montecarlo', 'NA', 1000),
+        ('Minimax', 1, 2),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 7),
+        ('Minimax', 1, 2),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 7),
+        ('Minimax', 1, 2),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 7),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 5),
+        ('Minimax', 1, 5)
         ('Montecarlo', 'NA', 2000),
         ('Montecarlo', 'NA', 2000),
         ('Montecarlo', 'NA', 2000),
@@ -121,11 +116,9 @@ def main():
 
     ]
 
-    board_size = [5,5,5,6,6,6,5,6,6,6,6,6]
-    #[5,5,5,5,5,5,5,6,7,5,6,7,5,6,7,8,5,5,5,5,5,5,5,5,5,6,6,6,6,6]
+    board_size = [5,5,5,5,5,5,5,6,7,5,6,7,5,6,7,8,5,5,5,5,5,5,5,5,5,6,6,6,6,6,5,5,5,6,6,6,5,6,6,6,6,6]
 
-    n_games = [3,3,3,3,3,3,3,5,5,5,5,5]
-    # [1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3,5,5,5,5,5]
+    n_games = [1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3,5,5,5,5,5,3,3,3,3,3,3,3,5,5,5,5,5]
 
 
 
@@ -180,8 +173,6 @@ def main():
                         if game_over:
                             break
                         
-                        # if player.type == 'AI' and player.level == 'Very easy' and turn == player.team:
-                        #     selected_piece = player.ai_random_move(board, turn)
                         start_time_play = time.time()
                             
 
@@ -202,11 +193,8 @@ def main():
                             selected_piece.check_catch_king(board)
 
                         if selected_piece.legal and selected_piece.has_caught:
-                            # if turn == WHITE:
-                            #     turn = WHITE  
-                            # else:
-                            #     turn = BLACK
-                            pass # NOT NEEDED
+
+                            pass 
                         else:
                             selected_piece.transform_king()
                             selected_piece = None #turn off the selected piece
@@ -237,7 +225,6 @@ def main():
 
                         end_time_play = time.time()
 
-                            #time.sleep(1)
                         
                         n_plays += 1
                         winner = board.check_winner()
@@ -297,7 +284,6 @@ def main():
 
         except:
             null_row = {col: None for col in df.columns}
-            # df = df.append(null_row, ignore_index=True)
             pd.concat([df, pd.DataFrame([null_row])], ignore_index=True)
             continue
 
