@@ -42,7 +42,7 @@ def main():
                     players, size = gui.main_menu(screen)
                     square_size = int(min(width, height)/size)
                     gui.square_size = square_size
-                    board.change_size(size)
+                    board=Board(size)
                     board.start_game(gui, screen)
                     player1 = Player(players[0], players[2], WHITE)
                     player2 = Player(players[1], players[3], BLACK)
