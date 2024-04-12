@@ -252,7 +252,7 @@ class Piece:
                 if catchable[i] in whites and landing_pos[i] not in whites + blacks and landing_pos[i][1] <= self.size - 1:
                     self.legal += [(landing_pos[i])]
         self.drop_out_range()
-        
+        #comment
     def check_catch_king(self, board):
         self.legal = []
         # down check
